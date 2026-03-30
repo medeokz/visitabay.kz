@@ -1,0 +1,17 @@
+<!doctype html>
+<% var pg = (typeof menuFooter !== "undefined" && menuFooter && menuFooter.pages) ? menuFooter.pages : {}; %>
+<html lang="<%= lang === 'en' ? 'en' : lang === 'kk' ? 'kk' : 'ru' %>">
+<head>
+  <%- include("partials/head") %>
+  <title>500 — <%= pg.brandSuffix || "Visit Abay" %></title>
+</head>
+<body>
+  <%- include("partials/header") %>
+  <div class="container node-content">
+  <h1>500</h1>
+  <p class="node-message"><%= message || pg.err500Default || "" %></p>
+  <p class="node-back"><a href="/"><%= pg.err500Home || "" %></a></p>
+  </div>
+  <%- include("partials/footer") %>
+</body>
+</html>

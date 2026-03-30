@@ -1,0 +1,124 @@
+<!doctype html>
+<%
+  var evLang = typeof lang !== "undefined" && lang ? lang : "ru";
+  var evDateTag = typeof dateLocale !== "undefined" && dateLocale ? dateLocale : "ru-RU";
+  var evUi = {
+    kk: {
+      pageTitle: "Жақын күндегі оқиғалар — Семей — Visit Abay",
+      h2: "Жақын күндегі оқиғалар (Семей)",
+      back: "← Басты бетке",
+      empty: "Жарияланған оқиғалар әзір жоқ. Кейінірек кіріңіз.",
+      today: "Бүгін",
+      tomorrow: "Ертең",
+      weekend: "Демалыс",
+      reset: "Тазалау"
+    },
+    ru: {
+      pageTitle: "События в ближайшие дни в Семей — Visit Abay",
+      h2: "События в ближайшие дни в Семей",
+      back: "← На главную",
+      empty: "Пока нет опубликованных событий. Загляните позже.",
+      today: "Сегодня",
+      tomorrow: "Завтра",
+      weekend: "Выходные",
+      reset: "Сбросить"
+    },
+    en: {
+      pageTitle: "Upcoming events in Semey — Visit Abay",
+      h2: "Upcoming events in Semey",
+      back: "← Home",
+      empty: "No published events yet. Please check back later.",
+      today: "Today",
+      tomorrow: "Tomorrow",
+      weekend: "Weekend",
+      reset: "Reset"
+    }
+  };
+  var evT = evUi[evLang] || evUi.ru;
+%>
+<html lang="<%= evLang === 'kk' ? 'kk' : evLang === 'en' ? 'en' : 'ru' %>">
+<head>
+  <%- include("partials/head") %>
+  <title><%= evT.pageTitle %></title>
+</head>
+<body>
+  <div class="wrapper">
+    <%- include("partials/header") %>
+
+    <div class="container node-content">
+      <p class="node-back"><a href="/"><%= evT.back %></a></p>
+      <% var currentPeriod = (typeof period !== "undefined" && period) ? period : ""; %>
+      <% var activeDate = (typeof selectedDate !== "undefined" && selectedDate) ? selectedDate : ""; %>
+      <% var dateItems = (typeof dateFilterItems !== "undefined" && dateFilterItems) ? dateFilterItems : []; %>
+      <% var monthSeen = {}; %>
+      <%
+        function formatEventDate(v) {
+          if (!v) return "";
+          var d = (v instanceof Date) ? v : new Date(v);
+          if (isNaN(d.getTime())) return String(v);
+          return d.toLocaleDateString(evDateTag, { day: "2-digit", month: "2-digit", year: "numeric" });
+        }
+      %>
+
+      <div class="vis-events">
+        <div class="vis-events_head">
+          <h2><%= evT.h2 %></h2>
+        </div>
+        <div class="events-date-strip">
+          <% dateItems.forEach(function(d){ %>
+            <% var monthKey = String(d.month); %>
+            <% if (!monthSeen[monthKey]) { monthSeen[monthKey] = true; %>
+              <div class="events-date-month"><%= d.monthLabel %></div>
+            <% } %>
+            <a href="/sobytija-semey?date=<%= d.iso %>" class="events-date-item <%= activeDate === d.iso ? "active" : "" %>">
+              <span class="events-date-day"><%= d.day %></span>
+              <span class="events-date-weekday"><%= d.weekdayLabel %></span>
+            </a>
+          <% }) %>
+        </div>
+
+        <div class="event-filters">
+          <a href="/sobytija-semey?period=today" class="filter-btn <%= currentPeriod === 'today' ? 'active' : '' %>"><%= evT.today %></a>
+          <a href="/sobytija-semey?period=tomorrow" class="filter-btn <%= currentPeriod === 'tomorrow' ? 'active' : '' %>"><%= evT.tomorrow %></a>
+          <a href="/sobytija-semey?period=weekend" class="filter-btn <%= currentPeriod === 'weekend' ? 'active' : '' %>"><%= evT.weekend %></a>
+          <% if (currentPeriod || activeDate) { %>
+            <a href="/sobytija-semey" class="filter-btn"><%= evT.reset %></a>
+          <% } %>
+        </div>
+        <% if (!events || !events.length) { %>
+          <p class="node-message"><%= evT.empty %></p>
+        <% } else { %>
+        <div class="events-grid">
+          <% events.forEach(function(p){ %>
+            <a
+              class="event-card"
+              href="/sobytija-semey/<%= p.slug %>"
+            >
+              <div class="event-card-bg"><% if (p.poster_url) { %><img src="<%= p.poster_url %>" alt="<%= p.title %>"><% } %></div>
+              <div class="event-card-content">
+                <div class="event-details">
+                  <h4><%= p.title %></h4>
+                  <div class="event-location">
+                    <img src="<%= themeBase %>/images/18017_204.svg" alt="">
+                    <span><%= p.location || "Семей" %></span>
+                  </div>
+                  <% if (p.address) { %><p class="event-address"><%= p.address %></p><% } %>
+                </div>
+                <div class="event-price">
+                  <% if (p.price) { %>
+                  <span class="price-amount"><%= p.price %> KZT</span>
+                  <% } %>
+                  <% if (p.event_date) { %><span class="node-muted" style="font-size:12px;display:block;margin-top:4px;"><%= formatEventDate(p.event_date) %> <%= p.event_time || "" %></span><% } %>
+                </div>
+              </div>
+            </a>
+          <% }) %>
+        </div>
+        <% } %>
+      </div>
+    </div>
+
+    <%- include("partials/footer") %>
+  </div>
+</body>
+</html>

@@ -1,0 +1,462 @@
+<!doctype html>
+<% var _ixLang = typeof lang !== "undefined" && lang ? lang : "ru"; %>
+<% var bp = (typeof basePath === "string" && basePath) ? basePath : ""; %>
+<html lang="<%= _ixLang === 'en' ? 'en' : _ixLang === 'ru' ? 'ru' : 'kk' %>">
+<head>
+  <%- include("partials/head") %>
+  <title>Visit Abay</title>
+</head>
+<body>
+<%
+  var _pack = locals.menuFooter || locals.defaultMenuFooter || {};
+  var hm = _pack.home || {};
+%>
+  <div id="loader">
+    <div class="logo">VISITABAY</div>
+    <div class="progress"></div>
+  </div>
+  <script>
+    (function () {
+      function hideLoader() {
+        var loader = document.getElementById("loader");
+        var content = document.getElementById("content");
+        if (loader) {
+          loader.classList.add("hidden");
+          loader.style.display = "none";
+        }
+        if (content) {
+          content.style.display = "block";
+        }
+        document.body.style.overflow = "auto";
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(hideLoader, 1400);
+      });
+      window.addEventListener("load", function () {
+        setTimeout(hideLoader, 100);
+      });
+      setTimeout(hideLoader, 5000);
+    })();
+  </script>
+  <div class="wrapper" id="content">
+  <%- include("partials/header") %>
+  <div class="container">
+  <div class="vis-hero">
+    <div class="swiper-wrapper">
+      <div class="vis-hero_item swiper-slide">
+        <div class="vis-hero_title"><%= hm.heroLine1 %> <br> <%= hm.heroLine2 %></div>
+        <a href="#beach"><%= hm.heroCta %></a>
+        <ul class="vis-hero_type">
+          <li><a href="#beach"><%= hm.beachH1 %><img src="<%= themeBase %>/images/18001_114.svg" alt=""></a></li>
+          <li><a href="#jekoturizm"><%= hm.ecoH1 %><img src="<%= themeBase %>/images/18001_114.svg" alt=""></a></li>
+          <li><a href="#sakralnyi"><%= hm.sacredH1 %><img src="<%= themeBase %>/images/18001_114.svg" alt=""></a></li>
+          <li><a href="<%= bp %>/category/abai-zholy"><%= hm.abaiZholy %><img src="<%= themeBase %>/images/18001_114.svg" alt=""></a></li>
+        </ul>
+        <div class="vis-hero_bg e-cover">
+          <div data-vbg="<%= themeBase %>/video/video-hero.mp4" data-vbg-muted="true" data-vbg-mobile="true" data-vbg-start-at="0" data-vbg-mute-button="false" data-vbg-load-background="false"></div>
+        </div>
+      </div>
+      <div class="vis-hero_item swiper-slide">
+        <div class="vis-hero_title"><%= hm.heroLine1 %> <%= hm.heroLine2 %></div>
+        <a href="#beach"><%= hm.heroCta %></a>
+        <ul class="vis-hero_type">
+          <li><a href="#beach"><%= hm.beachH1 %><img src="<%= themeBase %>/images/18001_114.svg" alt=""></a></li>
+          <li><a href="#jekoturizm"><%= hm.ecoH1 %><img src="<%= themeBase %>/images/18001_114.svg" alt=""></a></li>
+          <li><a href="#sakralnyi"><%= hm.sacredH1 %><img src="<%= themeBase %>/images/18001_114.svg" alt=""></a></li>
+          <li><a href="<%= bp %>/category/abai-zholy"><%= hm.abaiZholy %><img src="<%= themeBase %>/images/18001_114.svg" alt=""></a></li>
+        </ul>
+        <div class="vis-hero_bg e-cover">
+          <div data-vbg="https://youtu.be/HLBjmdqyeZ0" data-vbg-mobile="true" data-vbg-start-at="0" data-vbg-mute-button="false" data-vbg-load-background="false"></div>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <br><br><br>
+
+  <script src="https://unpkg.com/youtube-background/jquery.youtube-background.min.js"></script>
+  <script>
+    const videoBackgrounds = new VideoBackgrounds("[data-vbg]");
+  </script>
+
+  <div class="vis-info">
+    <div class="swiper-wrapper">
+      <div class="vis-info_item swiper-slide">
+        <div class="vis-info_bg e-cover">
+          <a href="<%= themeBase %>/video/hero-video.mp4" data-highslide="video"><img src="<%= themeBase %>/images/18027_88.svg" alt="<%= hm.playIconAlt %>"></a>
+          <img src="<%= themeBase %>/images/0aca52f1223d1107e4fd25aaffe5b9e3f34f7264.png" alt="<%= hm.introImageAlt %>" class="intro-image">
+        </div>
+        <div class="vis-info_content">
+          <div class="vis-info_title"><%= hm.semeyIntro %></div>
+          <ul>
+            <li>300+ <span><%= hm.landmarksStat %></span></li>
+            <li>300+ <span><%= hm.landmarksStat %></span></li>
+            <li>300+ <span><%= hm.landmarksStat %></span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="vis-info_item swiper-slide">
+        <div class="vis-info_bg e-cover">
+          <a href="<%= themeBase %>/video/hero-video.mp4" data-highslide="video"><img src="<%= themeBase %>/images/18027_88.svg" alt="<%= hm.playIconAlt %>"></a>
+          <img src="<%= themeBase %>/images/0aca52f1223d1107e4fd25aaffe5b9e3f34f7264.png" alt="<%= hm.introImageAlt %>" class="intro-image">
+          <span><%= hm.infoDateCaption %></span>
+        </div>
+        <div class="vis-info_content">
+          <div class="vis-info_title"><%= hm.semeyIntro %></div>
+          <ul>
+            <li>300+ <span><%= hm.landmarksStat %></span></li>
+            <li>300+ <span><%= hm.landmarksStat %></span></li>
+            <li>300+ <span><%= hm.landmarksStat %></span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="vis-info_item swiper-slide">
+        <div class="vis-info_bg e-cover">
+          <a href="<%= themeBase %>/video/hero-video.mp4" data-highslide="video"><img src="<%= themeBase %>/images/18027_88.svg" alt="<%= hm.playIconAlt %>"></a>
+          <img src="<%= themeBase %>/images/0aca52f1223d1107e4fd25aaffe5b9e3f34f7264.png" alt="<%= hm.introImageAlt %>" class="intro-image">
+          <span><%= hm.infoDateCaption %></span>
+        </div>
+        <div class="vis-info_content">
+          <div class="vis-info_title"><%= hm.semeyIntro %></div>
+          <ul>
+            <li>300+ <span><%= hm.landmarksStat %></span></li>
+            <li>300+ <span><%= hm.landmarksStat %></span></li>
+            <li>300+ <span><%= hm.landmarksStat %></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <i class="fa fa-chevron-left"></i>
+    <i class="fa fa-chevron-right"></i>
+  </div>
+
+  <br><br><br>
+
+    <div class="vis-popular">
+      <div class="vis-popular_head">
+        <h2><%= hm.popularH2 %></h2>
+        <span><%= hm.popularLead %></span>
+      </div>
+      <div class="vis-popular_items">
+        <% (popularPosts || []).forEach(function(p){ %>
+          <a class="vis-popular_item" href="<%= bp %>/post/<%= p.alt_name %>">
+            <div class="vis-popular_bg e-cover"><% if (p.poster) { %><img src="<%= p.poster %>" alt="<%= p.title %>"><% } %></div>
+            <div class="vis-popular_content">
+              <b><%= p.title %></b>
+              <% var shortPopular = (p.short_story || "").replace(/<[^>]*>/g, "").trim(); %>
+              <% if (shortPopular) { %>
+                <span><%= shortPopular.length > 110 ? shortPopular.slice(0, 110) + "..." : shortPopular %></span>
+              <% } %>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+
+    <br><br><br>
+
+    <div class="vis-blog">
+      <h2><%= hm.legendsH2 %></h2>
+      <div class="vis-blog_items">
+        <div class="swiper-wrapper">
+          <% (legendPosts || []).forEach(function(p){ %>
+            <div class="vis-blog_item swiper-slide">
+              <div class="vis-blog_bg e-cover"><% if (p.poster) { %><img src="<%= p.poster %>" alt="<%= p.title %>"><% } %></div>
+              <b><%= p.title %></b>
+              <a href="<%= bp %>/post/<%= p.alt_name %>"><%= hm.readMore %></a>
+            </div>
+          <% }) %>
+        </div>
+        <i class="fa fa-chevron-left"></i>
+        <i class="fa fa-chevron-right"></i>
+      </div>
+    </div>
+
+    <br><br><br>
+
+    <div id="beach" class="vis-sak_title">
+      <h1><%= hm.beachH1 %></h1>
+      <a href="<%= bp %>/category/pljazhnyi-turizm"><%= hm.viewAll %><i class="fa fa-chevron-right"></i></a>
+    </div>
+
+    <div class="vis-pla_items">
+      <% (beachPosts || []).forEach(function(p){ %>
+        <div class="vis-pla_item">
+          <% if (p.poster) { %><img src="<%= p.poster %>" alt="<%= p.title %>"><% } %>
+          <div>
+            <div class="vis-pla_head"><span><%= hm.categoryLabel %></span><i class="fa-light fa-circle-arrow-up-right"></i></div>
+            <div>
+              <span><%= p.short_story ? String(p.short_story).replace(/<[^>]*>/g, "").slice(0, 140) : "" %></span>
+              <a href="<%= bp %>/post/<%= p.alt_name %>"><%= p.title %></a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+    <br><br><br>
+
+    <div id="jekoturizm" class="vis-heri">
+      <div class="swiper-wrapper">
+        <% (ecoPosts || []).forEach(function(p){ %>
+          <div class="swiper-slide">
+            <div class="vis-heri_content">
+              <span><%= p.short_story ? String(p.short_story).replace(/<[^>]*>/g, "").slice(0, 120) : "" %></span>
+              <b><%= hm.ecoDiscoverTitle %></b>
+              <a href="<%= bp %>/post/<%= p.alt_name %>"><%= hm.readMore %></a>
+            </div>
+            <% if (p.poster) { %><img src="<%= p.poster %>" alt="<%= p.title %>"><% } %>
+            <div class="vis-heri_mini">
+              <div class="vis-heri_head">
+                <b><%= hm.ecoDiscoverTitle %></b>
+                <i class="fa fa-chevron-left"></i>
+                <i class="fa fa-chevron-right"></i>
+              </div>
+              <div class="vis-heri_info">
+                <span><%= hm.ecoDiscoverLead %></span>
+                <% if (p.poster) { %><img src="<%= p.poster %>" alt=""><% } %>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <br><br><br>
+
+    <div id="sakralnyi" class="vis-sak_title">
+      <h1><%= hm.sacredH1 %></h1>
+      <a href="<%= bp %>/category/sakralnyi-turizm"><%= hm.viewAll %><i class="fa fa-chevron-right"></i></a>
+    </div>
+
+    <div class="vis-sak_items">
+      <ul>
+        <li><a href="<%= bp %>/post/er-zhanibek"><%= hm.sacredSpotErZhanibek %><i class="fa-light fa-circle-arrow-up-right"></i></a></li>
+        <li><a href="<%= bp %>/post/mavzolej-yrgyzbaj-ata"><%= hm.sacredSpotYrgyzbai %><i class="fa-light fa-circle-arrow-up-right"></i></a></li>
+        <li><a href="<%= bp %>/post/kozy-korpesha-i-bajan-sulu"><%= hm.sacredSpotKozyBayan %><i class="fa-light fa-circle-arrow-up-right"></i></a></li>
+        <li><a href="<%= bp %>/post/alakol"><%= hm.sacredSpotAlakol %><i class="fa-light fa-circle-arrow-up-right"></i></a></li>
+        <li><a href="<%= bp %>/post/muzej-f-dostoevskogo"><%= hm.sacredSpotDostoevsky %><i class="fa-light fa-circle-arrow-up-right"></i></a></li>
+      </ul>
+      <div class="vis-sak_item">
+        <img src="/uploads/monument-posvjaschennyj-zhertvam-semipalatinskogo-poligona.jpg" alt="<%= hm.sacredFeatureMonument %>">
+        <a href="<%= bp %>/post/monument-silnee-smerti"><%= hm.sacredFeatureMonument %></a>
+      </div>
+      <div class="vis-sak_item">
+        <img src="/uploads/l_height-7.webp" alt="<%= hm.sacredFeatureMuseumAlash %>">
+        <div><a href="<%= bp %>/post/muzej-alash-arystary-muhtar-aujezov"><%= hm.sacredFeatureMuseumAlash %></a></div>
+      </div>
+    </div>
+
+    <br><br><br>
+
+    <div id="section-hotels" class="vis-sak_title">
+      <h1><%= hm.hotelsH1 %></h1>
+      <span class="hotels__subtitle vis-sak_title-pill"><%= hm.hotelsSubtitle %></span>
+    </div>
+
+    <section class="home-hotels">
+      <div class="container">
+        <div class="home-hotels__grid">
+          <% (hotelPosts || []).forEach(function(p){ %>
+            <% var hotelHref = p.hotelUrl || (p.alt_name ? ("/post/" + p.alt_name) : "#"); %>
+            <% var hotelTitle = p.name || p.title || ""; %>
+            <% var hotelPoster = p.cardImage || p.poster || ""; %>
+            <% var hotelLocation = p.location || hm.hotelCityShort; %>
+            <% var hotelPrice = p.price || (p.xfields && p.xfields.price) || ""; %>
+            <a href="<%= hotelHref %>" class="home-hotel-card">
+              <div class="home-hotel-card__bg"><% if (hotelPoster) { %><img src="<%= hotelPoster %>" alt="<%= hotelTitle %>"><% } %></div>
+              <div class="home-hotel-card__content">
+                <span class="home-hotel-card__tag"><%= hm.hotelCardTag %></span>
+                <h3 class="home-hotel-card__title"><%= hotelTitle %></h3>
+                <% var _locNorm = String(hotelLocation || "").trim(); var _titleNorm = String(hotelTitle || "").trim(); %>
+                <% if (_locNorm && _titleNorm.toLowerCase() !== _locNorm.toLowerCase()) { %>
+                <p class="home-hotel-card__meta"><%= hotelLocation %></p>
+                <% } %>
+                <% if (hotelPrice) { %><p class="home-hotel-card__price"><%= hm.hotelPriceFrom %> <%= hotelPrice %></p><% } %>
+              </div>
+            </a>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <br><br><br>
+
+    <div id="section-alakol" class="vis-sak_title">
+      <h1><%= hm.alakolH1 %></h1>
+      <a href="<%= bp %>/baza-alakol"><%= hm.alakolAllBases %><i class="fa fa-chevron-right"></i></a>
+    </div>
+
+    <section class="home-alakol">
+      <div class="container">
+        <div class="home-alakol__grid">
+          <a href="<%= bp %>/baza-alakol" class="alakol-card">
+            <div class="alakol-card__image">
+              <% var _alakolPromoImg = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Alakol_Lake_ESA365539.jpg/3840px-Alakol_Lake_ESA365539.jpg'; %>
+              <img
+                src="<%= _alakolPromoImg %>"
+                srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Alakol_Lake_ESA365539.jpg/1920px-Alakol_Lake_ESA365539.jpg 1920w,
+https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Alakol_Lake_ESA365539.jpg/3840px-Alakol_Lake_ESA365539.jpg 2880w"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                alt="<%= hm.alakolPromoAlt %>"
+                loading="eager"
+                decoding="async"
+                width="2880"
+                height="2914"
+                onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Alakol_Lake_ESA365539.jpg/1920px-Alakol_Lake_ESA365539.jpg'"
+              >
+            </div>
+            <div class="alakol-card__content">
+              <h3 class="alakol-card__title"><%= hm.alakolCardTitle %></h3>
+              <p class="alakol-card__meta"><%= hm.alakolCardMeta %></p>
+              <p class="alakol-card__price"><%= hm.alakolCardBlurb %></p>
+            </div>
+          </a>
+
+          <div class="alakol-info-card">
+            <h3 class="alakol-info-card__title"><%= hm.alakolInfoTitle %></h3>
+            <p class="alakol-info-card__text"><%= hm.alakolInfoP1 %></p>
+            <p class="alakol-info-card__text"><%= hm.alakolInfoP2 %></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <br><br>
+
+    <%
+      var ixLang = typeof lang !== "undefined" && lang ? lang : "ru";
+      var ixEvHead = {
+        kk: {
+          h2: "Жақын күндегі оқиғалар (Семей)",
+          all: "Барлық оқиғалар →",
+          filterAll: "Барлығы",
+          filterToday: "Бүгін",
+          filterTomorrow: "Ертең",
+          filterWeekend: "Демалыс",
+          filterEmpty: "Осы фильтр бойынша оқиғалар жоқ."
+        },
+        ru: {
+          h2: "События в ближайшие дни в Семей",
+          all: "Все события →",
+          filterAll: "Все",
+          filterToday: "Сегодня",
+          filterTomorrow: "Завтра",
+          filterWeekend: "Выходные",
+          filterEmpty: "Нет событий для выбранного фильтра."
+        },
+        en: {
+          h2: "Upcoming events in Semey",
+          all: "All events →",
+          filterAll: "All",
+          filterToday: "Today",
+          filterTomorrow: "Tomorrow",
+          filterWeekend: "Weekend",
+          filterEmpty: "No events for this filter."
+        }
+      };
+      var ixEvT = ixEvHead[ixLang] || ixEvHead.ru;
+      var ixDateTag = ixLang === "kk" ? "kk-KZ" : ixLang === "en" ? "en-US" : "ru-RU";
+    %>
+    <div class="vis-events" data-home-events-root>
+      <div class="vis-events_head">
+        <h2><%= ixEvT.h2 %></h2>
+        <a href="<%= bp %>/sobytija-semey" class="vis-events-all-link vis-sak_title-pill"><%= ixEvT.all %><i class="fa fa-chevron-right"></i></a>
+      </div>
+      <div class="event-filters">
+        <button type="button" class="filter-btn active" data-period="all"><%= ixEvT.filterAll %></button>
+        <button type="button" class="filter-btn" data-period="today"><%= ixEvT.filterToday %></button>
+        <button type="button" class="filter-btn" data-period="tomorrow"><%= ixEvT.filterTomorrow %></button>
+        <button type="button" class="filter-btn" data-period="weekend"><%= ixEvT.filterWeekend %></button>
+      </div>
+      <p class="vis-events__filter-empty node-message" hidden><%= ixEvT.filterEmpty %></p>
+      <div class="events-grid">
+        <% (eventPosts || []).forEach(function(p){ %>
+          <% var ixEvIso = p.event_date ? String(p.event_date).slice(0, 10) : ""; %>
+          <a class="event-card" href="<%= bp %>/sobytija-semey/<%= p.slug %>" data-event-date="<%= ixEvIso %>">
+            <div class="event-card-bg"><% if (p.poster_url) { %><img src="<%= p.poster_url %>" alt="<%= p.title %>"><% } %></div>
+            <div class="event-card-content">
+              <div class="event-details">
+                <h4><%= p.title %></h4>
+                <div class="event-location">
+                  <img src="<%= themeBase %>/images/18017_204.svg" alt="">
+                  <span><%= p.location || "" %></span>
+                </div>
+              </div>
+              <div class="event-price">
+                <% if (p.price) { %><span class="price-amount"><%= p.price %> KZT</span><% } %>
+                <span class="price-person"><% if (p.event_date) { %><%= new Date(p.event_date).toLocaleDateString(ixDateTag) %><% } %></span>
+              </div>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var root = document.querySelector("[data-home-events-root]");
+        if (!root) return;
+        var grid = root.querySelector(".events-grid");
+        if (!grid) return;
+        var cards = grid.querySelectorAll("a.event-card[data-event-date]");
+        var emptyEl = root.querySelector(".vis-events__filter-empty");
+        var buttons = root.querySelectorAll(".event-filters .filter-btn[data-period]");
+
+        function toLocalDateOnly(value) {
+          if (!value) return null;
+          var src = String(value).slice(0, 10);
+          var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(src);
+          if (!m) return null;
+          return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+        }
+        function plusDays(date, days) {
+          return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
+        }
+        function matchesPeriod(eventDateRaw, period) {
+          var eventDate = toLocalDateOnly(eventDateRaw);
+          if (!eventDate) return false;
+          var today = toLocalDateOnly(new Date());
+          if (!today) return false;
+          if (period === "today") return eventDate.getTime() === today.getTime();
+          if (period === "tomorrow") return eventDate.getTime() === plusDays(today, 1).getTime();
+          if (period === "weekend") {
+            var maxDate = plusDays(today, 7);
+            var day = eventDate.getDay();
+            return eventDate >= today && eventDate <= maxDate && (day === 0 || day === 6);
+          }
+          return true;
+        }
+
+        function applyPeriod(period) {
+          var p = period === "all" ? "" : period;
+          var shown = 0;
+          cards.forEach(function (card) {
+            var d = card.getAttribute("data-event-date") || "";
+            var ok = !p || matchesPeriod(d, p);
+            card.style.display = ok ? "" : "none";
+            if (ok) shown += 1;
+          });
+          if (emptyEl) {
+            emptyEl.hidden = !p || shown > 0 || cards.length === 0;
+          }
+          buttons.forEach(function (btn) {
+            var bp = btn.getAttribute("data-period") || "";
+            btn.classList.toggle("active", bp === (period || "all"));
+          });
+        }
+
+        root.querySelector(".event-filters").addEventListener("click", function (e) {
+          var btn = e.target.closest(".filter-btn[data-period]");
+          if (!btn || !root.contains(btn)) return;
+          applyPeriod(btn.getAttribute("data-period") || "all");
+        });
+      })();
+    </script>
+  </div>
+  </div>
+  <%- include("partials/footer") %>
+</div>
+</body>
+</html>

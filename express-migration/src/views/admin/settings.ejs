@@ -1,0 +1,41 @@
+<%- include("./partials/layout-start", { title: "Админка: настройки", section: section }) %>
+    <h1>Настройки панели</h1>
+    <% if (typeof success !== "undefined" && success) { %>
+      <p class="node-message" style="border-color:#bfe6bf;background:#f2fff2;"><%= success %></p>
+    <% } %>
+
+    <div class="admin-table-wrap admin-settings-wrap">
+      <form method="post" action="/admin/settings" class="admin-settings-form">
+        <div class="admin-settings-grid">
+          <div class="admin-settings-field">
+            <label for="siteName">Название сайта</label>
+            <input id="siteName" class="admin-form-control" type="text" name="siteName" value="<%= settings.siteName %>">
+          </div>
+
+          <div class="admin-settings-field">
+            <label for="siteUrl">URL сайта</label>
+            <input id="siteUrl" class="admin-form-control" type="text" name="siteUrl" value="<%= settings.siteUrl %>">
+          </div>
+
+          <div class="admin-settings-field">
+            <label for="adminEmail">Email администратора</label>
+            <input id="adminEmail" class="admin-form-control" type="email" name="adminEmail" value="<%= settings.adminEmail %>">
+          </div>
+
+          <div class="admin-settings-field">
+            <label for="postsPerPage">Постов на странице</label>
+            <input id="postsPerPage" class="admin-form-control" type="number" name="postsPerPage" value="<%= settings.postsPerPage %>">
+          </div>
+        </div>
+
+        <label class="admin-settings-checkbox">
+          <input type="checkbox" name="maintenanceMode" value="1" <%= settings.maintenanceMode ? "checked" : "" %>>
+          Режим обслуживания
+        </label>
+
+        <div class="admin-settings-actions">
+          <button class="admin-btn admin-btn-dark" type="submit">Сохранить настройки</button>
+        </div>
+      </form>
+    </div>
+<%- include("./partials/layout-end") %>

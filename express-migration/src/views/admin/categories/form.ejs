@@ -1,0 +1,98 @@
+<%- include("../partials/layout-start", { title: (mode === "create" ? "Новая категория" : "Редактирование категории"), section: section }) %>
+<%
+  var catRu = {};
+  var catEn = {};
+  var catLegacyKk = {};
+  if (category && category.i18n) {
+    try {
+      var _ci = typeof category.i18n === "string" ? JSON.parse(category.i18n) : category.i18n;
+      if (_ci && _ci.ru) catRu = _ci.ru;
+      if (_ci && _ci.en) catEn = _ci.en;
+      if (_ci && _ci.kk) catLegacyKk = _ci.kk;
+    } catch (e) {}
+  }
+%>
+<p class="node-back"><a href="/admin/categories">← К списку категорий</a></p>
+<h1><%= mode === "create" ? "Новая категория" : ("Редактирование: " + (category.name || "")) %></h1>
+<% if (typeof error !== "undefined" && error) { %>
+  <p class="node-message" style="border-color:#ffb9b9;background:#fff1f1;"><%= error %></p>
+<% } %>
+
+<div class="admin-table-wrap admin-edit-wrap">
+<form method="post" class="admin-edit-form" action="<%= mode === "create" ? "/admin/categories" : ("/admin/categories/" + category.id) %>">
+  <p>
+    <label>Атауы (қазақша)<br>
+      <input class="admin-form-control" type="text" name="name" required value="<%= category && category.name ? category.name : "" %>">
+    </label>
+  </p>
+  <p>
+    <label>Slug (alt_name)<br>
+      <input class="admin-form-control" type="text" name="alt_name" value="<%= category && category.alt_name ? category.alt_name : "" %>">
+    </label>
+  </p>
+  <p>
+    <label>Родительская категория<br>
+      <select class="admin-form-control" name="parentid">
+        <option value="0">Нет (корневая)</option>
+        <% (categories || []).forEach(function(c){ if (!category || c.id !== category.id) { %>
+          <option value="<%= c.id %>" <%= Number(category && category.parentid || 0) === Number(c.id) ? "selected" : "" %>><%= c.name %> (ID: <%= c.id %>)</option>
+        <% } }) %>
+      </select>
+    </label>
+  </p>
+  <p>
+    <label>Позиция<br>
+      <input class="admin-form-control" type="number" name="posi" value="<%= category && category.posi ? category.posi : 1 %>">
+    </label>
+  </p>
+  <p>
+    <label>Қысқаша сипаттама<br>
+      <textarea class="admin-form-control" name="descr" rows="4"><%= category && category.descr ? category.descr : "" %></textarea>
+    </label>
+  </p>
+  <p>
+    <label>Толық сипаттама<br>
+      <textarea class="admin-form-control" name="fulldescr" rows="8"><%= category && category.fulldescr ? category.fulldescr : "" %></textarea>
+    </label>
+  </p>
+  <p>
+    <label>Meta title (қазақша)<br>
+      <input class="admin-form-control" type="text" name="metatitle" value="<%= category && category.metatitle ? category.metatitle : "" %>">
+    </label>
+  </p>
+  <p>
+    <label>Keywords<br>
+      <input class="admin-form-control" type="text" name="keywords" value="<%= category && category.keywords ? category.keywords : "" %>">
+    </label>
+  </p>
+
+  <fieldset style="border:1px solid #ececec;border-radius:10px;padding:12px;margin:14px 0;">
+    <legend style="font-weight:600;">Русский / English</legend>
+    <p style="color:#666;font-size:13px;margin:0 0 10px;">Қосымша аудармалар — JSON i18n: <code>ru</code>, <code>en</code>.</p>
+    <h4 style="margin:6px 0;">Русский</h4>
+    <p><label>Название<br><input class="admin-form-control" type="text" name="name_ru" value="<%= catRu.name || "" %>"></label></p>
+    <p><label>Краткое описание<br><textarea class="admin-form-control" name="descr_ru" rows="3"><%= catRu.descr || "" %></textarea></label></p>
+    <p><label>Полное описание<br><textarea class="admin-form-control" name="fulldescr_ru" rows="5"><%= catRu.fulldescr || "" %></textarea></label></p>
+    <p><label>Meta title<br><input class="admin-form-control" type="text" name="metatitle_ru" value="<%= catRu.metatitle || "" %>"></label></p>
+    <h4 style="margin:12px 0 6px;">English</h4>
+    <p><label>Name<br><input class="admin-form-control" type="text" name="name_en" value="<%= catEn.name || "" %>"></label></p>
+    <p><label>Short<br><textarea class="admin-form-control" name="descr_en" rows="3"><%= catEn.descr || "" %></textarea></label></p>
+    <p><label>Full<br><textarea class="admin-form-control" name="fulldescr_en" rows="5"><%= catEn.fulldescr || "" %></textarea></label></p>
+    <p><label>Meta title<br><input class="admin-form-control" type="text" name="metatitle_en" value="<%= catEn.metatitle || "" %>"></label></p>
+  </fieldset>
+
+  <% if (catLegacyKk && (catLegacyKk.name || catLegacyKk.descr || catLegacyKk.fulldescr || catLegacyKk.metatitle)) { %>
+  <details style="border:1px dashed #ccc;border-radius:8px;padding:10px;margin:10px 0;">
+    <summary style="cursor:pointer;font-weight:600;">Ескі i18n.kk (тек оқу, сақталмайды)</summary>
+    <p style="color:#666;font-size:12px;margin:8px 0;">Аударманы негізгі өрістерге немесе «Русский / English» блокына көшіріңіз.</p>
+    <pre style="white-space:pre-wrap;font-size:12px;background:#f9f9f9;padding:8px;border-radius:6px;"><%= JSON.stringify(catLegacyKk, null, 2) %></pre>
+  </details>
+  <% } %>
+
+  <p>
+    <label class="admin-settings-checkbox"><input type="checkbox" name="active" value="1" <%= category && Number(category.active) === 1 ? "checked" : "" %>> Активная категория</label>
+  </p>
+  <p class="admin-edit-actions"><button class="admin-btn admin-btn-dark" type="submit"><%= mode === "create" ? "Создать категорию" : "Сохранить изменения" %></button></p>
+</form>
+</div>
+<%- include("../partials/layout-end") %>

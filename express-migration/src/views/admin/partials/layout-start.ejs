@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <%- include("../../partials/head") %>
+  <!-- Ant Design (base reset styles) -->
+  <link rel="stylesheet" href="https://unpkg.com/antd@6.3.4/dist/reset.css" />
+  <title><%= title || "Админ панель" %></title>
+</head>
+<body class="admin-antd">
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-brand">DLE Style Admin</div>
+      <nav class="admin-nav">
+        <a class="<%= section === "dashboard" ? "active" : "" %>" href="/admin">Дашборд</a>
+        <a class="<%= section === "posts" ? "active" : "" %>" href="/admin/posts">Посты</a>
+        <a class="<%= section === "d3d" ? "active" : "" %>" href="/admin/3d">3D туры</a>
+        <a class="<%= section === "events" ? "active" : "" %>" href="/admin/events">События (Семей)</a>
+        <a class="<%= section === "categories" ? "active" : "" %>" href="/admin/categories">Категории</a>
+        <a class="<%= section === "settings" ? "active" : "" %>" href="/admin/settings">Настройки</a>
+        <a href="/admin/hotels">Гостиницы</a>
+        <a href="/admin/hotels/alakol-bases">Базы отдыха Алаколь</a>
+        <a href="/" target="_blank" rel="noopener">Открыть сайт</a>
+      </nav>
+    </aside>
+    <main class="admin-main">

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Бронирования</title>
+  <link rel="stylesheet" href="<%= typeof basePath !== 'undefined' ? basePath : '' %>/css/style.css">
+</head>
+<body class="admin-page">
+  <% var bp = (typeof basePath !== 'undefined' ? basePath : ''); var adm = typeof adminWebRoot !== 'undefined' ? adminWebRoot : (bp + '/admin'); var base = (typeof isOwner !== 'undefined' && isOwner) ? (bp + '/owner') : adm; %>
+  <script>window.BASE_PATH = '<%= typeof basePath !== "undefined" ? basePath : "" %>';</script>
+  <% if (typeof isOwner !== 'undefined' && isOwner) { %><script src="<%= bp %>/js/push-owner.js"></script><% } %>
+  <header class="admin-header">
+    <h1>Бронирования</h1>
+    <a href="<%= base %>">← К гостиницам</a>
+    <% if (typeof isOwner === 'undefined' || !isOwner) { %><a href="<%= adm %>/owners">Хозяева</a><% } %>
+    <a href="<%= bp %><%= (typeof isOwner !== 'undefined' && isOwner) ? '/owner/logout' : (adm + '/logout') %>">Выйти</a>
+  </header>
+  <main class="admin-main">
+    <% if (typeof error !== 'undefined' && error) { %><p class="error"><%= error %></p><% } %>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Гостиница</th>
+          <th>Номер</th>
+          <th>Гость</th>
+          <th>Контакты</th>
+          <th>Заезд</th>
+          <th>Выезд</th>
+          <th>Гости</th>
+          <th>Статус</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (bookings && bookings.length) { %>
+          <% bookings.forEach(function(b) { %>
+            <tr>
+              <td><%= b.id %></td>
+              <td><%= b.hotel_name %></td>
+              <td><%= b.room_name || '—' %></td>
+              <td><%= b.guest_name %></td>
+              <td><%= b.guest_email %><br><%= b.guest_phone %></td>
+              <td><%= b.check_in %></td>
+              <td><%= b.check_out %></td>
+              <td><%= b.adults %> взр.<% if (b.children) { %>, <%= b.children %> дет.<% } %></td>
+              <td>
+                <span class="booking-status booking-status-<%= b.status %>">
+                  <%= b.status === 'pending' ? 'Ожидает' : b.status === 'confirmed' ? 'Подтверждено' : 'Отменено' %>
+                </span>
+              </td>
+              <td>
+                <% if (b.status === 'pending') { %>
+                  <button type="button" class="btn-booking-status" data-id="<%= b.id %>" data-status="confirmed">Подтвердить</button>
+                  <button type="button" class="btn-booking-status btn-cancel" data-id="<%= b.id %>" data-status="cancelled">Отменить</button>
+                <% } %>
+                <% if (b.notes) { %><br><small title="<%= b.notes %>">Заметка</small><% } %>
+              </td>
+            </tr>
+          <% }); %>
+        <% } else { %>
+          <tr><td colspan="10">Нет бронирований.</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </main>
+  <script>
+    (function() {
+      var apiBase = '<%= typeof basePath !== "undefined" ? basePath : "" %>';
+      document.querySelectorAll('.btn-booking-status').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var id = this.getAttribute('data-id');
+          var status = this.getAttribute('data-status');
+          fetch(apiBase + '/api/bookings/' + id, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ status: status })
+          })
+            .then(function(r) {
+              if (!r.ok) return r.json().then(function(j) { throw new Error(j.error || 'Ошибка'); });
+              return r.json();
+            })
+            .then(function() { location.reload(); })
+            .catch(function(e) { alert(e.message); });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

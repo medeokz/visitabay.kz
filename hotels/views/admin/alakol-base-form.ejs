@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= base ? 'Редактирование' : 'Добавление' %> базы отдыха</title>
+  <link rel="stylesheet" href="<%= typeof basePath !== 'undefined' ? basePath : '' %>/css/style.css">
+</head>
+<body class="admin-page admin-form-page">
+  <% var bp = (typeof basePath !== 'undefined' ? basePath : ''); var adm = typeof adminWebRoot !== 'undefined' ? adminWebRoot : (bp + '/admin/hotels'); var alakolList = adm.replace(/\/$/, '') + '/alakol-bases';
+     var bi18n = {}; if (base && base.i18n) { try { bi18n = typeof base.i18n === 'string' ? JSON.parse(base.i18n) : base.i18n; } catch(e) { bi18n = {}; } } if (!bi18n || typeof bi18n !== 'object') bi18n = {}; var bru = bi18n.ru || {}; var ben = bi18n.en || {}; var bkk = bi18n.kk || {}; %>
+  <header class="admin-header">
+    <h1><%= base ? 'Редактирование' : 'Добавление' %> базы отдыха (Алаколь)</h1>
+    <a href="<%= alakolList %>">← К списку баз</a>
+    <a href="<%= adm %>">Гостиницы</a>
+    <a href="<%= adm %>/logout">Выйти</a>
+  </header>
+  <main class="admin-main admin-form-main">
+    <form id="form" class="hotel-form hotel-form-compact">
+      <input type="hidden" name="id" value="<%= base ? base.id : '' %>">
+      <div class="hotel-form-fields">
+        <label>Атауы (қазақша) * <input type="text" name="name" value="<%= base ? base.name : '' %>" required></label>
+        <label>Орналасуы <input type="text" name="location" value="<%= base ? base.location : 'Алаколь' %>" placeholder="Алаколь, солтүстік жаға"></label>
+        <label>Стоимость <input type="text" name="price" value="<%= base ? base.price : '' %>" placeholder="от 15000 тг"></label>
+        <label>Телефон <input type="text" name="phone" value="<%= base ? base.phone : '' %>"></label>
+        <label>Мекенжай <input type="text" name="address" value="<%= base ? base.address : '' %>"></label>
+        <label>Порядок сортировки <input type="number" name="sort_order" value="<%= base && base.sort_order != null ? base.sort_order : 0 %>"></label>
+        <label><input type="checkbox" name="is_published" value="1" <%= (!base || base.is_published) ? 'checked' : '' %>> Опубликовано на сайте</label>
+        <label>Широта <input type="text" name="latitude" value="<%= base && base.latitude != null ? base.latitude : '' %>" placeholder="46.6"></label>
+        <label>Долгота <input type="text" name="longitude" value="<%= base && base.longitude != null ? base.longitude : '' %>" placeholder="81.8"></label>
+        <label>Ссылка 2ГИС <input type="url" name="map_link" value="<%= base && base.map_link ? base.map_link : '' %>"></label>
+        <label class="hotel-form-image-label">Изображения (до 10) — первая = обложка
+          <div class="image-list" id="image_list"></div>
+          <div class="image-add-row" id="image_add_row">
+            <input type="file" id="image_file" accept="image/jpeg,image/png,image/gif,image/webp,.jpg,.jpeg,.png,.gif,.webp" multiple>
+            <span class="image-upload-hint">или</span>
+            <input type="text" id="image_url_input" placeholder="вставьте ссылку">
+            <button type="button" id="image_add_url_btn">Добавить</button>
+          </div>
+          <span class="image-count-hint" id="image_count_hint">0 / 10</span>
+        </label>
+      </div>
+      <label class="hotel-form-desc">Сипаттама (қазақша) <textarea name="description" rows="5"><%= base ? base.description : '' %></textarea></label>
+      <fieldset class="hotel-i18n-fieldset" style="border:1px solid #ddd;padding:14px;border-radius:8px;margin:12px 0;">
+        <legend>Русский / English</legend>
+        <p style="color:#666;font-size:13px;margin:0 0 10px;">Негізгі мазмұн жоғарыда. JSON i18n: <code>ru</code>, <code>en</code>.</p>
+        <h4 style="margin:8px 0;">Русский</h4>
+        <label>Название <input type="text" name="name_ru" value="<%= bru.name || '' %>"></label>
+        <label>Расположение <input type="text" name="location_ru" value="<%= bru.location || '' %>"></label>
+        <label>Адрес <input type="text" name="address_ru" value="<%= bru.address || '' %>"></label>
+        <label>Описание <textarea name="description_ru" rows="2"><%= bru.description || '' %></textarea></label>
+        <h4 style="margin:12px 0 8px;">English</h4>
+        <label>Name <input type="text" name="name_en" value="<%= ben.name || '' %>"></label>
+        <label>Location <input type="text" name="location_en" value="<%= ben.location || '' %>"></label>
+        <label>Address <input type="text" name="address_en" value="<%= ben.address || '' %>"></label>
+        <label>Description <textarea name="description_en" rows="2"><%= ben.description || '' %></textarea></label>
+      </fieldset>
+      <% if (bkk && (bkk.name || bkk.location || bkk.address || bkk.description)) { %>
+      <details style="border:1px dashed #ccc;border-radius:8px;padding:10px;margin:10px 0;">
+        <summary style="cursor:pointer;font-weight:600;">Ескі i18n.kk (тек оқу, сақталмайды)</summary>
+        <pre style="white-space:pre-wrap;font-size:12px;background:#f9f9f9;padding:8px;border-radius:6px;"><%= JSON.stringify(bkk, null, 2) %></pre>
+      </details>
+      <% } %>
+      <div class="form-actions">
+        <button type="submit"><%= base ? 'Сохранить' : 'Добавить' %></button>
+        <a href="<%= alakolList %>" class="btn btn-secondary">Отмена</a>
+      </div>
+    </form>
+  </main>
+  <script>
+    (function() {
+      var bp = '<%= typeof basePath !== "undefined" ? basePath : "" %>';
+      var MAX_IMAGES = 10;
+      var rawImageUrls = <%- JSON.stringify(
+        (base && base.image_urls != null)
+          ? base.image_urls
+          : (base && base.image_url ? [base.image_url] : [])
+      ) %>;
+      var imageUrls;
+      if (Array.isArray(rawImageUrls)) {
+        imageUrls = rawImageUrls.slice();
+      } else if (typeof rawImageUrls === 'string' && rawImageUrls.trim()) {
+        try {
+          var parsed = JSON.parse(rawImageUrls);
+          imageUrls = Array.isArray(parsed) ? parsed : (parsed ? [parsed] : []);
+        } catch (e) {
+          imageUrls = rawImageUrls ? [rawImageUrls] : [];
+        }
+      } else {
+        imageUrls = [];
+      }
+      var form = document.getElementById('form');
+      var id = form.querySelector('[name="id"]').value;
+      var apiUrl = id ? '/api/alakol-bases/' + id : '/api/alakol-bases';
+      var method = id ? 'PUT' : 'POST';
+      var listUrl = '<%= alakolList %>';
+      var listEl = document.getElementById('image_list');
+      var fileInput = document.getElementById('image_file');
+      var urlInput = document.getElementById('image_url_input');
+      var addUrlBtn = document.getElementById('image_add_url_btn');
+      var countHint = document.getElementById('image_count_hint');
+      var addRow = document.getElementById('image_add_row');
+
+      function fullUrl(url) {
+        return (url && (url.indexOf('http') === 0 || url.indexOf('//') === 0)) ? url : (bp + (url || ''));
+      }
+      function renderList() {
+        countHint.textContent = imageUrls.length + ' / ' + MAX_IMAGES;
+        addRow.style.display = imageUrls.length >= MAX_IMAGES ? 'none' : '';
+        listEl.innerHTML = imageUrls.map(function(url, i) {
+          return '<span class="image-item"><img src="' + fullUrl(url) + '" alt=""><button type="button" class="image-remove" data-i="' + i + '" title="Удалить">&times;</button></span>';
+        }).join('');
+        listEl.querySelectorAll('.image-remove').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var i = parseInt(btn.getAttribute('data-i'), 10);
+            imageUrls.splice(i, 1);
+            renderList();
+          });
+        });
+      }
+      function addUrl(url) {
+        url = (url || '').trim();
+        if (!url) return;
+        if (imageUrls.length >= MAX_IMAGES) { alert('Максимум ' + MAX_IMAGES + ' изображений'); return; }
+        imageUrls.push(url);
+        renderList();
+        urlInput.value = '';
+      }
+      function uploadFile(file) {
+        if (imageUrls.length >= MAX_IMAGES) { alert('Максимум ' + MAX_IMAGES + ' изображений'); return; }
+        var fd = new FormData();
+        fd.append('image', file);
+        fetch(bp + '/api/upload', { method: 'POST', credentials: 'same-origin', headers: { 'Accept': 'application/json' }, body: fd })
+          .then(function(r) { return r.ok ? r.json() : r.json().then(function(j) { throw new Error(j.error || 'Ошибка'); }); })
+          .then(function(data) { imageUrls.push(data.url); renderList(); })
+          .catch(function(err) { alert(err.message); });
+      }
+      renderList();
+      fileInput.addEventListener('change', function() {
+        var files = this.files;
+        for (var i = 0; i < files.length && imageUrls.length < MAX_IMAGES; i++) uploadFile(files[i]);
+        this.value = '';
+      });
+      addUrlBtn.addEventListener('click', function() { addUrl(urlInput.value); });
+      urlInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); addUrl(this.value); } });
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var pub = form.is_published && form.is_published.checked ? 1 : 0;
+        var so = form.sort_order ? parseInt(form.sort_order.value, 10) : 0;
+        var latVal = form.latitude ? form.latitude.value.trim() : '';
+        var lngVal = form.longitude ? form.longitude.value.trim() : '';
+        function collectBaseI18n() {
+          var i18n = {};
+          function part(suf) {
+            var o = {};
+            var nk = 'name_' + suf, lk = 'location_' + suf, ak = 'address_' + suf, dk = 'description_' + suf;
+            if (form[nk] && form[nk].value.trim()) o.name = form[nk].value.trim();
+            if (form[lk] && form[lk].value.trim()) o.location = form[lk].value.trim();
+            if (form[ak] && form[ak].value.trim()) o.address = form[ak].value.trim();
+            if (form[dk] && form[dk].value.trim()) o.description = form[dk].value.trim();
+            return o;
+          }
+          var ru = part('ru');
+          var en = part('en');
+          if (Object.keys(ru).length) i18n.ru = ru;
+          if (Object.keys(en).length) i18n.en = en;
+          return Object.keys(i18n).length ? i18n : undefined;
+        }
+        var data = {
+          name: form.name.value.trim(),
+          location: form.location.value.trim() || null,
+          price: form.price.value.trim() || null,
+          phone: form.phone.value.trim() || null,
+          address: form.address.value.trim() || null,
+          latitude: latVal ? parseFloat(latVal) : null,
+          longitude: lngVal ? parseFloat(lngVal) : null,
+          map_link: form.map_link ? form.map_link.value.trim() || null : null,
+          description: form.description.value.trim() || null,
+          image_urls: imageUrls,
+          sort_order: isNaN(so) ? 0 : so,
+          is_published: pub,
+          i18n: collectBaseI18n()
+        };
+        fetch(bp + apiUrl, {
+          method: method,
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify(data)
+        })
+          .then(function(r) {
+            if (!r.ok) return r.json().then(function(j) { throw new Error(j.error || 'Ошибка'); });
+            return r.json();
+          })
+          .then(function() { window.location.href = listUrl; })
+          .catch(function(err) { alert(err.message); });
+      });
+    })();
+  </script>
+</body>
+</html>

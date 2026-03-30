@@ -1,0 +1,31 @@
+# Секреты и окружение
+.env
+express-migration/.env
+**/dbconfig.php
+
+# Архивы и бэкапы (огромный объём)
+backup/
+*.zip
+
+# Загрузки пользователей (лучше на сервере отдельно, не в Git)
+uploads/
+
+# Крупное видео (GitHub лимит 100 MB; эти файлы заливайте на сервер отдельно / CDN)
+hero-video.gif
+templates/visitabay/video/*.mp4
+templates/visitabay/video/*.webm
+
+# Node
+node_modules/
+express-migration/node_modules/
+
+# Composer (на сервере: composer install)
+engine/classes/composer/vendor/
+
+# Мусор: удалите файл «с» в корне вручную, если он случайный (не UTF-8 латиница).
+
+# OS / IDE
+Thumbs.db
+.DS_Store
+.idea/
+*.log

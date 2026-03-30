@@ -1,0 +1,359 @@
+<%- include("../partials/layout-start", { title: (mode === "create" ? "Новый пост" : "Редактирование поста"), section: section }) %>
+    <p class="node-back"><a href="/admin/posts">← К списку постов</a></p>
+    <h1><%= mode === "create" ? "Новый пост" : ("Редактирование: " + (post.title || "")) %></h1>
+    <p class="node-muted">Негізгі мәтін — қазақша. Орыс және ағылшын нұсқаларын қосымша өрістерге жазуға болады.</p>
+    <% if (typeof error !== "undefined" && error) { %>
+      <p class="node-message" style="border-color:#ffb9b9;background:#fff1f1;"><%= error %></p>
+    <% } %>
+
+    <%
+      function asUploadUrl(p) {
+        var s = String(p || "").trim();
+        if (!s) return "";
+        if (/^https?:\/\//i.test(s) || s.indexOf("/uploads/") === 0) return s;
+        return "/uploads/" + s.replace(/^\/+/, "");
+      }
+      var currentPoster = post && post.xf_poster ? asUploadUrl(post.xf_poster) : "";
+      var currentGallery = [];
+      if (post && post.xf_gallery) {
+        currentGallery = String(post.xf_gallery)
+          .split(",")
+          .map(function(x){ return asUploadUrl(x); })
+          .filter(Boolean);
+      }
+    %>
+    <div class="admin-table-wrap admin-edit-wrap admin-edit-wrap--compact">
+    <form method="post" enctype="multipart/form-data" class="admin-edit-form admin-edit-form--compact" action="<%= mode === "create" ? "/admin/posts" : ("/admin/posts/" + post.id) %>">
+      <p>
+        <label>Тақырып (қазақша, негізгі)<br>
+          <input class="admin-form-control" type="text" name="title" required placeholder="Мысалы: Семей қаласындағы қонақ үй" value="<%= post && post.title ? post.title : "" %>">
+        </label>
+      </p>
+      <p>
+        <label>Ссылка (slug)<br>
+          <input class="admin-form-control" type="text" name="alt_name" placeholder="Например: gostinica-semey-plaza" value="<%= post && post.alt_name ? post.alt_name : "" %>">
+        </label>
+        <small class="node-muted">Если оставить пустым, ссылка создастся автоматически.</small>
+      </p>
+      <p>
+        <label>Автор<br>
+          <input class="admin-form-control" type="text" name="autor" value="<%= post && post.autor ? post.autor : "admin" %>">
+        </label>
+      </p>
+      <p>
+        <label>Раздел (категория)<br>
+          <select class="admin-form-control" name="category">
+            <option value="0">Без категории</option>
+            <% (categories || []).forEach(function(c){ %>
+              <option value="<%= c.id %>" <%= String(post && post.category || "") === String(c.id) ? "selected" : "" %>><%= c.name %> (ID: <%= c.id %>)</option>
+            <% }) %>
+          </select>
+        </label>
+      </p>
+      <p>
+        <label>Қысқаша сипаттама (анонс)<br>
+          <textarea class="admin-form-control js-richtext" name="short_story" rows="4" placeholder="Қазақша қысқа мәтін..."><%= post && post.short_story ? post.short_story : "" %></textarea>
+        </label>
+      </p>
+      <p>
+        <label>Толық мәтін<br>
+          <textarea class="admin-form-control js-richtext" name="full_story" rows="12" placeholder="Негізгі контент (қазақша)..."><%= post && post.full_story ? post.full_story : "" %></textarea>
+        </label>
+      </p>
+      <p>
+        <label>Видео (добавится в конец полного текста)<br>
+          <input class="admin-form-control" type="file" name="full_story_video_upload" accept="video/*" multiple>
+        </label>
+        <small class="node-muted" style="display:block;margin-top:4px;">Можно загрузить с ПК или телефона. Видео вставится как HTML5 тег.</small>
+      </p>
+
+      <details style="margin:10px 0;padding:8px;border:1px dashed #ccc;border-radius:8px;background:#fff;">
+        <summary style="cursor:pointer;font-size:14px;">Ескі жазбалар: қосымша қазақша xfields (title_kk) — керек болса</summary>
+        <p>
+          <label>title_kk (мұрагер)<br>
+            <input class="admin-form-control" type="text" name="title_kk" value="<%= post && post.title_kk ? post.title_kk : "" %>">
+          </label>
+        </p>
+        <p>
+          <label>short_story_kk<br>
+            <textarea class="admin-form-control" name="short_story_kk" rows="3"><%= post && post.short_story_kk ? post.short_story_kk : "" %></textarea>
+          </label>
+        </p>
+        <p>
+          <label>full_story_kk<br>
+            <textarea class="admin-form-control" name="full_story_kk" rows="4"><%= post && post.full_story_kk ? post.full_story_kk : "" %></textarea>
+          </label>
+        </p>
+        <p>
+          <label>descr_kk / metatitle_kk<br>
+            <input class="admin-form-control" type="text" name="descr_kk" placeholder="descr_kk" value="<%= post && post.descr_kk ? post.descr_kk : "" %>">
+            <input class="admin-form-control" type="text" name="metatitle_kk" placeholder="metatitle_kk" style="margin-top:6px;" value="<%= post && post.metatitle_kk ? post.metatitle_kk : "" %>">
+          </label>
+        </p>
+      </details>
+
+      <fieldset style="border:1px solid #e8e8e8;border-radius:10px;padding:10px 12px;margin:10px 0;background:#fff5f5;">
+        <legend style="font-weight:600;">Орысша (қосымша)</legend>
+        <p>
+          <label>Тақырып<br>
+            <input class="admin-form-control" type="text" name="title_ru" value="<%= post && post.title_ru ? post.title_ru : "" %>">
+          </label>
+        </p>
+        <p>
+          <label>Қысқаша<br>
+            <textarea class="admin-form-control js-richtext" name="short_story_ru" rows="4"><%= post && post.short_story_ru ? post.short_story_ru : "" %></textarea>
+          </label>
+        </p>
+        <p>
+          <label>Толық мәтін<br>
+            <textarea class="admin-form-control js-richtext" name="full_story_ru" rows="6"><%= post && post.full_story_ru ? post.full_story_ru : "" %></textarea>
+          </label>
+        </p>
+        <p>
+          <label>SEO descr<br>
+            <input class="admin-form-control" type="text" name="descr_ru" value="<%= post && post.descr_ru ? post.descr_ru : "" %>">
+          </label>
+        </p>
+        <p>
+          <label>Meta title<br>
+            <input class="admin-form-control" type="text" name="metatitle_ru" value="<%= post && post.metatitle_ru ? post.metatitle_ru : "" %>">
+          </label>
+        </p>
+      </fieldset>
+
+      <fieldset style="border:1px solid #e8e8e8;border-radius:10px;padding:10px 12px;margin:10px 0;background:#f7f9fc;">
+        <legend style="font-weight:600;">English (қосымша)</legend>
+        <p>
+          <label>Title<br>
+            <input class="admin-form-control" type="text" name="title_en" value="<%= post && post.title_en ? post.title_en : "" %>">
+          </label>
+        </p>
+        <p>
+          <label>Short description<br>
+            <textarea class="admin-form-control js-richtext" name="short_story_en" rows="4"><%= post && post.short_story_en ? post.short_story_en : "" %></textarea>
+          </label>
+        </p>
+        <p>
+          <label>Full text<br>
+            <textarea class="admin-form-control js-richtext" name="full_story_en" rows="6"><%= post && post.full_story_en ? post.full_story_en : "" %></textarea>
+          </label>
+        </p>
+        <p>
+          <label>SEO descr<br>
+            <input class="admin-form-control" type="text" name="descr_en" value="<%= post && post.descr_en ? post.descr_en : "" %>">
+          </label>
+        </p>
+        <p>
+          <label>Meta title<br>
+            <input class="admin-form-control" type="text" name="metatitle_en" value="<%= post && post.metatitle_en ? post.metatitle_en : "" %>">
+          </label>
+        </p>
+      </fieldset>
+
+      <h3 style="margin:10px 0 6px;font-size:14px;">Как добраться (упрощенный блок)</h3>
+      <p>
+        <label>Описание/контакты (HTML или обычный текст)<br>
+          <textarea class="admin-form-control js-richtext" name="xf_contactfullstory" rows="5" placeholder="Адрес, телефоны, время работы..."><%= post && post.xf_contactfullstory ? post.xf_contactfullstory : "" %></textarea>
+        </label>
+      </p>
+      <p>
+        <label>Ссылка "Построить маршрут"<br>
+          <input id="xf_linkmap" class="admin-form-control" type="text" name="xf_linkmap" placeholder="https://go.2gis.com/... или Google Maps URL" value="<%= post && post.xf_linkmap ? post.xf_linkmap : "" %>">
+        </label>
+      </p>
+      <textarea id="xf_mapfull" name="xf_mapfull" style="display:none;"><%= post && post.xf_mapfull ? post.xf_mapfull : "" %></textarea>
+
+      <div style="border:1px solid #ececec;border-radius:10px;padding:10px 10px 8px;margin:8px 0 12px;background:#fff;">
+        <h3 style="margin:0 0 8px;font-size:16px;">Медиа</h3>
+        <input type="hidden" name="xf_poster" value="<%= post && post.xf_poster ? post.xf_poster : "" %>">
+        <input type="hidden" name="xf_gallery" value="<%= post && post.xf_gallery ? post.xf_gallery : "" %>">
+        <div class="admin-form-grid2" style="align-items:start;">
+          <div>
+            <label>Обложка</label>
+            <div style="margin-top:4px;"><input type="file" name="poster_upload" accept="image/*"></div>
+            <% if (currentPoster) { %>
+              <div style="margin-top:6px;">
+                <a href="<%= currentPoster %>" target="_blank" rel="noopener">
+                  <img src="<%= currentPoster %>" alt="Обложка" style="width:88px;height:62px;object-fit:cover;border-radius:6px;border:1px solid #eee;background:#fff;">
+                </a>
+              </div>
+            <% } %>
+          </div>
+
+          <div>
+            <label>Галерея</label>
+            <div style="margin-top:4px;"><input type="file" name="gallery_upload" accept="image/*" multiple></div>
+            <% if (currentGallery.length) { %>
+              <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;">
+                <% currentGallery.forEach(function(img){ %>
+                  <a href="<%= img %>" target="_blank" rel="noopener" style="display:block;">
+                    <img src="<%= img %>" alt="" style="width:62px;height:46px;object-fit:cover;border-radius:6px;border:1px solid #eee;background:#fff;">
+                  </a>
+                <% }) %>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+
+      <textarea name="xfields" style="display:none;"><%= post && post.xfields ? post.xfields : "" %></textarea>
+      <p>
+        <label>SEO описание (descr), қазақша<br>
+          <input class="admin-form-control" type="text" name="descr" value="<%= post && post.descr ? post.descr : "" %>">
+        </label>
+      </p>
+      <p>
+        <label>SEO заголовок (meta title), қазақша<br>
+          <input class="admin-form-control" type="text" name="metatitle" value="<%= post && post.metatitle ? post.metatitle : "" %>">
+        </label>
+      </p>
+      <p>
+        <label>SEO ключевые слова<br>
+          <input class="admin-form-control" type="text" name="keywords" value="<%= post && post.keywords ? post.keywords : "" %>">
+        </label>
+      </p>
+      <p>
+        <label>Теги (через запятую)<br>
+          <input class="admin-form-control" type="text" name="tags" value="<%= post && post.tags ? post.tags : "" %>">
+        </label>
+      </p>
+      <p style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+        <label><input type="checkbox" name="approve" value="1" <%= post && Number(post.approve) === 1 ? "checked" : "" %>> Опубликован</label>
+        <label><input type="checkbox" name="allow_main" value="1" <%= post && Number(post.allow_main) === 1 ? "checked" : "" %>> Показывать на главной</label>
+      </p>
+      <p class="admin-edit-actions">
+        <button class="admin-btn admin-btn-dark" type="submit"><%= mode === "create" ? "Создать пост" : "Сохранить изменения" %></button>
+      </p>
+    </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/tinymce@7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+      (function(){
+        const linkEl = document.getElementById("xf_linkmap");
+        const mapEl = document.getElementById("xf_mapfull");
+        const addrEl = document.querySelector("input[name='xf_address']");
+        const locEl = document.querySelector("input[name='xf_location']");
+
+        function stripHtml(s) {
+          return String(s || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+        }
+
+        function buildEmbedIframe(src) {
+          const safe = String(src || "").trim();
+          if (!safe) return "";
+          return (
+            '<iframe src="' + safe.replace(/"/g, "&quot;") + '" ' +
+            'width="600" height="450" style="border:0;" allowfullscreen="" ' +
+            'loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+          );
+        }
+
+        function deriveEmbedSrcFromLink(link, fallbackQuery) {
+          const u = String(link || "").trim();
+          if (!u) return "";
+
+          // If user already pasted iframe html → extract src
+          const m = u.match(/<iframe[^>]*src=["']([^"']+)["'][^>]*>/i);
+          if (m && m[1]) return m[1];
+
+          // If already an embeddable URL
+          if (
+            /google\.com\/maps\/embed/i.test(u) ||
+            /yandex\.(ru|com)\/map-widget/i.test(u)
+          ) {
+            return u;
+          }
+
+          // 2GIS links are often blocked in iframe by browser policy.
+          // Use Google embed from address/text while keeping 2GIS link for the route button.
+          if (/(?:^https?:\/\/)?(?:go\.)?2gis\.(?:com|kz)\//i.test(u)) {
+            const q2 = String(fallbackQuery || "").trim();
+            if (q2) return "https://www.google.com/maps?q=" + encodeURIComponent(q2) + "&output=embed";
+            return "";
+          }
+
+          // 2GIS short links often block embedding; fallback to google maps search by address/text.
+          const q = String(fallbackQuery || "").trim();
+          if (q) return "https://www.google.com/maps?q=" + encodeURIComponent(q) + "&output=embed";
+
+          return "";
+        }
+
+        function getFallbackQuery() {
+          const addr = (addrEl && addrEl.value) ? addrEl.value.trim() : "";
+          const loc = (locEl && locEl.value) ? locEl.value.trim() : "";
+          if (addr) return addr;
+          if (loc) return loc;
+
+          // If TinyMCE is loaded, try take "Как добраться" html to derive query.
+          try {
+            const editor = window.tinymce && tinymce.get("xf_contactfullstory");
+            const html = editor ? editor.getContent() : "";
+            const text = stripHtml(html);
+            return text.slice(0, 160);
+          } catch (e) {
+            return "";
+          }
+        }
+
+        function maybeAutofillMap() {
+          if (!linkEl || !mapEl) return;
+          const link = linkEl.value.trim();
+          if (!link) return;
+
+          const isUserEdited = mapEl.dataset.userEdited === "1";
+          if (isUserEdited) return;
+
+          const src = deriveEmbedSrcFromLink(link, getFallbackQuery());
+          if (!src) return;
+
+          mapEl.value = buildEmbedIframe(src);
+          mapEl.dataset.autofilled = "1";
+        }
+
+        if (mapEl) {
+          mapEl.addEventListener("input", function(){
+            mapEl.dataset.userEdited = mapEl.value.trim() ? "1" : "0";
+          });
+        }
+        if (linkEl) {
+          linkEl.addEventListener("input", function(){
+            if (mapEl) mapEl.dataset.userEdited = "0";
+            maybeAutofillMap();
+          });
+        }
+        if (addrEl) addrEl.addEventListener("input", maybeAutofillMap);
+        if (locEl) locEl.addEventListener("input", maybeAutofillMap);
+
+        // initial autofill if link already exists
+        setTimeout(maybeAutofillMap, 0);
+      })();
+
+      if (window.tinymce) {
+        var _tmceH = document.querySelector(".admin-edit-form--compact") ? 200 : 280;
+        tinymce.init({
+          selector: "textarea.js-richtext",
+          menubar: false,
+          branding: false,
+          height: _tmceH,
+          plugins: "link lists code table",
+          toolbar: "undo redo | blocks | bold italic underline | bullist numlist | link table | alignleft aligncenter alignright | code",
+          // Подгоняем видимый шрифт в TinyMCE под стиль полного текста на сайте (.story-body).
+          content_style: "body{font-family:\"Geologica\",system-ui,-apple-system,\"Segoe UI\",Roboto,Arial,sans-serif;font-size:24px;font-weight:500;line-height:30px;text-align:justify;margin:0;padding:0;}",
+          setup: function (editor) {
+            editor.on("change keyup", function () {
+              try {
+                const mapEl = document.getElementById("xf_mapfull");
+                // If map wasn't manually edited, allow auto-update when contact text changes.
+                if (mapEl && mapEl.dataset.userEdited !== "1") {
+                  const evt = new Event("input", { bubbles: true });
+                  const linkEl = document.getElementById("xf_linkmap");
+                  if (linkEl) linkEl.dispatchEvent(evt);
+                }
+              } catch (e) {}
+            });
+          }
+        });
+      }
+    </script>
+<%- include("../partials/layout-end") %>

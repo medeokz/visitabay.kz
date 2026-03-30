@@ -1,0 +1,62 @@
+<%- include("../partials/layout-start", { title: "3D туры", section: section }) %>
+    <div class="admin-head">
+      <h1>3D туры</h1>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="admin-btn" href="/category/3d" target="_blank" rel="noopener">Открыть на сайте</a>
+        <a class="admin-btn" href="/admin/3d/new">+ Новый тур</a>
+        <a class="admin-btn admin-btn-ghost" href="/admin/posts">Посты</a>
+      </div>
+    </div>
+    <p class="node-muted" style="margin-top:10px;">
+      Отдельный раздел (как «События»): не связан с постами DLE. Список на сайте: <code>/category/3d</code>;
+      страница тура в стиле DLE: <code>/3d/104-slug.html</code> (поле «URL файла»).
+    </p>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th style="width:60px;">ID</th>
+            <th>Заголовок</th>
+            <th style="width:200px;">URL файла</th>
+            <th style="min-width:200px;">Тур (embed)</th>
+            <th style="width:70px;">Порядок</th>
+            <th style="width:80px;">Сайт</th>
+            <th style="width:200px;">Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (!tours || !tours.length) { %>
+            <tr><td colspan="7" class="admin-td-muted">Туров пока нет.</td></tr>
+          <% } %>
+          <% (tours || []).forEach(function(t){ %>
+            <% var mpOk = t.matterport_url && (/^https:\/\/my\.matterport\.com\//i.test(t.matterport_url) || /^https:\/\/my\.treedis\.com\/tour\//i.test(t.matterport_url)); %>
+            <tr>
+              <td><%= t.id %></td>
+              <td><a href="/admin/3d/<%= t.id %>/edit"><%= t.title %></a></td>
+              <td><span class="admin-mono"><%= t.legacy_html ? "/3d/" + t.legacy_html : "—" %></span></td>
+              <td>
+                <% if (mpOk) { %>
+                  <a class="admin-link" style="word-break:break-all;" href="<%= t.matterport_url %>" target="_blank" rel="noopener">ссылка</a>
+                <% } else { %>
+                  <span class="admin-td-muted">нет</span>
+                <% } %>
+              </td>
+              <td><%= t.sort_order %></td>
+              <td><%= Number(t.is_published) === 1 ? "да" : "нет" %></td>
+              <td>
+                <div class="admin-actions">
+                  <% if (t.legacy_html && mpOk) { %>
+                    <a class="admin-link" href="/3d/<%= t.legacy_html %>" target="_blank" rel="noopener">Страница</a>
+                  <% } %>
+                  <a class="admin-link" href="/admin/3d/<%= t.id %>/edit">Изменить</a>
+                  <form method="post" action="/admin/3d/<%= t.id %>/delete" onsubmit="return confirm('Удалить тур?');" style="margin:0;">
+                    <button type="submit" class="admin-link admin-link-danger">Удалить</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+<%- include("../partials/layout-end") %>

@@ -1,0 +1,184 @@
+<%- include("../partials/layout-start", { title: (mode === "create" ? "Новое событие" : "Редактирование события"), section: section }) %>
+<%
+  var evRu = {};
+  var evEn = {};
+  var evLegacyKk = {};
+  if (event && event.i18n) {
+    try {
+      var _evi = typeof event.i18n === "string" ? JSON.parse(event.i18n) : event.i18n;
+      if (_evi && _evi.ru) evRu = _evi.ru;
+      if (_evi && _evi.en) evEn = _evi.en;
+      if (_evi && _evi.kk) evLegacyKk = _evi.kk;
+    } catch (e) {}
+  }
+%>
+    <p class="node-back"><a href="/admin/events">← К списку событий</a></p>
+    <h1><%= mode === "create" ? "Новое событие" : ("Редактирование: " + (event.title || "")) %></h1>
+    <p class="node-muted">Негізгі тіл — қазақша (бағандар). Аудармалар: JSON <code>i18n</code> — тек <code>ru</code> және <code>en</code>.</p>
+    <% if (typeof success !== "undefined" && success) { %>
+      <p class="node-message" style="border-color:#bfe6bf;background:#f2fff2;">
+        <%= success === "created" ? "Событие создано." : "Изменения сохранены." %>
+      </p>
+    <% } %>
+    <% if (typeof error !== "undefined" && error) { %>
+      <p class="node-message" style="border-color:#ffb9b9;background:#fff1f1;"><%= error %></p>
+    <% } %>
+
+    <%
+      function asUploadUrl(p) {
+        var s = String(p || "").trim();
+        if (!s) return "";
+        if (/^https?:\/\//i.test(s) || s.indexOf("/uploads/") === 0) return s;
+        return "/uploads/" + s.replace(/^\/+/, "");
+      }
+      var currentPoster = event && event.poster_url ? asUploadUrl(event.poster_url) : "";
+    %>
+    <div class="admin-table-wrap admin-edit-wrap admin-edit-wrap--compact">
+    <form method="post" class="admin-edit-form admin-edit-form--compact" enctype="multipart/form-data" action="<%= mode === "create" ? "/admin/events" : ("/admin/events/" + event.id) %>">
+      <input type="hidden" name="title_backup" value="<%= event && event.title ? event.title : '' %>">
+      <p>
+        <label>Атауы (қазақша)<br>
+          <input class="admin-form-control" type="text" name="title" required value="<%= event && event.title ? event.title : "" %>">
+        </label>
+      </p>
+      <p>
+        <label>Slug (ссылка, можно оставить пустым)<br>
+          <input class="admin-form-control" type="text" name="slug" value="<%= event && event.slug ? event.slug : "" %>">
+        </label>
+      </p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <p>
+          <label>Дата события<br>
+            <input class="admin-form-control" type="date" name="event_date" value="<%= event && event.event_date ? event.event_date : "" %>">
+          </label>
+        </p>
+        <p>
+          <label>Время события<br>
+            <input class="admin-form-control" type="time" step="60" name="event_time" value="<%= event && event.event_time ? event.event_time : "" %>">
+          </label>
+        </p>
+      </div>
+      <div class="admin-form-grid2">
+        <p>
+          <label>Локация<br>
+            <select class="admin-form-control" name="location">
+              <option value="Семей" <%= (!event || !event.location || String(event.location) === "Семей" || String(event.location).toLowerCase() === "semey") ? "selected" : "" %>>Семей</option>
+            </select>
+          </label>
+        </p>
+        <p>
+          <label>Мекенжай<br>
+            <input class="admin-form-control" type="text" name="address" value="<%= event && event.address ? event.address : "" %>">
+          </label>
+        </p>
+      </div>
+      <p>
+        <label>Баға<br>
+          <input class="admin-form-control" type="text" name="price" placeholder="Мысалы: 3000 тг бастап" value="<%= event && event.price ? event.price : "" %>">
+        </label>
+      </p>
+      <p>
+        <label>Қысқаша сипаттама<br>
+          <textarea class="admin-form-control" name="summary" rows="3"><%= event && event.summary ? event.summary : "" %></textarea>
+        </label>
+      </p>
+      <p>
+        <label>Толық сипаттама (HTML)<br>
+          <textarea class="admin-form-control js-richtext" name="description" rows="5"><%= event && event.description ? event.description : "" %></textarea>
+        </label>
+      </p>
+
+      <fieldset style="border:1px solid #ececec;border-radius:10px;padding:10px;margin:10px 0;">
+        <legend style="font-weight:600;">Русский / English</legend>
+        <p style="color:#666;font-size:12px;margin:0 0 8px;">Қосымша тілдер міндетті емес.</p>
+        <h4 style="margin:8px 0;">Русский</h4>
+        <p><label>Название<br><input class="admin-form-control" type="text" name="title_ru" value="<%= evRu.title || "" %>"></label></p>
+        <p><label>Локация (текст)<br><input class="admin-form-control" type="text" name="location_ru" value="<%= evRu.location || "" %>" placeholder="Семей"></label></p>
+        <p><label>Адрес<br><input class="admin-form-control" type="text" name="address_ru" value="<%= evRu.address || "" %>"></label></p>
+        <p><label>Цена<br><input class="admin-form-control" type="text" name="price_ru" value="<%= evRu.price || "" %>"></label></p>
+        <p><label>Краткое описание<br><textarea class="admin-form-control" name="summary_ru" rows="2"><%= evRu.summary || "" %></textarea></label></p>
+        <p><label>Полное описание (HTML)<br><textarea class="admin-form-control" name="description_ru" rows="4"><%= evRu.description || "" %></textarea></label></p>
+        <h4 style="margin:12px 0 8px;">English</h4>
+        <p><label>Title<br><input class="admin-form-control" type="text" name="title_en" value="<%= evEn.title || "" %>"></label></p>
+        <p><label>Location<br><input class="admin-form-control" type="text" name="location_en" value="<%= evEn.location || "" %>" placeholder="Semey"></label></p>
+        <p><label>Address<br><input class="admin-form-control" type="text" name="address_en" value="<%= evEn.address || "" %>"></label></p>
+        <p><label>Price<br><input class="admin-form-control" type="text" name="price_en" value="<%= evEn.price || "" %>"></label></p>
+        <p><label>Short summary<br><textarea class="admin-form-control" name="summary_en" rows="2"><%= evEn.summary || "" %></textarea></label></p>
+        <p><label>Full description (HTML)<br><textarea class="admin-form-control" name="description_en" rows="4"><%= evEn.description || "" %></textarea></label></p>
+      </fieldset>
+      <% if (evLegacyKk && (evLegacyKk.title || evLegacyKk.summary || evLegacyKk.description)) { %>
+      <details style="border:1px dashed #ccc;border-radius:8px;padding:10px;margin:10px 0;">
+        <summary style="cursor:pointer;font-weight:600;">Ескі i18n.kk (тек оқу)</summary>
+        <pre style="white-space:pre-wrap;font-size:12px;background:#f9f9f9;padding:8px;border-radius:6px;"><%= JSON.stringify(evLegacyKk, null, 2) %></pre>
+      </details>
+      <% } %>
+      <div style="border:1px solid #ececec;border-radius:10px;padding:10px 10px 8px;margin:8px 0 12px;background:#fff;">
+        <h3 style="margin:0 0 8px;font-size:16px;">Медиа</h3>
+        <input type="hidden" name="poster_url" value="<%= event && event.poster_url ? event.poster_url : "" %>">
+        <div>
+          <label>Обложка</label>
+          <div style="margin-top:4px;"><input type="file" name="poster_upload" accept="image/*"></div>
+          <% if (currentPoster) { %>
+            <div style="margin-top:6px;">
+              <a href="<%= currentPoster %>" target="_blank" rel="noopener">
+                <img src="<%= currentPoster %>" alt="Постер" style="width:88px;height:62px;object-fit:cover;border-radius:6px;border:1px solid #eee;background:#fff;">
+              </a>
+            </div>
+          <% } %>
+        </div>
+      </div>
+      <p>
+        <label>Ссылка "Построить маршрут"<br>
+          <input class="admin-form-control" type="text" name="route_link" placeholder="https://go.2gis.com/... или Google Maps URL" value="<%= event && event.route_link ? event.route_link : "" %>">
+        </label>
+      </p>
+      <p>
+        <label>Ссылка на покупку билета (URL)<br>
+          <input class="admin-form-control" type="text" name="ticket_url" value="<%= event && event.ticket_url ? event.ticket_url : "" %>">
+        </label>
+      </p>
+      <div class="admin-form-grid2">
+        <p>
+          <label>Порядок сортировки<br>
+            <input class="admin-form-control" type="number" name="sort_order" value="<%= event && typeof event.sort_order !== "undefined" ? event.sort_order : 0 %>">
+          </label>
+        </p>
+        <p>
+          <label style="display:flex;gap:8px;align-items:center;margin-top:22px;">
+            <input type="checkbox" name="is_published" <%= !event || Number(event.is_published) === 1 ? "checked" : "" %>>
+            Опубликовано
+          </label>
+        </p>
+      </div>
+
+      <p class="admin-edit-actions" style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="admin-btn admin-btn-dark" type="submit"><%= mode === "create" ? "Создать" : "Сохранить" %></button>
+        <a class="admin-btn admin-btn-ghost" href="/admin/events">Отмена</a>
+        <% if (mode === "edit" && event && event.id) { %>
+          <button
+            class="admin-btn admin-btn-soft"
+            type="submit"
+            formaction="/admin/events/<%= event.id %>/delete"
+            formmethod="post"
+            onclick="return confirm('Удалить событие?');"
+          >Удалить</button>
+        <% } %>
+      </p>
+    </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/tinymce@7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+      if (window.tinymce) {
+        var _tmceH = document.querySelector(".admin-edit-form--compact") ? 200 : 280;
+        tinymce.init({
+          selector: "textarea.js-richtext",
+          menubar: false,
+          branding: false,
+          height: _tmceH,
+          plugins: "link lists code table",
+          toolbar: "undo redo | blocks | bold italic underline | bullist numlist | link table | alignleft aligncenter alignright | code",
+          content_style: "body{font-family:\"Geologica\",system-ui,-apple-system,\"Segoe UI\",Roboto,Arial,sans-serif;font-size:24px;font-weight:500;line-height:30px;text-align:justify;margin:0;padding:0;}"
+        });
+      }
+    </script>
+<%- include("../partials/layout-end") %>

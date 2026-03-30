@@ -1,0 +1,1442 @@
+[
+  {
+    "from": "/4-asdas.html",
+    "to": "/post/asdas",
+    "code": 301
+  },
+  {
+    "from": "/asdas.html",
+    "to": "/post/asdas",
+    "code": 301
+  },
+  {
+    "from": "/5-abaj-armany-k-180-letiju-abaja-kunanbaeva.html",
+    "to": "/post/abaj-armany-k-180-letiju-abaja-kunanbaeva",
+    "code": 301
+  },
+  {
+    "from": "/abaj-armany-k-180-letiju-abaja-kunanbaeva.html",
+    "to": "/post/abaj-armany-k-180-letiju-abaja-kunanbaeva",
+    "code": 301
+  },
+  {
+    "from": "/6-kamen-hadzhi-mukana.html",
+    "to": "/post/kamen-hadzhi-mukana",
+    "code": 301
+  },
+  {
+    "from": "/kamen-hadzhi-mukana.html",
+    "to": "/post/kamen-hadzhi-mukana",
+    "code": 301
+  },
+  {
+    "from": "/7-svjatoj-kljuch.html",
+    "to": "/post/svjatoj-kljuch",
+    "code": 301
+  },
+  {
+    "from": "/svjatoj-kljuch.html",
+    "to": "/post/svjatoj-kljuch",
+    "code": 301
+  },
+  {
+    "from": "/8-enlik-kebek.html",
+    "to": "/post/enlik-kebek",
+    "code": 301
+  },
+  {
+    "from": "/enlik-kebek.html",
+    "to": "/post/enlik-kebek",
+    "code": 301
+  },
+  {
+    "from": "/9-legenda-o-gore-tolagaj.html",
+    "to": "/post/legenda-o-gore-tolagaj",
+    "code": 301
+  },
+  {
+    "from": "/legenda-o-gore-tolagaj.html",
+    "to": "/post/legenda-o-gore-tolagaj",
+    "code": 301
+  },
+  {
+    "from": "/10-kozy-korpesh-i-bajan-sulu.html",
+    "to": "/post/kozy-korpesh-i-bajan-sulu",
+    "code": 301
+  },
+  {
+    "from": "/kozy-korpesh-i-bajan-sulu.html",
+    "to": "/post/kozy-korpesh-i-bajan-sulu",
+    "code": 301
+  },
+  {
+    "from": "/11-centralnaja-mechet-abaj-kunanbajuly.html",
+    "to": "/post/centralnaja-mechet-abaj-kunanbajuly",
+    "code": 301
+  },
+  {
+    "from": "/centralnaja-mechet-abaj-kunanbajuly.html",
+    "to": "/post/centralnaja-mechet-abaj-kunanbajuly",
+    "code": 301
+  },
+  {
+    "from": "/12-dvuhminaretnaja-sobornaja-mechet.html",
+    "to": "/post/dvuhminaretnaja-sobornaja-mechet",
+    "code": 301
+  },
+  {
+    "from": "/dvuhminaretnaja-sobornaja-mechet.html",
+    "to": "/post/dvuhminaretnaja-sobornaja-mechet",
+    "code": 301
+  },
+  {
+    "from": "/13-kamennaja-odnominaretnaja-mechet.html",
+    "to": "/post/kamennaja-odnominaretnaja-mechet",
+    "code": 301
+  },
+  {
+    "from": "/kamennaja-odnominaretnaja-mechet.html",
+    "to": "/post/kamennaja-odnominaretnaja-mechet",
+    "code": 301
+  },
+  {
+    "from": "/14-derevjannaja-mechet.html",
+    "to": "/post/derevjannaja-mechet",
+    "code": 301
+  },
+  {
+    "from": "/derevjannaja-mechet.html",
+    "to": "/post/derevjannaja-mechet",
+    "code": 301
+  },
+  {
+    "from": "/15-mechet-tynybaja.html",
+    "to": "/post/mechet-tynybaja",
+    "code": 301
+  },
+  {
+    "from": "/mechet-tynybaja.html",
+    "to": "/post/mechet-tynybaja",
+    "code": 301
+  },
+  {
+    "from": "/16-voskresenskij-sobor.html",
+    "to": "/post/voskresenskij-sobor",
+    "code": 301
+  },
+  {
+    "from": "/voskresenskij-sobor.html",
+    "to": "/post/voskresenskij-sobor",
+    "code": 301
+  },
+  {
+    "from": "/17-chasovnja.html",
+    "to": "/post/chasovnja",
+    "code": 301
+  },
+  {
+    "from": "/chasovnja.html",
+    "to": "/post/chasovnja",
+    "code": 301
+  },
+  {
+    "from": "/18-zhenskij-monastyr.html",
+    "to": "/post/zhenskij-monastyr",
+    "code": 301
+  },
+  {
+    "from": "/zhenskij-monastyr.html",
+    "to": "/post/zhenskij-monastyr",
+    "code": 301
+  },
+  {
+    "from": "/19-akkolskoe-chudo.html",
+    "to": "/post/akkolskoe-chudo",
+    "code": 301
+  },
+  {
+    "from": "/akkolskoe-chudo.html",
+    "to": "/post/akkolskoe-chudo",
+    "code": 301
+  },
+  {
+    "from": "/20-muzej-abaja.html",
+    "to": "/post/muzej-abaja",
+    "code": 301
+  },
+  {
+    "from": "/muzej-abaja.html",
+    "to": "/post/muzej-abaja",
+    "code": 301
+  },
+  {
+    "from": "/21-oblastnoj-kraevedcheskij-muzej.html",
+    "to": "/post/oblastnoj-kraevedcheskij-muzej",
+    "code": 301
+  },
+  {
+    "from": "/oblastnoj-kraevedcheskij-muzej.html",
+    "to": "/post/oblastnoj-kraevedcheskij-muzej",
+    "code": 301
+  },
+  {
+    "from": "/22-muzej-izobrazitelnyh-iskusstv-imeni-semi-nevzorovyh.html",
+    "to": "/post/muzej-izobrazitelnyh-iskusstv-imeni-semi-nevzorovyh",
+    "code": 301
+  },
+  {
+    "from": "/muzej-izobrazitelnyh-iskusstv-imeni-semi-nevzorovyh.html",
+    "to": "/post/muzej-izobrazitelnyh-iskusstv-imeni-semi-nevzorovyh",
+    "code": 301
+  },
+  {
+    "from": "/23-muzej-fmdostoevskogo.html",
+    "to": "/post/muzej-fmdostoevskogo",
+    "code": 301
+  },
+  {
+    "from": "/muzej-fmdostoevskogo.html",
+    "to": "/post/muzej-fmdostoevskogo",
+    "code": 301
+  },
+  {
+    "from": "/24-abaj-kunanbaev.html",
+    "to": "/post/abaj-kunanbaev",
+    "code": 301
+  },
+  {
+    "from": "/abaj-kunanbaev.html",
+    "to": "/post/abaj-kunanbaev",
+    "code": 301
+  },
+  {
+    "from": "/25-muhtar-aujezov.html",
+    "to": "/post/muhtar-aujezov",
+    "code": 301
+  },
+  {
+    "from": "/muhtar-aujezov.html",
+    "to": "/post/muhtar-aujezov",
+    "code": 301
+  },
+  {
+    "from": "/26-alihan-bukejhanov.html",
+    "to": "/post/alihan-bukejhanov",
+    "code": 301
+  },
+  {
+    "from": "/alihan-bukejhanov.html",
+    "to": "/post/alihan-bukejhanov",
+    "code": 301
+  },
+  {
+    "from": "/27-kabanbaj-batyr.html",
+    "to": "/post/kabanbaj-batyr",
+    "code": 301
+  },
+  {
+    "from": "/kabanbaj-batyr.html",
+    "to": "/post/kabanbaj-batyr",
+    "code": 301
+  },
+  {
+    "from": "/28-vagon-smerti.html",
+    "to": "/post/vagon-smerti",
+    "code": 301
+  },
+  {
+    "from": "/vagon-smerti.html",
+    "to": "/post/vagon-smerti",
+    "code": 301
+  },
+  {
+    "from": "/29-memorial-voinam-internacionalistam.html",
+    "to": "/post/memorial-voinam-internacionalistam",
+    "code": 301
+  },
+  {
+    "from": "/memorial-voinam-internacionalistam.html",
+    "to": "/post/memorial-voinam-internacionalistam",
+    "code": 301
+  },
+  {
+    "from": "/30-park-pobedy.html",
+    "to": "/post/park-pobedy",
+    "code": 301
+  },
+  {
+    "from": "/park-pobedy.html",
+    "to": "/post/park-pobedy",
+    "code": 301
+  },
+  {
+    "from": "/31-kajrat-ryskulbekov.html",
+    "to": "/post/kajrat-ryskulbekov",
+    "code": 301
+  },
+  {
+    "from": "/kajrat-ryskulbekov.html",
+    "to": "/post/kajrat-ryskulbekov",
+    "code": 301
+  },
+  {
+    "from": "/32-stela-k-jubileju-goroda.html",
+    "to": "/post/stela-k-jubileju-goroda",
+    "code": 301
+  },
+  {
+    "from": "/stela-k-jubileju-goroda.html",
+    "to": "/post/stela-k-jubileju-goroda",
+    "code": 301
+  },
+  {
+    "from": "/33-shakarim-kudajberdiev-ot-bjusta-do-pamjatnika.html",
+    "to": "/post/shakarim-kudajberdiev-ot-bjusta-do-pamjatnika",
+    "code": 301
+  },
+  {
+    "from": "/shakarim-kudajberdiev-ot-bjusta-do-pamjatnika.html",
+    "to": "/post/shakarim-kudajberdiev-ot-bjusta-do-pamjatnika",
+    "code": 301
+  },
+  {
+    "from": "/34-fedor-dostoevskij-i-chokan-valihanov.html",
+    "to": "/post/fedor-dostoevskij-i-chokan-valihanov",
+    "code": 301
+  },
+  {
+    "from": "/fedor-dostoevskij-i-chokan-valihanov.html",
+    "to": "/post/fedor-dostoevskij-i-chokan-valihanov",
+    "code": 301
+  },
+  {
+    "from": "/35-silnee-smerti-i-stela-mira.html",
+    "to": "/post/silnee-smerti-i-stela-mira",
+    "code": 301
+  },
+  {
+    "from": "/silnee-smerti-i-stela-mira.html",
+    "to": "/post/silnee-smerti-i-stela-mira",
+    "code": 301
+  },
+  {
+    "from": "/36-amre-kashaubaev.html",
+    "to": "/post/amre-kashaubaev",
+    "code": 301
+  },
+  {
+    "from": "/amre-kashaubaev.html",
+    "to": "/post/amre-kashaubaev",
+    "code": 301
+  },
+  {
+    "from": "/37-kajym-muhamedhanov.html",
+    "to": "/post/kajym-muhamedhanov",
+    "code": 301
+  },
+  {
+    "from": "/kajym-muhamedhanov.html",
+    "to": "/post/kajym-muhamedhanov",
+    "code": 301
+  },
+  {
+    "from": "/38-uchitel-i-uchenik.html",
+    "to": "/post/uchitel-i-uchenik",
+    "code": 301
+  },
+  {
+    "from": "/uchitel-i-uchenik.html",
+    "to": "/post/uchitel-i-uchenik",
+    "code": 301
+  },
+  {
+    "from": "/39-pamjatnik-kazahstanskoj-metrologii.html",
+    "to": "/post/pamjatnik-kazahstanskoj-metrologii",
+    "code": 301
+  },
+  {
+    "from": "/pamjatnik-kazahstanskoj-metrologii.html",
+    "to": "/post/pamjatnik-kazahstanskoj-metrologii",
+    "code": 301
+  },
+  {
+    "from": "/40-bratskaja-mogila-v-parke.html",
+    "to": "/post/bratskaja-mogila-v-parke",
+    "code": 301
+  },
+  {
+    "from": "/bratskaja-mogila-v-parke.html",
+    "to": "/post/bratskaja-mogila-v-parke",
+    "code": 301
+  },
+  {
+    "from": "/41-mogila-sabita-donentaeva.html",
+    "to": "/post/mogila-sabita-donentaeva",
+    "code": 301
+  },
+  {
+    "from": "/mogila-sabita-donentaeva.html",
+    "to": "/post/mogila-sabita-donentaeva",
+    "code": 301
+  },
+  {
+    "from": "/42-memorial-v-chest-pogibshih-pozharnyh.html",
+    "to": "/post/memorial-v-chest-pogibshih-pozharnyh",
+    "code": 301
+  },
+  {
+    "from": "/memorial-v-chest-pogibshih-pozharnyh.html",
+    "to": "/post/memorial-v-chest-pogibshih-pozharnyh",
+    "code": 301
+  },
+  {
+    "from": "/43-obelisk-pogibshim-soldatam.html",
+    "to": "/post/obelisk-pogibshim-soldatam",
+    "code": 301
+  },
+  {
+    "from": "/obelisk-pogibshim-soldatam.html",
+    "to": "/post/obelisk-pogibshim-soldatam",
+    "code": 301
+  },
+  {
+    "from": "/44-pamjatnik-na-starom-kladbische.html",
+    "to": "/post/pamjatnik-na-starom-kladbische",
+    "code": 301
+  },
+  {
+    "from": "/pamjatnik-na-starom-kladbische.html",
+    "to": "/post/pamjatnik-na-starom-kladbische",
+    "code": 301
+  },
+  {
+    "from": "/45-pamjatnik-voinam-vov.html",
+    "to": "/post/pamjatnik-voinam-vov",
+    "code": 301
+  },
+  {
+    "from": "/pamjatnik-voinam-vov.html",
+    "to": "/post/pamjatnik-voinam-vov",
+    "code": 301
+  },
+  {
+    "from": "/46-ozero-alakol.html",
+    "to": "/post/ozero-alakol",
+    "code": 301
+  },
+  {
+    "from": "/ozero-alakol.html",
+    "to": "/post/ozero-alakol",
+    "code": 301
+  },
+  {
+    "from": "/47-ozero-shipaly.html",
+    "to": "/post/ozero-shipaly",
+    "code": 301
+  },
+  {
+    "from": "/ozero-shipaly.html",
+    "to": "/post/ozero-shipaly",
+    "code": 301
+  },
+  {
+    "from": "/48-legendarnaja-peschera-konyr-aulie.html",
+    "to": "/post/legendarnaja-peschera-konyr-aulie",
+    "code": 301
+  },
+  {
+    "from": "/legendarnaja-peschera-konyr-aulie.html",
+    "to": "/post/legendarnaja-peschera-konyr-aulie",
+    "code": 301
+  },
+  {
+    "from": "/49-ostrov-bejbitshilik.html",
+    "to": "/post/ostrov-bejbitshilik",
+    "code": 301
+  },
+  {
+    "from": "/ostrov-bejbitshilik.html",
+    "to": "/post/ostrov-bejbitshilik",
+    "code": 301
+  },
+  {
+    "from": "/50-reka-irtysh.html",
+    "to": "/post/reka-irtysh",
+    "code": 301
+  },
+  {
+    "from": "/reka-irtysh.html",
+    "to": "/post/reka-irtysh",
+    "code": 301
+  },
+  {
+    "from": "/51-sosnovyj-bor.html",
+    "to": "/post/sosnovyj-bor",
+    "code": 301
+  },
+  {
+    "from": "/sosnovyj-bor.html",
+    "to": "/post/sosnovyj-bor",
+    "code": 301
+  },
+  {
+    "from": "/52-park-tarbagataj.html",
+    "to": "/post/park-tarbagataj",
+    "code": 301
+  },
+  {
+    "from": "/park-tarbagataj.html",
+    "to": "/post/park-tarbagataj",
+    "code": 301
+  },
+  {
+    "from": "/53-svjatoj-kljuch.html",
+    "to": "/post/svjatoj-kljuch",
+    "code": 301
+  },
+  {
+    "from": "/svjatoj-kljuch.html",
+    "to": "/post/svjatoj-kljuch",
+    "code": 301
+  },
+  {
+    "from": "/54-ozero-alakol.html",
+    "to": "/post/ozero-alakol",
+    "code": 301
+  },
+  {
+    "from": "/ozero-alakol.html",
+    "to": "/post/ozero-alakol",
+    "code": 301
+  },
+  {
+    "from": "/55-ozero-shipaly.html",
+    "to": "/post/ozero-shipaly",
+    "code": 301
+  },
+  {
+    "from": "/ozero-shipaly.html",
+    "to": "/post/ozero-shipaly",
+    "code": 301
+  },
+  {
+    "from": "/56-zhidebaj.html",
+    "to": "/post/zhidebaj",
+    "code": 301
+  },
+  {
+    "from": "/zhidebaj.html",
+    "to": "/post/zhidebaj",
+    "code": 301
+  },
+  {
+    "from": "/57-peschera-konyr-aulie.html",
+    "to": "/post/peschera-konyr-aulie",
+    "code": 301
+  },
+  {
+    "from": "/peschera-konyr-aulie.html",
+    "to": "/post/peschera-konyr-aulie",
+    "code": 301
+  },
+  {
+    "from": "/58-muzej-alash-arystary-muhtar-aujezov.html",
+    "to": "/post/muzej-alash-arystary-muhtar-aujezov",
+    "code": 301
+  },
+  {
+    "from": "/muzej-alash-arystary-muhtar-aujezov.html",
+    "to": "/post/muzej-alash-arystary-muhtar-aujezov",
+    "code": 301
+  },
+  {
+    "from": "/59-monument-silnee-smerti.html",
+    "to": "/post/monument-silnee-smerti",
+    "code": 301
+  },
+  {
+    "from": "/monument-silnee-smerti.html",
+    "to": "/post/monument-silnee-smerti",
+    "code": 301
+  },
+  {
+    "from": "/60-muzej-f-dostoevskogo.html",
+    "to": "/post/muzej-f-dostoevskogo",
+    "code": 301
+  },
+  {
+    "from": "/muzej-f-dostoevskogo.html",
+    "to": "/post/muzej-f-dostoevskogo",
+    "code": 301
+  },
+  {
+    "from": "/61-alakol.html",
+    "to": "/post/alakol",
+    "code": 301
+  },
+  {
+    "from": "/alakol.html",
+    "to": "/post/alakol",
+    "code": 301
+  },
+  {
+    "from": "/62-kozy-korpesha-i-bajan-sulu.html",
+    "to": "/post/kozy-korpesha-i-bajan-sulu",
+    "code": 301
+  },
+  {
+    "from": "/kozy-korpesha-i-bajan-sulu.html",
+    "to": "/post/kozy-korpesha-i-bajan-sulu",
+    "code": 301
+  },
+  {
+    "from": "/63-mavzolej-yrgyzbaj-ata.html",
+    "to": "/post/mavzolej-yrgyzbaj-ata",
+    "code": 301
+  },
+  {
+    "from": "/mavzolej-yrgyzbaj-ata.html",
+    "to": "/post/mavzolej-yrgyzbaj-ata",
+    "code": 301
+  },
+  {
+    "from": "/64-er-zhanibek.html",
+    "to": "/post/er-zhanibek",
+    "code": 301
+  },
+  {
+    "from": "/er-zhanibek.html",
+    "to": "/post/er-zhanibek",
+    "code": 301
+  },
+  {
+    "from": "/66-new-old.html",
+    "to": "/post/new-old",
+    "code": 301
+  },
+  {
+    "from": "/new-old.html",
+    "to": "/post/new-old",
+    "code": 301
+  },
+  {
+    "from": "/67-shynarym-meni-shyrajlym-meni.html",
+    "to": "/post/shynarym-meni-shyrajlym-meni",
+    "code": 301
+  },
+  {
+    "from": "/shynarym-meni-shyrajlym-meni.html",
+    "to": "/post/shynarym-meni-shyrajlym-meni",
+    "code": 301
+  },
+  {
+    "from": "/68-kurchatov.html",
+    "to": "/post/kurchatov",
+    "code": 301
+  },
+  {
+    "from": "/kurchatov.html",
+    "to": "/post/kurchatov",
+    "code": 301
+  },
+  {
+    "from": "/69-1rodina-abaja.html",
+    "to": "/post/1rodina-abaja",
+    "code": 301
+  },
+  {
+    "from": "/1rodina-abaja.html",
+    "to": "/post/1rodina-abaja",
+    "code": 301
+  },
+  {
+    "from": "/70-2-semej-istoricheskij-centr-kazahstana.html",
+    "to": "/post/2-semej-istoricheskij-centr-kazahstana",
+    "code": 301
+  },
+  {
+    "from": "/2-semej-istoricheskij-centr-kazahstana.html",
+    "to": "/post/2-semej-istoricheskij-centr-kazahstana",
+    "code": 301
+  },
+  {
+    "from": "/71-3prikosnutsja-k-iskusstvu.html",
+    "to": "/post/3prikosnutsja-k-iskusstvu",
+    "code": 301
+  },
+  {
+    "from": "/3prikosnutsja-k-iskusstvu.html",
+    "to": "/post/3prikosnutsja-k-iskusstvu",
+    "code": 301
+  },
+  {
+    "from": "/72-4-zdes-zhil-fedor-dostoevskij.html",
+    "to": "/post/4-zdes-zhil-fedor-dostoevskij",
+    "code": 301
+  },
+  {
+    "from": "/4-zdes-zhil-fedor-dostoevskij.html",
+    "to": "/post/4-zdes-zhil-fedor-dostoevskij",
+    "code": 301
+  },
+  {
+    "from": "/73-5-ozera-kotorye-lechat.html",
+    "to": "/post/5-ozera-kotorye-lechat",
+    "code": 301
+  },
+  {
+    "from": "/5-ozera-kotorye-lechat.html",
+    "to": "/post/5-ozera-kotorye-lechat",
+    "code": 301
+  },
+  {
+    "from": "/74-6-lesa-peschery-i-reki.html",
+    "to": "/post/6-lesa-peschery-i-reki",
+    "code": 301
+  },
+  {
+    "from": "/6-lesa-peschery-i-reki.html",
+    "to": "/post/6-lesa-peschery-i-reki",
+    "code": 301
+  },
+  {
+    "from": "/75-7-kurchatov-gorod-jaderschikov.html",
+    "to": "/post/7-kurchatov-gorod-jaderschikov",
+    "code": 301
+  },
+  {
+    "from": "/7-kurchatov-gorod-jaderschikov.html",
+    "to": "/post/7-kurchatov-gorod-jaderschikov",
+    "code": 301
+  },
+  {
+    "from": "/76-muzej-abaja-pervyj-literaturno-memorialnyj-muzej-kazahstana.html",
+    "to": "/post/muzej-abaja-pervyj-literaturno-memorialnyj-muzej-kazahstana",
+    "code": 301
+  },
+  {
+    "from": "/muzej-abaja-pervyj-literaturno-memorialnyj-muzej-kazahstana.html",
+    "to": "/post/muzej-abaja-pervyj-literaturno-memorialnyj-muzej-kazahstana",
+    "code": 301
+  },
+  {
+    "from": "/77-medrese-ahmeta-riza.html",
+    "to": "/post/medrese-ahmeta-riza",
+    "code": 301
+  },
+  {
+    "from": "/medrese-ahmeta-riza.html",
+    "to": "/post/medrese-ahmeta-riza",
+    "code": 301
+  },
+  {
+    "from": "/78-kushikbaj-batyr.html",
+    "to": "/post/kushikbaj-batyr",
+    "code": 301
+  },
+  {
+    "from": "/kushikbaj-batyr.html",
+    "to": "/post/kushikbaj-batyr",
+    "code": 301
+  },
+  {
+    "from": "/79-borili.html",
+    "to": "/post/borili",
+    "code": 301
+  },
+  {
+    "from": "/borili.html",
+    "to": "/post/borili",
+    "code": 301
+  },
+  {
+    "from": "/80-enlik-kebek.html",
+    "to": "/post/enlik-kebek",
+    "code": 301
+  },
+  {
+    "from": "/enlik-kebek.html",
+    "to": "/post/enlik-kebek",
+    "code": 301
+  },
+  {
+    "from": "/81-zhidebaj.html",
+    "to": "/post/zhidebaj",
+    "code": 301
+  },
+  {
+    "from": "/zhidebaj.html",
+    "to": "/post/zhidebaj",
+    "code": 301
+  },
+  {
+    "from": "/82-konyr-aulie.html",
+    "to": "/post/konyr-aulie",
+    "code": 301
+  },
+  {
+    "from": "/konyr-aulie.html",
+    "to": "/post/konyr-aulie",
+    "code": 301
+  },
+  {
+    "from": "/83-muzej-ohotnichij-domik-shakarima.html",
+    "to": "/post/muzej-ohotnichij-domik-shakarima",
+    "code": 301
+  },
+  {
+    "from": "/muzej-ohotnichij-domik-shakarima.html",
+    "to": "/post/muzej-ohotnichij-domik-shakarima",
+    "code": 301
+  },
+  {
+    "from": "/84-muzej-kunanbaja.html",
+    "to": "/post/muzej-kunanbaja",
+    "code": 301
+  },
+  {
+    "from": "/muzej-kunanbaja.html",
+    "to": "/post/muzej-kunanbaja",
+    "code": 301
+  },
+  {
+    "from": "/85-dom-muzej-pojeta-shakira-abenova.html",
+    "to": "/post/dom-muzej-pojeta-shakira-abenova",
+    "code": 301
+  },
+  {
+    "from": "/dom-muzej-pojeta-shakira-abenova.html",
+    "to": "/post/dom-muzej-pojeta-shakira-abenova",
+    "code": 301
+  },
+  {
+    "from": "/86-muzej-kokbaja-zhanataeva.html",
+    "to": "/post/muzej-kokbaja-zhanataeva",
+    "code": 301
+  },
+  {
+    "from": "/muzej-kokbaja-zhanataeva.html",
+    "to": "/post/muzej-kokbaja-zhanataeva",
+    "code": 301
+  },
+  {
+    "from": "/87-3d.html",
+    "to": "/post/3d",
+    "code": 301
+  },
+  {
+    "from": "/3d.html",
+    "to": "/post/3d",
+    "code": 301
+  },
+  {
+    "from": "/88-3d-tur.html",
+    "to": "/post/3d-tur",
+    "code": 301
+  },
+  {
+    "from": "/3d-tur.html",
+    "to": "/post/3d-tur",
+    "code": 301
+  },
+  {
+    "from": "/89-abai-eli-brand.html",
+    "to": "/post/abai-eli-brand",
+    "code": 301
+  },
+  {
+    "from": "/abai-eli-brand.html",
+    "to": "/post/abai-eli-brand",
+    "code": 301
+  },
+  {
+    "from": "/90-muzej-zapovednik-abaja-zhidebaj-brili.html",
+    "to": "/post/muzej-zapovednik-abaja-zhidebaj-brili",
+    "code": 301
+  },
+  {
+    "from": "/muzej-zapovednik-abaja-zhidebaj-brili.html",
+    "to": "/post/muzej-zapovednik-abaja-zhidebaj-brili",
+    "code": 301
+  },
+  {
+    "from": "/91-muzej-izobrazitelnyh-iskusstv-imeni-semi-nevzorovyh.html",
+    "to": "/post/muzej-izobrazitelnyh-iskusstv-imeni-semi-nevzorovyh",
+    "code": 301
+  },
+  {
+    "from": "/muzej-izobrazitelnyh-iskusstv-imeni-semi-nevzorovyh.html",
+    "to": "/post/muzej-izobrazitelnyh-iskusstv-imeni-semi-nevzorovyh",
+    "code": 301
+  },
+  {
+    "from": "/92-azhaldan-da-kshti-memorialy.html",
+    "to": "/post/azhaldan-da-kshti-memorialy",
+    "code": 301
+  },
+  {
+    "from": "/azhaldan-da-kshti-memorialy.html",
+    "to": "/post/azhaldan-da-kshti-memorialy",
+    "code": 301
+  },
+  {
+    "from": "/93-oblastnoj-istoriko-kraevedcheskij-muzej.html",
+    "to": "/post/oblastnoj-istoriko-kraevedcheskij-muzej",
+    "code": 301
+  },
+  {
+    "from": "/oblastnoj-istoriko-kraevedcheskij-muzej.html",
+    "to": "/post/oblastnoj-istoriko-kraevedcheskij-muzej",
+    "code": 301
+  },
+  {
+    "from": "/94-literaturno-memorialnyj-muzej-fm-dostoevskogo.html",
+    "to": "/post/literaturno-memorialnyj-muzej-fm-dostoevskogo",
+    "code": 301
+  },
+  {
+    "from": "/literaturno-memorialnyj-muzej-fm-dostoevskogo.html",
+    "to": "/post/literaturno-memorialnyj-muzej-fm-dostoevskogo",
+    "code": 301
+  },
+  {
+    "from": "/95-ozy-krpesh-bajan-slu-kesenesi.html",
+    "to": "/post/ozy-krpesh-bajan-slu-kesenesi",
+    "code": 301
+  },
+  {
+    "from": "/ozy-krpesh-bajan-slu-kesenesi.html",
+    "to": "/post/ozy-krpesh-bajan-slu-kesenesi",
+    "code": 301
+  },
+  {
+    "from": "/96-yryzbaj-ata-kesenesi.html",
+    "to": "/post/yryzbaj-ata-kesenesi",
+    "code": 301
+  },
+  {
+    "from": "/yryzbaj-ata-kesenesi.html",
+    "to": "/post/yryzbaj-ata-kesenesi",
+    "code": 301
+  },
+  {
+    "from": "/97-asabaj-batyr.html",
+    "to": "/post/asabaj-batyr",
+    "code": 301
+  },
+  {
+    "from": "/asabaj-batyr.html",
+    "to": "/post/asabaj-batyr",
+    "code": 301
+  },
+  {
+    "from": "/98-elik-kebek-eskertkishi.html",
+    "to": "/post/elik-kebek-eskertkishi",
+    "code": 301
+  },
+  {
+    "from": "/elik-kebek-eskertkishi.html",
+    "to": "/post/elik-kebek-eskertkishi",
+    "code": 301
+  },
+  {
+    "from": "/99-ashoy.html",
+    "to": "/post/ashoy",
+    "code": 301
+  },
+  {
+    "from": "/ashoy.html",
+    "to": "/post/ashoy",
+    "code": 301
+  },
+  {
+    "from": "/100-tinibaj-kukenly-meshiti.html",
+    "to": "/post/tinibaj-kukenly-meshiti",
+    "code": 301
+  },
+  {
+    "from": "/tinibaj-kukenly-meshiti.html",
+    "to": "/post/tinibaj-kukenly-meshiti",
+    "code": 301
+  },
+  {
+    "from": "/101-akkl-meshiti.html",
+    "to": "/post/akkl-meshiti",
+    "code": 301
+  },
+  {
+    "from": "/akkl-meshiti.html",
+    "to": "/post/akkl-meshiti",
+    "code": 301
+  },
+  {
+    "from": "/102-oyr-ulie-giri.html",
+    "to": "/post/oyr-ulie-giri",
+    "code": 301
+  },
+  {
+    "from": "/oyr-ulie-giri.html",
+    "to": "/post/oyr-ulie-giri",
+    "code": 301
+  },
+  {
+    "from": "/103-kshikbaj-batyr-bejiti.html",
+    "to": "/post/kshikbaj-batyr-bejiti",
+    "code": 301
+  },
+  {
+    "from": "/kshikbaj-batyr-bejiti.html",
+    "to": "/post/kshikbaj-batyr-bejiti",
+    "code": 301
+  },
+  {
+    "from": "/104-elik-kebek-giri.html",
+    "to": "/post/elik-kebek-giri",
+    "code": 301
+  },
+  {
+    "from": "/elik-kebek-giri.html",
+    "to": "/post/elik-kebek-giri",
+    "code": 301
+  },
+  {
+    "from": "/105-oyr-ulie.html",
+    "to": "/post/oyr-ulie",
+    "code": 301
+  },
+  {
+    "from": "/oyr-ulie.html",
+    "to": "/post/oyr-ulie",
+    "code": 301
+  },
+  {
+    "from": "/106-boranbaj-bi-kesenesi.html",
+    "to": "/post/boranbaj-bi-kesenesi",
+    "code": 301
+  },
+  {
+    "from": "/boranbaj-bi-kesenesi.html",
+    "to": "/post/boranbaj-bi-kesenesi",
+    "code": 301
+  },
+  {
+    "from": "/107-alash-arystary-muzej.html",
+    "to": "/post/alash-arystary-muzej",
+    "code": 301
+  },
+  {
+    "from": "/alash-arystary-muzej.html",
+    "to": "/post/alash-arystary-muzej",
+    "code": 301
+  },
+  {
+    "from": "/108-rooms-hotel-semey.html",
+    "to": "/post/rooms-hotel-semey",
+    "code": 301
+  },
+  {
+    "from": "/rooms-hotel-semey.html",
+    "to": "/post/rooms-hotel-semey",
+    "code": 301
+  },
+  {
+    "from": "/109-aksuatskij-rajon.html",
+    "to": "/post/aksuatskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/aksuatskij-rajon.html",
+    "to": "/post/aksuatskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/110-ajagozskij-rajon.html",
+    "to": "/post/ajagozskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/ajagozskij-rajon.html",
+    "to": "/post/ajagozskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/111-beskaragajskij-rajon.html",
+    "to": "/post/beskaragajskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/beskaragajskij-rajon.html",
+    "to": "/post/beskaragajskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/112-borodulihinskij-rajon.html",
+    "to": "/post/borodulihinskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/borodulihinskij-rajon.html",
+    "to": "/post/borodulihinskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/113-zhanasemejskij-rajon.html",
+    "to": "/post/zhanasemejskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/zhanasemejskij-rajon.html",
+    "to": "/post/zhanasemejskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/114-zharminskij-rajon.html",
+    "to": "/post/zharminskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/zharminskij-rajon.html",
+    "to": "/post/zharminskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/115-kokpektinskij-rajon.html",
+    "to": "/post/kokpektinskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/kokpektinskij-rajon.html",
+    "to": "/post/kokpektinskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/116-makanchinskij-rajon.html",
+    "to": "/post/makanchinskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/makanchinskij-rajon.html",
+    "to": "/post/makanchinskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/117-abajskij-rajon.html",
+    "to": "/post/abajskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/abajskij-rajon.html",
+    "to": "/post/abajskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/118-urdzharskij-rajon.html",
+    "to": "/post/urdzharskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/urdzharskij-rajon.html",
+    "to": "/post/urdzharskij-rajon",
+    "code": 301
+  },
+  {
+    "from": "/119-kak-pojavilas-oblast-abaj.html",
+    "to": "/post/kak-pojavilas-oblast-abaj",
+    "code": 301
+  },
+  {
+    "from": "/kak-pojavilas-oblast-abaj.html",
+    "to": "/post/kak-pojavilas-oblast-abaj",
+    "code": 301
+  },
+  {
+    "from": "/120-teatr.html",
+    "to": "/post/teatr",
+    "code": 301
+  },
+  {
+    "from": "/teatr.html",
+    "to": "/post/teatr",
+    "code": 301
+  },
+  {
+    "from": "/121-biblioteka-imeni-abaj.html",
+    "to": "/post/biblioteka-imeni-abaj",
+    "code": 301
+  },
+  {
+    "from": "/biblioteka-imeni-abaj.html",
+    "to": "/post/biblioteka-imeni-abaj",
+    "code": 301
+  },
+  {
+    "from": "/122-centralnaja-biblioteka.html",
+    "to": "/post/centralnaja-biblioteka",
+    "code": 301
+  },
+  {
+    "from": "/centralnaja-biblioteka.html",
+    "to": "/post/centralnaja-biblioteka",
+    "code": 301
+  },
+  {
+    "from": "/123-biblioteka-dlja-nezrjachih.html",
+    "to": "/post/biblioteka-dlja-nezrjachih",
+    "code": 301
+  },
+  {
+    "from": "/biblioteka-dlja-nezrjachih.html",
+    "to": "/post/biblioteka-dlja-nezrjachih",
+    "code": 301
+  },
+  {
+    "from": "/124-ulica-abaja.html",
+    "to": "/post/ulica-abaja",
+    "code": 301
+  },
+  {
+    "from": "/ulica-abaja.html",
+    "to": "/post/ulica-abaja",
+    "code": 301
+  },
+  {
+    "from": "/125-tatarskaja-slobodka.html",
+    "to": "/post/tatarskaja-slobodka",
+    "code": 301
+  },
+  {
+    "from": "/tatarskaja-slobodka.html",
+    "to": "/post/tatarskaja-slobodka",
+    "code": 301
+  },
+  {
+    "from": "/126-ot-muzeev-do-pozharnoj-kalanchi.html",
+    "to": "/post/ot-muzeev-do-pozharnoj-kalanchi",
+    "code": 301
+  },
+  {
+    "from": "/ot-muzeev-do-pozharnoj-kalanchi.html",
+    "to": "/post/ot-muzeev-do-pozharnoj-kalanchi",
+    "code": 301
+  },
+  {
+    "from": "/127-istoricheskij-perekrestok.html",
+    "to": "/post/istoricheskij-perekrestok",
+    "code": 301
+  },
+  {
+    "from": "/istoricheskij-perekrestok.html",
+    "to": "/post/istoricheskij-perekrestok",
+    "code": 301
+  },
+  {
+    "from": "/128-300-metrov-evropy.html",
+    "to": "/post/300-metrov-evropy",
+    "code": 301
+  },
+  {
+    "from": "/300-metrov-evropy.html",
+    "to": "/post/300-metrov-evropy",
+    "code": 301
+  },
+  {
+    "from": "/129-seven-city-apartments.html",
+    "to": "/post/seven-city-apartments",
+    "code": 301
+  },
+  {
+    "from": "/seven-city-apartments.html",
+    "to": "/post/seven-city-apartments",
+    "code": 301
+  },
+  {
+    "from": "/130-terrenkur-boutique-hotel.html",
+    "to": "/post/terrenkur-boutique-hotel",
+    "code": 301
+  },
+  {
+    "from": "/terrenkur-boutique-hotel.html",
+    "to": "/post/terrenkur-boutique-hotel",
+    "code": 301
+  },
+  {
+    "from": "/131-resident-hotel-abay.html",
+    "to": "/post/resident-hotel-abay",
+    "code": 301
+  },
+  {
+    "from": "/resident-hotel-abay.html",
+    "to": "/post/resident-hotel-abay",
+    "code": 301
+  },
+  {
+    "from": "/132-urban-yurt.html",
+    "to": "/post/urban-yurt",
+    "code": 301
+  },
+  {
+    "from": "/urban-yurt.html",
+    "to": "/post/urban-yurt",
+    "code": 301
+  },
+  {
+    "from": "/133-glownest-apartment-near-mega.html",
+    "to": "/post/glownest-apartment-near-mega",
+    "code": 301
+  },
+  {
+    "from": "/glownest-apartment-near-mega.html",
+    "to": "/post/glownest-apartment-near-mega",
+    "code": 301
+  },
+  {
+    "from": "/134-apart-hotel-colibri.html",
+    "to": "/post/apart-hotel-colibri",
+    "code": 301
+  },
+  {
+    "from": "/apart-hotel-colibri.html",
+    "to": "/post/apart-hotel-colibri",
+    "code": 301
+  },
+  {
+    "from": "/135-sun-house.html",
+    "to": "/post/sun-house",
+    "code": 301
+  },
+  {
+    "from": "/sun-house.html",
+    "to": "/post/sun-house",
+    "code": 301
+  },
+  {
+    "from": "/136-sun-rise.html",
+    "to": "/post/sun-rise",
+    "code": 301
+  },
+  {
+    "from": "/sun-rise.html",
+    "to": "/post/sun-rise",
+    "code": 301
+  },
+  {
+    "from": "/137-alakol-family-club.html",
+    "to": "/post/alakol-family-club",
+    "code": 301
+  },
+  {
+    "from": "/alakol-family-club.html",
+    "to": "/post/alakol-family-club",
+    "code": 301
+  },
+  {
+    "from": "/популярные-места/",
+    "to": "/category/популярные-места",
+    "code": 301
+  },
+  {
+    "from": "/sobytija-v-blizhajshie-dni/",
+    "to": "/category/sobytija-v-blizhajshie-dni",
+    "code": 301
+  },
+  {
+    "from": "/legend-mif/",
+    "to": "/category/legend-mif",
+    "code": 301
+  },
+  {
+    "from": "/marshruty-po-semeju/",
+    "to": "/category/marshruty-po-semeju",
+    "code": 301
+  },
+  {
+    "from": "/mecheti-i-cerkvi/",
+    "to": "/category/mecheti-i-cerkvi",
+    "code": 301
+  },
+  {
+    "from": "/muzei/",
+    "to": "/category/muzei",
+    "code": 301
+  },
+  {
+    "from": "/pamjatniki-i-obeliski-semeja/",
+    "to": "/category/pamjatniki-i-obeliski-semeja",
+    "code": 301
+  },
+  {
+    "from": "/pljazhnyi-turizm/",
+    "to": "/category/pljazhnyi-turizm",
+    "code": 301
+  },
+  {
+    "from": "/jekoturizm/",
+    "to": "/category/jekoturizm",
+    "code": 301
+  },
+  {
+    "from": "/dostoprimechatelnosti/",
+    "to": "/category/dostoprimechatelnosti",
+    "code": 301
+  },
+  {
+    "from": "/sakralnyi-turizm/",
+    "to": "/category/sakralnyi-turizm",
+    "code": 301
+  },
+  {
+    "from": "/staryj-novyj/",
+    "to": "/category/staryj-novyj",
+    "code": 301
+  },
+  {
+    "from": "/7-prichin-posetit-oblast-abaj/",
+    "to": "/category/7-prichin-posetit-oblast-abaj",
+    "code": 301
+  },
+  {
+    "from": "/abai-zholy/",
+    "to": "/category/abai-zholy",
+    "code": 301
+  },
+  {
+    "from": "/3d/",
+    "to": "/category/3d",
+    "code": 301
+  },
+  {
+    "from": "/hotels/",
+    "to": "/category/hotels",
+    "code": 301
+  },
+  {
+    "from": "/pamjatniki-oblasti-abaj/",
+    "to": "/category/pamjatniki-oblasti-abaj",
+    "code": 301
+  },
+  {
+    "from": "/oblast-abay/",
+    "to": "/category/oblast-abay",
+    "code": 301
+  },
+  {
+    "from": "/teatr/",
+    "to": "/category/teatr",
+    "code": 301
+  },
+  {
+    "from": "/biblioteki/",
+    "to": "/category/biblioteki",
+    "code": 301
+  },
+  {
+    "from": "/baza-otdyha-alakol/",
+    "to": "/category/baza-otdyha-alakol",
+    "code": 301
+  },
+  {
+    "from": "/index.php?do=static&page=dle-rules-page",
+    "to": "/page/dle-rules-page",
+    "code": 301
+  }
+]

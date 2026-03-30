@@ -1,0 +1,3 @@
+<?php
+include DLEPlugins::Check(ROOT_DIR . '/language/Russian/help.lng');
+?>

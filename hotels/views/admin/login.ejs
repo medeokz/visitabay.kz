@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход — Админ</title>
+  <link rel="stylesheet" href="<%= typeof basePath !== 'undefined' ? basePath : '' %>/css/style.css">
+</head>
+<body class="admin-page">
+  <div class="login-box">
+    <h1>Вход в панель управления</h1>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+    <%
+      var _loginAction = (typeof browserAdminBase !== 'undefined' && browserAdminBase)
+        ? String(browserAdminBase).replace(/\/$/, '') + '/login'
+        : (typeof basePath !== 'undefined' ? basePath : '') + '/admin/login';
+    %>
+    <form method="post" action="<%= _loginAction %>">
+      <label>Логин <input type="text" name="login" required autofocus></label>
+      <label>Пароль <input type="password" name="password" required></label>
+      <button type="submit">Войти</button>
+    </form>
+    <p style="margin-top: 1rem;"><a href="<%= typeof basePath !== 'undefined' ? basePath : '' %>/owner/register">Регистрация для владельцев гостиниц</a></p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<% var pg = (typeof menuFooter !== "undefined" && menuFooter && menuFooter.pages) ? menuFooter.pages : {}; %>
+<html lang="<%= lang === 'en' ? 'en' : lang === 'kk' ? 'kk' : 'ru' %>">
+<head>
+  <%- include("partials/head") %>
+  <title><%= pg.searchMetaTitle || "Search" %> — <%= pg.brandSuffix || "Visit Abay" %></title>
+</head>
+<body>
+  <%- include("partials/header") %>
+  <div class="container node-content">
+    <h1><%= pg.searchMetaTitle || "" %></h1>
+    <% if (!q) { %>
+      <p class="node-muted"><%= pg.searchPrompt || "" %></p>
+    <% } else { %>
+      <p class="node-muted"><%= pg.searchResultsPrefix || "" %> «<%= q %>»</p>
+      <% if (!posts.length) { %><p class="node-message"><%= pg.searchNothing || "" %></p><% } %>
+      <div class="node-grid">
+        <% posts.forEach(function(p){ %>
+          <article class="node-card">
+            <% if (p.poster) { %><img class="node-card-image" src="<%= p.poster %>" alt=""><% } %>
+            <div class="node-card-body">
+              <h3><a href="/post/<%= p.alt_name %>"><%= p.title %></a></h3>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+  <%- include("partials/footer") %>
+</body>
+</html>

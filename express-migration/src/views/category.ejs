@@ -1,0 +1,105 @@
+<!doctype html>
+<% var pg = (typeof menuFooter !== "undefined" && menuFooter && menuFooter.pages) ? menuFooter.pages : {}; %>
+<% var bp = (typeof basePath === "string" && basePath) ? basePath : ""; %>
+<% var isCat3d = category && String(category.alt_name) === "3d"; %>
+<% var tourRows = isCat3d && typeof tours3d !== "undefined" && tours3d ? tours3d : []; %>
+<% function absAsset(u) { if (!u) return ""; var s = String(u).trim(); if (/^https?:\/\//i.test(s)) return s; return (bp || "") + (s.charAt(0) === "/" ? s : "/" + s); } %>
+<html lang="<%= lang === 'en' ? 'en' : lang === 'kk' ? 'kk' : 'ru' %>">
+<head>
+  <%- include("partials/head") %>
+  <title><%= category.name %> — <%= pg.brandSuffix || "Visit Abay" %></title>
+</head>
+<body>
+  <div class="wrapper">
+  <%- include("partials/header") %>
+  <% if (categoryKind === "hotels" || categoryKind === "alakol") { %>
+    <div class="container node-content">
+      <p class="node-back"><a href="<%= bp %>/"><%= pg.backHome || "←" %></a></p>
+      <h1><%= category.name %></h1>
+
+      <% if (categoryKind === "hotels") { %>
+        <p class="node-muted"><%= pg.categoryHotelsIntro || "" %></p>
+        <div class="m-chips"><span class="m-chip"><%= pg.chipAll || "" %></span><span class="m-chip"><%= pg.chipCenter || "" %></span><span class="m-chip"><%= pg.chipEmbankment || "" %></span><span class="m-chip"><%= pg.chipFamily || "" %></span><span class="m-chip"><%= pg.chipBusiness || "" %></span></div>
+      <% } %>
+      <% if (categoryKind === "alakol") { %>
+        <p class="node-muted"><%= pg.categoryAlakolIntro || "" %></p>
+      <% } %>
+
+      <% if (!posts || !posts.length) { %>
+        <p class="node-message"><%= pg.categoryEmpty || "" %></p>
+      <% } %>
+
+      <div class="node-grid">
+        <% (posts || []).forEach(function(post) { %>
+          <article class="node-card">
+            <% if (post.poster) { %><img class="node-card-image" src="<%= post.poster %>" alt=""><% } %>
+            <div class="node-card-body">
+              <h3><a href="<%= bp %>/post/<%= post.alt_name %>"><%= post.title %></a></h3>
+              <p class="node-muted"><%= post.date %></p>
+            </div>
+            <a class="node-card_link" href="<%= bp %>/post/<%= post.alt_name %>" aria-label="<%= post.title %>"></a>
+          </article>
+        <% }); %>
+      </div>
+    </div>
+  <% } else { %>
+    <div class="content container">
+      <h1><%= category.name %></h1>
+      <% if (category.descr) { %><p><%= category.descr %></p><% } %>
+
+        <div class="e-grid3">
+          <% if (isCat3d) { %>
+            <% if (!tourRows.length) { %>
+              <p class="node-message"><%= pg.categoryEmpty || "" %></p>
+            <% } %>
+            <% tourRows.forEach(function(tour) { %>
+            <% var tHref = tour.legacy_html ? (bp + "/3d/" + tour.legacy_html) : tour.matterport_url; %>
+            <% var tExternal = !tour.legacy_html; %>
+            <div class="vis-popular">
+              <div class="vis-popular_item e-cover">
+                <div>
+                  <a href="<%= tHref %>" <%= tExternal ? 'target="_blank" rel="noopener"' : "" %>><%= tour.title %></a>
+                  <span>
+                    <%= tour.short_story
+                      ? String(tour.short_story)
+                          .replace(/<[^>]*>/g, "")
+                          .trim()
+                      : "" %>
+                  </span>
+                </div>
+                <% if (tour.poster) { %>
+                  <img src="<%= absAsset(tour.poster) %>" alt="<%= tour.title %>">
+                <% } %>
+                <a class="vis-popular_item_link" href="<%= tHref %>" <%= tExternal ? 'target="_blank" rel="noopener"' : "" %> aria-label="<%= tour.title %>"></a>
+              </div>
+            </div>
+            <% }); %>
+          <% } else { %>
+          <% (posts || []).forEach(function(post) { %>
+            <div class="vis-popular">
+              <div class="vis-popular_item e-cover">
+                <div>
+                  <a href="<%= bp %>/post/<%= post.alt_name %>"><%= post.title %></a>
+                  <span>
+                    <%= post.short_story
+                      ? String(post.short_story)
+                          .replace(/<[^>]*>/g, "")
+                          .trim()
+                      : "" %>
+                  </span>
+                </div>
+                <% if (post.poster) { %>
+                  <img src="<%= post.poster %>" alt="<%= post.title %>">
+                <% } %>
+                <a class="vis-popular_item_link" href="<%= bp %>/post/<%= post.alt_name %>" aria-label="<%= post.title %>"></a>
+              </div>
+            </div>
+          <% }); %>
+          <% } %>
+        </div>
+    </div>
+  <% } %>
+  <%- include("partials/footer") %>
+  </div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация для владельцев гостиниц</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/visitabay/css/eassistant.css">
+  <link rel="stylesheet" href="/visitabay/css/engine.css">
+  <link rel="stylesheet" href="/visitabay/css/styles.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="wrapper">
+    <%- include('partials/header') %>
+
+    <section class="hotels-page">
+      <div class="container">
+        <div class="story-hero">
+          <img
+            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80"
+            alt="Гостиница"
+            class="hero-img"
+            loading="eager"
+            onerror="this.style.display='none'"
+          >
+          <h1 class="hero-title-fullstory">Регистрация для владельцев гостиниц</h1>
+        </div>
+
+        <div class="owner-register-block" style="max-width: 520px; margin: 2rem auto; padding: 2rem; background: #f5f5f5; border-radius: 16px;">
+          <p style="margin-bottom: 1.5rem; color: #404040;">
+            Заполните заявку. После проверки администратором вам будет открыт доступ в личный кабинет для управления гостиницей.
+          </p>
+          <% if (typeof error !== 'undefined' && error) { %>
+            <p class="error" style="margin-bottom: 1rem;"><%= error %></p>
+          <% } %>
+          <form method="post" action="<%= typeof basePath !== 'undefined' ? basePath : '' %>/owner/register" class="hotel-form">
+            <label>Логин (email) <span style="color:#c00">*</span>
+              <input type="text" name="login" value="<%= typeof values !== 'undefined' && values && values.login ? values.login : '' %>" required placeholder="example@mail.ru"></label>
+            <label>Пароль <span style="color:#c00">*</span>
+              <input type="password" name="password" required minlength="6" placeholder="Не менее 6 символов"></label>
+            <label>ФИО или название организации
+              <input type="text" name="name" value="<%= typeof values !== 'undefined' && values && values.name ? values.name : '' %>" placeholder="Иванов Иван"></label>
+            <label>Телефон
+              <input type="text" name="phone" value="<%= typeof values !== 'undefined' && values && values.phone ? values.phone : '' %>" placeholder="+7 (777) 123-45-67"></label>
+            <label>Название гостиницы
+              <input type="text" name="hotel_name" value="<%= typeof values !== 'undefined' && values && values.hotel_name ? values.hotel_name : '' %>" placeholder="Отель Пример"></label>
+            <label>Сообщение (необязательно)
+              <textarea name="message" rows="3" placeholder="Кратко о гостинице или пожелания"><%= typeof values !== 'undefined' && values && values.message ? values.message : '' %></textarea></label>
+            <div class="form-actions" style="margin-top: 1.5rem;">
+              <button type="submit">Отправить заявку</button>
+            </div>
+          </form>
+          <p style="margin-top: 1.5rem; font-size: 0.9rem; color: #666;">
+            Уже есть доступ? <a href="<%= typeof basePath !== 'undefined' ? basePath : '' %>/admin/login">Войти</a>
+          </p>
+        </div>
+      </div>
+    </section>
+    <%- include('partials/footer') %>
+  </div>
+</body>
+</html>

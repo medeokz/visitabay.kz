@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<% var _hl = typeof lang !== 'undefined' && lang ? lang : 'ru'; var hp = (typeof menuFooter !== 'undefined' && menuFooter && menuFooter.hotelsCatalog) ? menuFooter.hotelsCatalog : {}; var _tb = (typeof themeBase !== 'undefined' && themeBase) ? themeBase : '/visitabay'; var _bp = typeof basePath !== 'undefined' ? basePath : ''; %>
+<html lang="<%= _hl === 'en' ? 'en' : _hl === 'ru' ? 'ru' : 'kk' %>">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof listingTitle !== 'undefined' ? listingTitle : (hp.listingTitle || '') %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="<%= _bp %><%= _tb %>/css/eassistant.css">
+  <link rel="stylesheet" href="<%= _bp %><%= _tb %>/css/engine.css">
+  <link rel="stylesheet" href="<%= _bp %><%= _tb %>/css/styles.css">
+  <link rel="stylesheet" href="<%= _bp %><%= _tb %>/css/animation.css">
+  <link rel="stylesheet" href="<%= typeof basePath !== 'undefined' ? basePath : '' %>/css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+</head>
+<body>
+  <div class="wrapper">
+    <%- include('partials/header') %>
+
+    <section id="hotels-page" class="hotels-page">
+      <div class="container">
+        <div class="story-hero hero-carousel" id="hero-carousel">
+          <% var _heroAlt = (typeof listingHeroAlt !== 'undefined' && listingHeroAlt) ? listingHeroAlt : ((typeof listingHeroTitle !== 'undefined' && listingHeroTitle) ? listingHeroTitle : (hp.listingHeroAlt || '')); %>
+          <div class="hero-carousel-inner">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80" alt="<%= _heroAlt %>" class="hero-img hero-carousel-img active" loading="eager">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80" alt="<%= _heroAlt %>" class="hero-img hero-carousel-img" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=80" alt="<%= _heroAlt %>" class="hero-img hero-carousel-img" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1200&q=80" alt="<%= _heroAlt %>" class="hero-img hero-carousel-img" loading="lazy">
+          </div>
+          <button type="button" class="hero-carousel-prev" id="hero-carousel-prev" aria-label="<%= hp.carouselPrev || '' %>">&lsaquo;</button>
+          <button type="button" class="hero-carousel-next" id="hero-carousel-next" aria-label="<%= hp.carouselNext || '' %>">&rsaquo;</button>
+          <div class="hero-carousel-dots" id="hero-carousel-dots"></div>
+          <h1 class="hero-title-fullstory"><%= typeof listingHeroTitle !== 'undefined' ? listingHeroTitle : (hp.listingHeroTitle || '') %></h1>
+        </div>
+
+        <div class="hotels-page-content">
+          <div class="hotels-page-intro">
+            <p><%= typeof listingIntro !== 'undefined' && listingIntro ? listingIntro : (hp.listingIntroDefault || '') %></p>
+          </div>
+
+          <div class="hotels-page-layout">
+            <aside class="hotels-page-sidebar">
+              <% if (typeof listingPageKind !== 'undefined' && listingPageKind === 'alakol') { %>
+              <h3><%= hp.sidebarAlakolH3 %></h3>
+              <ul>
+                <li><%= hp.sidebarAlakolLi1 %></li>
+                <li><%= hp.sidebarAlakolLi2 %></li>
+                <li><%= hp.sidebarAlakolLi3 %></li>
+              </ul>
+              <div class="hotels-page-note"><%= hp.sidebarAlakolNote %></div>
+              <% } else { %>
+              <h3><%= hp.sidebarHotelH3 %></h3>
+              <ul>
+                <li><%= hp.sidebarHotelLi1 %></li>
+                <li><%= hp.sidebarHotelLi2 %></li>
+                <li><%= hp.sidebarHotelLi3 %></li>
+              </ul>
+              <div class="hotels-page-note"><%= hp.sidebarHotelNote %></div>
+              <% } %>
+              <div class="home-map-section home-map-in-sidebar">
+                <button type="button" class="home-map-btn" id="home-map-open-btn" aria-expanded="false" aria-controls="home-map-modal"><%= hp.mapBtnShow %></button>
+              </div>
+            </aside>
+            <div class="hotels-page-list">
+              <% if (typeof error !== 'undefined' && error) { %><p class="error"><%= error %></p><% } %>
+              <% if (hotels && hotels.length) { %>
+                <% hotels.forEach(function(h) { %>
+                  <% var cardImgs = (h.image_urls && h.image_urls.length) ? h.image_urls : (h.image_url ? [h.image_url] : [typeof fallbackHotelImage !== 'undefined' ? fallbackHotelImage : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%232a2a2a%22 width=%22400%22 height=%22300%22/%3E%3Ctext fill=%22%23888%22 x=%22200%22 y=%22155%22 text-anchor=%22middle%22 font-size=%2218%22%3ENет фото%3C/text%3E%3C/svg%3E']); var multiImg = cardImgs.length > 1; var base = (typeof basePath !== 'undefined' ? basePath : ''); var fallbackSrc = (typeof fallbackHotelImage !== 'undefined' ? fallbackHotelImage : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%232a2a2a%22 width=%22400%22 height=%22300%22/%3E%3Ctext fill=%22%23888%22 x=%22200%22 y=%22155%22 text-anchor=%22middle%22 font-size=%2218%22%3ENет фото%3C/text%3E%3C/svg%3E'); function imgSrc(s) { return (s && (s.indexOf('data:') === 0 || s.indexOf('http') === 0)) ? s : (base + (s || '')); } %>
+                  <% var _detailPath = (typeof cardDetailPath !== 'undefined' ? cardDetailPath : '/hotel'); %>
+                  <a href="<%= base %><%= _detailPath %>/<%= (h.slug || h.id) %>" class="hotel-card-h">
+                    <div class="hotel-card-h__bg-wrap<%= multiImg ? ' hotel-card-h__bg-wrap--carousel' : '' %>">
+                      <% if (multiImg) { %>
+                        <% cardImgs.forEach(function(src, i) { %>
+                          <img src="<%= imgSrc(src) %>" alt="<%= h.name %>" class="hotel-card-carousel-img <%= i === 0 ? 'active' : '' %>" loading="<%= i === 0 ? 'eager' : 'lazy' %>" onerror="this.onerror=null;this.src='<%= fallbackSrc %>'">
+                        <% }); %>
+                        <button type="button" class="hotel-card-carousel-prev" aria-label="<%= hp.cardCarouselPrev %>">&lsaquo;</button>
+                        <button type="button" class="hotel-card-carousel-next" aria-label="<%= hp.cardCarouselNext %>">&rsaquo;</button>
+                      <% } else { %>
+                        <img src="<%= imgSrc(cardImgs[0]) %>" alt="<%= h.name %>" class="hotel-card-h__img" loading="lazy" onerror="this.onerror=null;this.src='<%= fallbackSrc %>'">
+                      <% } %>
+                    </div>
+                    <div class="hotel-card-h__content">
+                      <div class="hotel-card-h__info">
+                        <h3><%= h.name %></h3>
+                        <% if (h.avgRating != null && !isNaN(h.avgRating)) { var cardRating = Math.round(Number(h.avgRating)); %>
+                        <span class="hotel-card-rating" aria-label="<%= hp.ratingAria %> <%= h.avgRating %> <%= hp.outOf5 %>" title="<%= h.avgRating %> <%= hp.outOf5 %> (<%= h.reviewCount %> <%= hp.reviewsWord %>)">
+                          <% for (var s = 1; s <= 5; s++) { %><span class="hotel-card-star <%= s <= cardRating ? 'is-filled' : '' %>">★</span><% } %>
+                        </span>
+                        <% } %>
+                        <% if (h.location) { %>
+                          <div class="location">
+                            <img src="<%= _bp %><%= _tb %>/images/18128_327.svg" alt="" onerror="this.style.display='none'">
+                            <span><%= h.location %></span>
+                          </div>
+                        <% } %>
+                      </div>
+                      <div class="hotel-card-h__price">
+                        <% if (h.price) { %><strong><%= hp.priceFrom %> <%= h.price %></strong><% } %>
+                        <span></span>
+                      </div>
+                    </div>
+                  </a>
+                <% }); %>
+              <% } else { %>
+                <p><%= typeof listingEmptyMessage !== 'undefined' ? listingEmptyMessage : hp.emptyHotels %></p>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="home-map-modal" class="home-map-modal" role="dialog" aria-modal="true" aria-labelledby="home-map-modal-title" aria-hidden="true">
+      <div class="home-map-modal-overlay" id="home-map-modal-overlay"></div>
+      <div class="home-map-modal-dialog">
+        <div class="home-map-modal-header">
+          <h2 id="home-map-modal-title" class="home-map-modal-title"><%= typeof mapModalTitle !== 'undefined' ? mapModalTitle : hp.mapModalTitleHotels %></h2>
+          <button type="button" class="home-map-modal-close" id="home-map-modal-close" aria-label="<%= hp.closeMap %>">&times;</button>
+        </div>
+        <div id="home-map" class="home-map-modal-map" aria-label="<%= typeof mapAriaLabel !== 'undefined' ? mapAriaLabel : hp.mapAriaHotels %>"></div>
+      </div>
+    </div>
+
+    <%- include('partials/footer') %>
+  </div>
+  <script>
+    window.__HOTELS_FOR_MAP__ = <%- JSON.stringify((hotels || []).map(function(h) { return { id: h.id, name: h.name || '', slug: h.slug || h.id, address: h.address || '', location: h.location || '', price: h.price || '', latitude: h.latitude != null ? Number(h.latitude) : null, longitude: h.longitude != null ? Number(h.longitude) : null }; })) %>;
+    window.__MAP_CENTER__ = <%- JSON.stringify(typeof mapCenter !== 'undefined' ? mapCenter : { lat: 50.4114, lng: 80.2275 }) %>;
+    window.__SEMEY_BOUNDS__ = { latMin: 50.25, latMax: 50.50, lngMin: 80.10, lngMax: 80.35 };
+    window.__MAP_REGION_BOUNDS__ = <%- JSON.stringify(typeof mapRegionBounds !== 'undefined' ? mapRegionBounds : null) %>;
+    window.__BASE_PATH__ = '<%= (typeof basePath !== "undefined" ? basePath : "").replace(/'/g, "\\'") %>';
+    window.__LISTING_DETAIL_PATH__ = '<%= typeof cardDetailPath !== "undefined" ? cardDetailPath.replace(/'/g, "\\'") : "/hotel" %>';
+    window.__GEOCODE_DEFAULT__ = '<%= typeof geocodeDefault !== "undefined" ? String(geocodeDefault).replace(/'/g, "\\'") : "" %>';
+    window.__MAP_PLACE_FALLBACK__ = '<%= typeof mapPlaceFallbackName !== "undefined" ? String(mapPlaceFallbackName).replace(/'/g, "\\'") : "" %>';
+    window.__HC__ = <%- JSON.stringify(hp) %>;
+  </script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    (function() {
+      var carousel = document.getElementById('hero-carousel');
+      if (!carousel) return;
+      var imgs = carousel.querySelectorAll('.hero-carousel-img');
+      var prevBtn = document.getElementById('hero-carousel-prev');
+      var nextBtn = document.getElementById('hero-carousel-next');
+      var dotsEl = document.getElementById('hero-carousel-dots');
+      var n = imgs.length;
+      var idx = 0;
+      var autoplayTimer;
+      function show(i) {
+        idx = (i + n) % n;
+        imgs.forEach(function(img, k) { img.classList.toggle('active', k === idx); });
+        if (dotsEl) [].forEach.call(dotsEl.children, function(d, k) { d.classList.toggle('active', k === idx); });
+      }
+      if (dotsEl && n > 1) {
+        for (var i = 0; i < n; i++) {
+          var d = document.createElement('button');
+          d.type = 'button';
+          d.className = 'hero-carousel-dot' + (i === 0 ? ' active' : '');
+          d.setAttribute('aria-label', (window.__HC__ && window.__HC__.carouselSlide ? window.__HC__.carouselSlide + ' ' : '') + (i + 1));
+          d.setAttribute('data-idx', i);
+          d.addEventListener('click', function() { show(parseInt(this.getAttribute('data-idx'), 10)); });
+          dotsEl.appendChild(d);
+        }
+      }
+      if (prevBtn) prevBtn.addEventListener('click', function() { show(idx - 1); });
+      if (nextBtn) nextBtn.addEventListener('click', function() { show(idx + 1); });
+      function startAutoplay() { autoplayTimer = setInterval(function() { show(idx + 1); }, 5000); }
+      startAutoplay();
+      carousel.addEventListener('mouseenter', function() { clearInterval(autoplayTimer); });
+      carousel.addEventListener('mouseleave', startAutoplay);
+    })();
+
+    (function() {
+      document.querySelectorAll('.hotel-card-h__bg-wrap--carousel').forEach(function(wrap) {
+        var imgs = wrap.querySelectorAll('.hotel-card-carousel-img');
+        if (imgs.length < 2) return;
+        var prevBtn = wrap.querySelector('.hotel-card-carousel-prev');
+        var nextBtn = wrap.querySelector('.hotel-card-carousel-next');
+        var n = imgs.length;
+        var idx = 0;
+        function show(i) {
+          idx = (i + n) % n;
+          imgs.forEach(function(img, k) { img.classList.toggle('active', k === idx); });
+        }
+        function goPrev(e) { e.preventDefault(); e.stopPropagation(); show(idx - 1); }
+        function goNext(e) { e.preventDefault(); e.stopPropagation(); show(idx + 1); }
+        if (prevBtn) prevBtn.addEventListener('click', goPrev);
+        if (nextBtn) nextBtn.addEventListener('click', goNext);
+      });
+    })();
+
+    (function initMapModal() {
+      var openBtn = document.getElementById('home-map-open-btn');
+      var modal = document.getElementById('home-map-modal');
+      var overlay = document.getElementById('home-map-modal-overlay');
+      var closeBtn = document.getElementById('home-map-modal-close');
+      if (!openBtn || !modal || typeof L === 'undefined') return;
+
+      var mapInited = false;
+      var mapInstance = null;
+
+      function openModal() {
+        modal.classList.add('home-map-modal--open');
+        modal.setAttribute('aria-hidden', 'false');
+        openBtn.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+        if (!mapInited) {
+          mapInited = true;
+          setTimeout(createMap, 100);
+        } else if (mapInstance) {
+          setTimeout(function() { mapInstance.invalidateSize(); }, 150);
+        }
+      }
+
+      function closeModal() {
+        modal.classList.remove('home-map-modal--open');
+        modal.setAttribute('aria-hidden', 'true');
+        openBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+
+      function createMap() {
+        var mapEl = document.getElementById('home-map');
+        if (!mapEl || mapInstance) return;
+        var hotels = window.__HOTELS_FOR_MAP__ || [];
+        var center = window.__MAP_CENTER__ || { lat: 50.4114, lng: 80.2275 };
+        var region = window.__MAP_REGION_BOUNDS__ || window.__SEMEY_BOUNDS__ || { latMin: 50.25, latMax: 50.50, lngMin: 80.10, lngMax: 80.35 };
+        var basePath = window.__BASE_PATH__ || '';
+        function isInRegion(lat, lng) {
+          return !isNaN(lat) && !isNaN(lng) && lat >= region.latMin && lat <= region.latMax && lng >= region.lngMin && lng <= region.lngMax;
+        }
+        var map = L.map('home-map').setView([center.lat, center.lng], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        mapInstance = map;
+        var bounds = [];
+        function addMarker(hotel, lat, lng) {
+          if (!isInRegion(lat, lng)) return;
+          var marker = L.marker([lat, lng]).addTo(map);
+          var detailPath = window.__LISTING_DETAIL_PATH__ || '/hotel';
+          var url = basePath + detailPath + '/' + (hotel.slug || hotel.id);
+          var hc = window.__HC__ || {};
+          var fallbackName = (window.__MAP_PLACE_FALLBACK__ && window.__MAP_PLACE_FALLBACK__.trim()) ? window.__MAP_PLACE_FALLBACK__.trim() : (hc.mapPlaceHotel || '');
+          var name = (hotel.name || fallbackName).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          var address = (hotel.address || hotel.location || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          var price = (hotel.price || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          var pf = (hc.priceFrom || '') + ' ';
+          var html = '<div class="home-map-popup">' +
+            '<strong class="home-map-popup-title">' + name + '</strong>' +
+            (address ? '<p class="home-map-popup-address">' + address + '</p>' : '') +
+            (price ? '<p class="home-map-popup-price">' + pf.trim() + ' ' + price + '</p>' : '') +
+            '<a href="' + url + '" class="home-map-popup-btn">' + (hc.mapPopupDetails || '') + '</a>' +
+            '</div>';
+          marker.bindPopup(html, { minWidth: 220, maxWidth: 280 });
+          bounds.push([lat, lng]);
+        }
+        function geocodeNext(needGeocode, idx) {
+          if (idx >= needGeocode.length) {
+            if (bounds.length > 1) map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+            return;
+          }
+          var hotel = needGeocode[idx];
+          var defArea = (window.__GEOCODE_DEFAULT__ && window.__GEOCODE_DEFAULT__.trim()) ? window.__GEOCODE_DEFAULT__.trim() : ((window.__HC__ && window.__HC__.mapGeocodeSemey) ? window.__HC__.mapGeocodeSemey : '');
+          var q = (hotel.address || hotel.name || '').trim();
+          if (!q) q = defArea;
+          else q = defArea + ', ' + q;
+          fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(q) + '&format=json&limit=1', {
+            headers: { 'Accept': 'application/json' }
+          })
+            .then(function(r) { return r.json(); })
+            .then(function(arr) {
+              if (arr && arr[0]) {
+                var lat = parseFloat(arr[0].lat);
+                var lon = parseFloat(arr[0].lon);
+                addMarker(hotel, lat, lon);
+              }
+              setTimeout(function() { geocodeNext(needGeocode, idx + 1); }, 1100);
+            })
+            .catch(function() { setTimeout(function() { geocodeNext(needGeocode, idx + 1); }, 1100); });
+        }
+        hotels.forEach(function(hotel) {
+          if (hotel.latitude != null && hotel.longitude != null && !isNaN(hotel.latitude) && !isNaN(hotel.longitude) && isInRegion(hotel.latitude, hotel.longitude)) {
+            addMarker(hotel, hotel.latitude, hotel.longitude);
+          }
+        });
+        if (bounds.length > 1) map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+        var needGeocode = hotels.filter(function(h) { return h.latitude == null || h.longitude == null; });
+        if (needGeocode.length) setTimeout(function() { geocodeNext(needGeocode, 0); }, 500);
+      }
+
+      openBtn.addEventListener('click', openModal);
+      closeBtn.addEventListener('click', closeModal);
+      overlay.addEventListener('click', closeModal);
+      modal.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeModal();
+      });
+    })();
+  </script>
+</body>
+</html>

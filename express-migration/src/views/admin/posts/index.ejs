@@ -1,0 +1,82 @@
+<%- include("../partials/layout-start", { title: "Админка: посты", section: section }) %>
+    <div class="admin-head">
+      <h1>Посты</h1>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="admin-btn" href="/admin/posts/new">+ Новый пост</a>
+      </div>
+    </div>
+
+    <form method="get" action="/admin/posts" class="admin-filters">
+      <div class="admin-filters-row">
+        <div class="admin-filter">
+          <label>Категория</label>
+          <select name="category" class="admin-form-control">
+            <option value="0">Все</option>
+            <% (categories || []).forEach(function(c){ %>
+              <option value="<%= c.id %>" <%= (filters && Number(filters.categoryId) === Number(c.id)) ? "selected" : "" %>>
+                <%= c.name %> (ID: <%= c.id %>)
+              </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="admin-filter" style="flex:1;">
+          <label>Поиск по заголовку</label>
+          <input
+            type="text"
+            name="q"
+            value="<%= (filters && filters.q) ? filters.q : "" %>"
+            placeholder="Например: музей"
+            class="admin-form-control"
+          />
+        </div>
+
+        <div class="admin-filter admin-filter-actions">
+          <label style="opacity:0;">&nbsp;</label>
+          <button type="submit" class="admin-btn">Фильтр</button>
+          <a class="admin-btn admin-btn-ghost" href="/admin/posts">Сброс</a>
+        </div>
+      </div>
+    </form>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th style="width:70px;">ID</th>
+            <th>Заголовок</th>
+            <th style="width:240px;">Slug</th>
+            <th style="width:160px;">Категории (IDs)</th>
+            <th style="width:140px;">Статус</th>
+            <th style="width:260px;">Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (!posts || !posts.length) { %>
+            <tr><td colspan="6" class="admin-td-muted">Ничего не найдено.</td></tr>
+          <% } %>
+          <% (posts || []).forEach(function(p){ %>
+            <tr>
+              <td><%= p.id %></td>
+              <td>
+                <a href="/admin/posts/<%= p.id %>/edit"><%= p.title %></a>
+                <div class="admin-td-sub">Дата: <%= p.date || "" %></div>
+              </td>
+              <td><span class="admin-mono"><%= p.alt_name %></span></td>
+              <td><span class="admin-mono"><%= p.category %></span></td>
+              <td><%= p.approve ? "опубликован" : "черновик" %></td>
+              <td>
+                <div class="admin-actions">
+                  <a class="admin-link" href="/post/<%= p.alt_name %>" target="_blank" rel="noopener">Открыть</a>
+                  <a class="admin-link" href="/admin/posts/<%= p.id %>/edit">Редактировать</a>
+                  <form method="post" action="/admin/posts/<%= p.id %>/delete" onsubmit="return confirm('Удалить пост?');" style="margin:0;">
+                    <button type="submit" class="admin-link admin-link-danger">Удалить</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+<%- include("../partials/layout-end") %>

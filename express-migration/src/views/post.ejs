@@ -1,0 +1,348 @@
+<!doctype html>
+<% var pg = (typeof menuFooter !== "undefined" && menuFooter && menuFooter.pages) ? menuFooter.pages : {}; %>
+<html lang="<%= lang === 'en' ? 'en' : lang === 'kk' ? 'kk' : 'ru' %>">
+<head>
+  <%- include("partials/head") %>
+  <title><%= post.title %> — <%= pg.brandSuffix || "Visit Abay" %></title>
+</head>
+<body>
+  <%- include("partials/header") %>
+  <section id="story" class="container">
+    <%
+      const posterHero = post.poster && String(post.poster).trim();
+      const galsHero = (post.gallery && Array.isArray(post.gallery)) ? post.gallery : [];
+      const heroSlides = [];
+      if (posterHero) {
+        heroSlides.push(posterHero);
+      } else if (galsHero.length) {
+        heroSlides.push(String(galsHero[0] || "").trim());
+      }
+      const coverUrl = heroSlides[0] || "";
+      let fromGal = 0;
+      for (let gi = 0; gi < galsHero.length && fromGal < 2; gi++) {
+        const u = String(galsHero[gi] || "").trim();
+        if (!u || u === coverUrl) continue;
+        heroSlides.push(u);
+        fromGal++;
+      }
+    %>
+    <div class="post-hero">
+      <div class="post-hero__media e-cover">
+        <% if (heroSlides.length) { %>
+        <div class="post-hero__slides js-post-hero-slides" data-interval="5200">
+          <% heroSlides.forEach(function(img, idx){ %>
+          <div class="post-hero__slide<%= idx === 0 ? " is-active" : "" %>">
+            <img src="<%= img %>" alt="" role="presentation" loading="<%= idx === 0 ? 'eager' : 'lazy' %>">
+          </div>
+          <% }) %>
+        </div>
+        <% } %>
+        <h1 class="post-hero__title"><%= post.title %></h1>
+      </div>
+    </div>
+
+    <br><br><br>
+
+    <div class="contacts-info_item">
+      <div class="contacts-info_content">
+        <h2 class="contacts-title"><%= pg.postHowToGet || "" %></h2>
+        <address class="contacts-details">
+          <% const contactFull = post.xfields.contactfullstory ? String(post.xfields.contactfullstory) : ""; %>
+          <% const contactFullHtml = contactFull.replace(/__NEWL__/g, "\n").trim(); %>
+          <% if (contactFullHtml) { %>
+            <%- contactFullHtml %>
+          <% } else { %>
+            <%= post.xfields.address || post.xfields.location || pg.postDefaultAddress || "" %>
+            <% if (post.xfields.tel) { %><br><%= pg.postPhone || "Phone" %>: <%= post.xfields.tel %><% } %>
+            <% if (post.xfields.email) { %><br><%= pg.postEmail || "Email" %>: <%= post.xfields.email %><% } %>
+          <% } %>
+        </address>
+        <% if (post.xfields.linkmap) { %>
+          <a href="<%= post.xfields.linkmap %>" class="promo-button" target="_blank" rel="noopener">
+            <span><%= pg.postBuildRoute || "" %></span>
+            <img src="<%= themeBase %>/images/18128_319.svg" alt="<%= pg.postArrowAlt || '' %>">
+          </a>
+        <% } else if (post.xfields.site) { %>
+          <a href="<%= post.xfields.site %>" class="promo-button" target="_blank" rel="noopener">
+            <span><%= pg.postGoSite || "" %></span>
+            <img src="<%= themeBase %>/images/18128_319.svg" alt="<%= pg.postArrowAlt || '' %>">
+          </a>
+        <% } %>
+      </div>
+      <div class="contacts-info_bg e-cover">
+        <% if (post.xfields.mapfull) { %>
+          <%- post.xfields.mapfull %>
+          <% if (/(?:^https?:\/\/)?(?:go\.)?2gis\.(?:com|kz)\//i.test(String(post.xfields.linkmap || ""))) { %>
+            <div class="node-muted" style="position:absolute;left:12px;bottom:10px;z-index:3;background:rgba(255,255,255,.88);padding:4px 8px;border-radius:8px;">
+              <%= pg.postMapNote2gis || "" %>
+            </div>
+          <% } %>
+        <% } else { %>
+          <% const linkMap = (post.xfields.linkmap || "").trim(); %>
+          <% const is2gisLink = /(?:^https?:\/\/)?(?:go\.)?2gis\.(?:com|kz)\//i.test(linkMap); %>
+          <% const rawContact = post.xfields.contactfullstory ? String(post.xfields.contactfullstory) : ""; %>
+          <% const contactText = rawContact
+               .replace(/__NEWL__/g, " ")
+               .replace(/<[^>]*>/g, " ")
+               .replace(/\s+/g, " ")
+               .trim(); %>
+          <% const mapQuery = (post.xfields.address || post.xfields.location || contactText || post.title || "").trim(); %>
+          <% if (linkMap && !is2gisLink) { %>
+            <iframe
+              src="<%= linkMap %>"
+              width="600"
+              height="450"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          <% } else if (mapQuery) { %>
+            <iframe
+              src="https://www.google.com/maps?q=<%= encodeURIComponent(mapQuery) %>&output=embed"
+              width="600"
+              height="450"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+            <% if (is2gisLink) { %>
+              <div class="node-muted" style="position:absolute;left:12px;bottom:10px;z-index:3;background:rgba(255,255,255,.88);padding:4px 8px;border-radius:8px;">
+                <%= pg.postMapNote2gis || "" %>
+              </div>
+            <% } %>
+          <% } else if (post.poster) { %>
+            <img src="<%= post.poster %>" alt="<%= post.title %>">
+          <% } %>
+        <% } %>
+      </div>
+    </div>
+
+    <br><br><br>
+
+    <div class="story-content">
+      <% const shortStoryHtml = post.short_story ? String(post.short_story) : ""; %>
+      <% const shortStoryClean = shortStoryHtml
+          .replace(/^\s*<p[^>]*>/i, "")
+          .replace(/<\/p>\s*$/i, ""); %>
+      <% if (shortStoryClean.trim()) { %><p class="story-body"><%- shortStoryClean %></p><% } %>
+      <div class="story-body"><%- post.full_story || "" %></div>
+    </div>
+  </section>
+
+  <br><br><br>
+
+  <% const galleryImages = (post.gallery && post.gallery.length ? post.gallery : (post.poster ? [post.poster] : [])); %>
+  <% if (galleryImages.length) { %>
+  <div class="container">
+  <div class="vis-gall">
+    <h2><%= pg.postGallery || "" %></h2>
+    <div class="vis-gall_items">
+      <div class="swiper-wrapper">
+        <% galleryImages.slice(0, 100).forEach(function(img){ %>
+          <div class="swiper-slide e-cover">
+            <a href="<%= img %>" class="js-lightbox-open" style="display:block;width:100%;height:100%;">
+              <img src="<%= img %>" alt="<%= post.title %>">
+            </a>
+          </div>
+        <% }) %>
+      </div>
+      <i class="fa-regular fa-chevron-left"></i>
+      <i class="fa-regular fa-chevron-right"></i>
+    </div>
+  </div>
+  </div>
+  <% } %>
+
+  <br><br><br>
+
+  <% const hasWhereStay = (catalogHotels && catalogHotels.length) || (whereToStayPosts && whereToStayPosts.length); %>
+  <% if (hasWhereStay) { %>
+    <div class="container">
+    <div class="vis-blog vis-blog--where-stay">
+      <h2><%= pg.postWhereStay || "" %></h2>
+      <% if (catalogHotels && catalogHotels.length) { %>
+      <p class="vis-where-stay-lead"><%- pg.postWhereStayLead || "" %></p>
+      <% } %>
+      <div class="vis-blog_items">
+        <div class="swiper-wrapper">
+          <% if (catalogHotels && catalogHotels.length) { %>
+            <% catalogHotels.forEach(function(hotel){ %>
+            <div class="vis-rel_item swiper-slide e-cover vis-rel_item--hotel">
+              <a href="<%= hotel.hotelUrl %>" class="node-card_link" aria-label="<%= hotel.name %><%= pg.postOpenHotelAriaSuffix || '' %>"></a>
+              <% if (hotel.cardImage) { %><img src="<%= hotel.cardImage %>" alt="" loading="lazy"><% } %>
+              <div>
+                <span class="vis-rel_item-badge"><%= pg.postHotelBadge || "" %></span>
+                <span><%= hotel.location %></span>
+                <% if (hotel.price) { %><span class="vis-hotel-card-price"><%= hotel.price %></span><% } %>
+                <a href="<%= hotel.hotelUrl %>"><%= hotel.name %></a>
+              </div>
+            </div>
+            <% }) %>
+          <% } %>
+          <% if (whereToStayPosts && whereToStayPosts.length) { %>
+          <% whereToStayPosts.forEach(function(h){ %>
+            <div class="vis-rel_item swiper-slide e-cover">
+              <% if (h.poster) { %><img src="<%= h.poster %>" alt="<%= h.title %>"><% } %>
+              <div>
+                <span><%= (h.xfields && h.xfields.location) ? h.xfields.location : (pg.postDefaultRegion || "") %></span>
+                <a href="/post/<%= h.alt_name %>"><%= h.title %></a>
+              </div>
+            </div>
+          <% }) %>
+          <% } %>
+        </div>
+        <i class="fa-regular fa-chevron-left"></i>
+        <i class="fa-regular fa-chevron-right"></i>
+      </div>
+    </div>
+    </div>
+  <% } %>
+
+  <br><br><br>
+
+  <% if (relatedPosts && relatedPosts.length) { %>
+  <div class="container">
+  <div class="vis-blog">
+    <h2><%= pg.postRelated || "" %></h2>
+    <div class="vis-blog_items">
+      <div class="swiper-wrapper">
+        <% relatedPosts.forEach(function(r){ %>
+          <div class="vis-rel_item swiper-slide e-cover">
+            <% if (r.poster) { %><img src="<%= r.poster %>" alt="<%= r.title %>"><% } %>
+            <div>
+              <span><%= r.xfields && r.xfields.location ? r.xfields.location : (pg.postDefaultRegion || "") %></span>
+              <a href="/post/<%= r.alt_name %>"><%= r.title %></a>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+      <i class="fa fa-chevron-left"></i>
+      <i class="fa fa-chevron-right"></i>
+    </div>
+  </div>
+  </div>
+  <% } %>
+
+  <br><br><br>
+  <%- include("partials/footer") %>
+
+  <script>
+    (function () {
+      var root = document.querySelector(".js-post-hero-slides");
+      if (!root) return;
+      var slides = root.querySelectorAll(".post-hero__slide");
+      if (slides.length < 2) return;
+      var i = 0;
+      var raw = parseInt(root.getAttribute("data-interval"), 10);
+      var ms = !isNaN(raw) && raw >= 2000 ? raw : 5200;
+      var reduced = false;
+      try {
+        reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      } catch (e) {}
+      if (reduced) return;
+      setInterval(function () {
+        var next = (i + 1) % slides.length;
+        slides[next].classList.add("is-active");
+        slides[i].classList.remove("is-active");
+        i = next;
+      }, ms);
+    })();
+  </script>
+
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <div class="lightbox__backdrop js-lightbox-close"></div>
+    <figure class="lightbox__figure">
+      <img id="lightboxImage" src="" alt="">
+      <figcaption id="lightboxCaption" class="lightbox__caption"></figcaption>
+      <div id="lightboxCounter" class="lightbox__counter"></div>
+      <button type="button" class="lightbox__nav lightbox__nav--prev js-lightbox-prev" aria-label="<%= pg.postLightboxPrev || '' %>">‹</button>
+      <button type="button" class="lightbox__nav lightbox__nav--next js-lightbox-next" aria-label="<%= pg.postLightboxNext || '' %>">›</button>
+      <button type="button" class="lightbox__close js-lightbox-close" aria-label="<%= pg.postLightboxClose || '' %>">×</button>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var lb = document.getElementById("lightbox");
+      var lbImg = document.getElementById("lightboxImage");
+      var lbCaption = document.getElementById("lightboxCaption");
+      var lbCounter = document.getElementById("lightboxCounter");
+      var links = Array.prototype.slice.call(document.querySelectorAll(".js-lightbox-open"));
+      var currentIndex = -1;
+      if (!lb || !lbImg || !links.length) return;
+
+      function updateMeta() {
+        if (currentIndex < 0) return;
+        var link = links[currentIndex];
+        var img = link.querySelector("img");
+        var alt = img ? (img.getAttribute("alt") || "") : "";
+        lbCaption.textContent = alt;
+        lbCounter.textContent = (currentIndex + 1) + " / " + links.length;
+      }
+
+      function showByIndex(nextIndex, direction) {
+        if (!links.length) return;
+        if (nextIndex < 0) nextIndex = links.length - 1;
+        if (nextIndex >= links.length) nextIndex = 0;
+        currentIndex = nextIndex;
+        var link = links[currentIndex];
+        var img = link.querySelector("img");
+        var src = link.getAttribute("href");
+        var alt = img ? (img.getAttribute("alt") || "") : "";
+        lb.classList.remove("slide-left", "slide-right");
+        if (direction === "next") lb.classList.add("slide-left");
+        if (direction === "prev") lb.classList.add("slide-right");
+        lbImg.src = src || "";
+        lbImg.alt = alt;
+        updateMeta();
+      }
+
+      function openLightbox(index) {
+        showByIndex(index >= 0 ? index : 0, "next");
+        lb.classList.add("is-open");
+        lb.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeLightbox() {
+        lb.classList.remove("is-open");
+        lb.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        // wait fade-out for smoother close
+        setTimeout(function () {
+          if (!lb.classList.contains("is-open")) lbImg.src = "";
+        }, 220);
+      }
+
+      function next() { showByIndex(currentIndex + 1, "next"); }
+      function prev() { showByIndex(currentIndex - 1, "prev"); }
+
+      links.forEach(function (a, idx) {
+        a.addEventListener("click", function (e) {
+          e.preventDefault();
+          openLightbox(idx);
+        });
+      });
+
+      document.querySelectorAll(".js-lightbox-close").forEach(function (el) {
+        el.addEventListener("click", closeLightbox);
+      });
+      document.querySelectorAll(".js-lightbox-next").forEach(function (el) {
+        el.addEventListener("click", next);
+      });
+      document.querySelectorAll(".js-lightbox-prev").forEach(function (el) {
+        el.addEventListener("click", prev);
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (!lb.classList.contains("is-open")) return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowRight") next();
+        if (e.key === "ArrowLeft") prev();
+      });
+    })();
+  </script>
+</body>
+</html>

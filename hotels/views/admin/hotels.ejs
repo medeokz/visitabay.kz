@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Управление гостиницами</title>
+  <link rel="stylesheet" href="<%= typeof basePath !== 'undefined' ? basePath : '' %>/css/style.css">
+</head>
+<body class="admin-page">
+  <header class="admin-header">
+    <h1><%= typeof isOwner !== 'undefined' && isOwner ? 'Мои гостиницы' : 'Управление гостиницами' %></h1>
+    <% var bp = (typeof basePath !== 'undefined' ? basePath : ''); var adm = typeof adminWebRoot !== 'undefined' ? adminWebRoot : (bp + '/admin'); var alakolAdm = adm.replace(/\/$/, '') + '/alakol-bases'; if (typeof isOwner !== 'undefined' && isOwner) { %><a href="<%= bp %>/owner/bookings">Бронирования</a><% } else { %><a href="<%= adm %>/bookings">Бронирования</a><a href="<%= adm %>/owners">Хозяева</a><a href="<%= alakolAdm %>">Базы Алаколь</a><% } %>
+    <a href="<%= bp %><%= typeof isOwner !== 'undefined' && isOwner ? '/owner/logout' : (adm + '/logout') %>">Выйти</a>
+  </header>
+  <script>window.BASE_PATH = '<%= typeof basePath !== "undefined" ? basePath : "" %>';</script>
+  <% if (typeof isOwner !== 'undefined' && isOwner) { %><script src="<%= bp %>/js/push-owner.js"></script><% } %>
+  <main class="admin-main">
+    <% if (typeof error !== 'undefined' && error) { %><p class="error"><%= error %></p><% } %>
+    <% if (typeof isOwner !== 'undefined' && isOwner && typeof pendingBookingsCount !== 'undefined' && pendingBookingsCount > 0) { %>
+      <p class="admin-notice"><strong>У вас <%= pendingBookingsCount %> бронирований на подтверждении.</strong> <a href="<%= bp %>/owner/bookings">Перейти к бронированиям →</a></p>
+    <% } %>
+    <% var base = (typeof isOwner !== 'undefined' && isOwner) ? (bp + '/owner') : adm; %>
+    <p><a href="<%= base %>/add" class="btn btn-primary">+ Добавить гостиницу</a></p>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Название</th>
+          <th>Расположение</th>
+          <th>Цена</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (hotels && hotels.length) { %>
+          <% hotels.forEach(function(h) { %>
+            <tr>
+              <td><%= h.id %></td>
+              <td><%= h.name %></td>
+              <td><%= h.location || '—' %></td>
+              <td><%= h.price ? 'от ' + h.price : '—' %></td>
+              <td>
+                <a href="/hotel/<%= (h.slug || h.id) %>" target="_blank" rel="noopener">Открыть</a>
+                <a href="<%= base %>/edit/<%= h.id %>">Изменить</a>
+                <button type="button" class="btn-delete" data-id="<%= h.id %>" data-name="<%= h.name %>">Удалить</button>
+              </td>
+            </tr>
+          <% }); %>
+        <% } else { %>
+          <tr><td colspan="5">Нет записей. <a href="<%= base %>/add">Добавить гостиницу</a></td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </main>
+  <script>
+    document.querySelectorAll('.btn-delete').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var id = this.getAttribute('data-id');
+        var name = this.getAttribute('data-name');
+        if (!confirm('Удалить гостиницу «' + name + '»?')) return;
+        fetch((typeof window.BASE_PATH !== 'undefined' ? window.BASE_PATH : '') + '/api/hotels/' + id, { method: 'DELETE', credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+          .then(function(r) { return r.ok ? r.json() : r.json().then(function(j) { throw new Error(j.error || 'Ошибка'); }); })
+          .then(function() { location.reload(); })
+          .catch(function(e) { alert(e.message); });
+      });
+    });
+  </script>
+</body>
+</html>

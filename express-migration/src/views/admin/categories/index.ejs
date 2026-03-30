@@ -1,0 +1,68 @@
+<%- include("../partials/layout-start", { title: "Админка: категории", section: section }) %>
+    <div class="admin-head">
+      <h1>Категории</h1>
+      <a class="m-chip" href="/admin/categories/new">+ Новая категория</a>
+    </div>
+
+    <form method="get" action="/admin/categories" class="admin-filters">
+      <div class="admin-filters-row">
+        <div class="admin-filter" style="flex:1;">
+          <label>Поиск по названию/slug</label>
+          <input
+            type="text"
+            name="q"
+            value="<%= (typeof filters !== 'undefined' && filters && filters.q) ? filters.q : '' %>"
+            placeholder="Например: hotels"
+            class="admin-form-control"
+          />
+        </div>
+
+        <div class="admin-filter admin-filter-actions">
+          <label style="opacity:0;">&nbsp;</label>
+          <button type="submit" class="admin-btn">Фильтр</button>
+          <a class="admin-btn admin-btn-ghost" href="/admin/categories">Сброс</a>
+        </div>
+      </div>
+    </form>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th style="width:70px;">ID</th>
+            <th>Название</th>
+            <th style="width:240px;">Slug</th>
+            <th style="width:160px;">Родитель / Позиция</th>
+            <th style="width:140px;">Статус</th>
+            <th style="width:260px;">Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (!categories || !categories.length) { %>
+            <tr><td colspan="6" class="admin-td-muted">Ничего не найдено.</td></tr>
+          <% } %>
+          <% (categories || []).forEach(function(c){ %>
+            <tr>
+              <td><%= c.id %></td>
+              <td>
+                <a href="/admin/categories/<%= c.id %>/edit"><%= c.name %></a>
+                <div class="admin-td-sub">Родитель: <span class="admin-mono"><%= c.parentid %></span></div>
+              </td>
+              <td><span class="admin-mono"><%= c.alt_name %></span></td>
+              <td><span class="admin-mono"><%= c.parentid %></span> / <span class="admin-mono"><%= c.posi %></span></td>
+              <td><%= c.active ? "активна" : "выключена" %></td>
+              <td>
+                <div class="admin-actions">
+                  <a class="admin-link" href="/category/<%= c.alt_name %>" target="_blank" rel="noopener">Открыть</a>
+                  <a class="admin-link" href="/admin/categories/<%= c.id %>/edit">Редактировать</a>
+                  <form method="post" action="/admin/categories/<%= c.id %>/delete" onsubmit="return confirm('Удалить категорию?');" style="margin:0;">
+                    <button type="submit" class="admin-link admin-link-danger">Удалить</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+<%- include("../partials/layout-end") %>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Базы отдыха Алаколь</title>
+  <link rel="stylesheet" href="<%= typeof basePath !== 'undefined' ? basePath : '' %>/css/style.css">
+</head>
+<body class="admin-page">
+  <% var bp = (typeof basePath !== 'undefined' ? basePath : ''); var adm = typeof adminWebRoot !== 'undefined' ? adminWebRoot : (bp + '/admin/hotels'); var alakolBase = adm.replace(/\/$/, '') + '/alakol-bases'; %>
+  <header class="admin-header">
+    <h1>Базы отдыха Алаколь</h1>
+    <a href="<%= adm %>">Гостиницы</a>
+    <a href="<%= alakolBase %>/add" class="btn btn-primary" style="margin-left:8px;">+ Добавить базу</a>
+    <a href="<%= adm %>/bookings">Бронирования</a>
+    <a href="<%= adm %>/owners">Хозяева</a>
+    <a href="<%= adm %>/logout">Выйти</a>
+  </header>
+  <main class="admin-main">
+    <% if (typeof error !== 'undefined' && error) { %><p class="error"><%= error %></p><% } %>
+    <p><a href="<%= alakolBase %>/add" class="btn btn-primary">+ Добавить базу отдыха</a></p>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Название</th>
+          <th>Расположение</th>
+          <th>Цена</th>
+          <th>На сайте</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (bases && bases.length) { %>
+          <% bases.forEach(function(b) { %>
+            <tr>
+              <td><%= b.id %></td>
+              <td><%= b.name %></td>
+              <td><%= b.location || '—' %></td>
+              <td><%= b.price ? 'от ' + b.price : '—' %></td>
+              <td><%= b.is_published ? 'да' : 'нет' %></td>
+              <td>
+                <a href="/baza-alakol/<%= (b.slug || b.id) %>" target="_blank" rel="noopener">Открыть</a>
+                <a href="<%= alakolBase %>/edit/<%= b.id %>">Изменить</a>
+                <button type="button" class="btn-delete" data-id="<%= b.id %>" data-name="<%= b.name %>">Удалить</button>
+              </td>
+            </tr>
+          <% }); %>
+        <% } else { %>
+          <tr><td colspan="6">Нет записей. <a href="<%= alakolBase %>/add">Добавить базу</a></td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </main>
+  <script>
+    window.BASE_PATH = '<%= typeof basePath !== "undefined" ? basePath : "" %>';
+    document.querySelectorAll('.btn-delete').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var id = this.getAttribute('data-id');
+        var name = this.getAttribute('data-name');
+        if (!confirm('Удалить базу «' + name + '»?')) return;
+        fetch((window.BASE_PATH || '') + '/api/alakol-bases/' + id, { method: 'DELETE', credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+          .then(function(r) { return r.ok ? r.json() : r.json().then(function(j) { throw new Error(j.error || 'Ошибка'); }); })
+          .then(function() { location.reload(); })
+          .catch(function(e) { alert(e.message); });
+      });
+    });
+  </script>
+</body>
+</html>

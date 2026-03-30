@@ -1,0 +1,78 @@
+<!doctype html>
+<% var pg = (typeof menuFooter !== "undefined" && menuFooter && menuFooter.pages) ? menuFooter.pages : {}; %>
+<% var slideList = (typeof slides !== "undefined" && slides && slides.length) ? slides : []; %>
+<html lang="<%= lang === 'en' ? 'en' : lang === 'kk' ? 'kk' : 'ru' %>">
+<head>
+  <%- include("partials/head") %>
+  <title><%= pageTitle %> — <%= pg.brandSuffix || "Visit Abay" %></title>
+</head>
+<body>
+  <div class="wrapper">
+  <%- include("partials/header") %>
+
+  <section id="story" class="container tour3d-dle-story">
+    <div class="post-hero">
+      <div class="post-hero__media e-cover">
+        <% if (slideList.length) { %>
+        <div class="post-hero__slides js-post-hero-slides" data-interval="5200">
+          <% slideList.forEach(function(img, idx){ %>
+          <div class="post-hero__slide<%= idx === 0 ? " is-active" : "" %>">
+            <img src="<%= img %>" alt="" role="presentation" loading="<%= idx === 0 ? 'eager' : 'lazy' %>">
+          </div>
+          <% }) %>
+        </div>
+        <% } %>
+        <h1 class="post-hero__title"><%= pageTitle %></h1>
+      </div>
+    </div>
+
+    <br><br><br>
+
+    <div class="trav-full_detal container section tour3d-dle-detail">
+      <% if (storyHtml && String(storyHtml).trim()) { %>
+      <span class="tour3d-dle-fulltext"><%- storyHtml %></span>
+      <% } %>
+    </div>
+  </section>
+
+  <section class="container tour3d-dle-story tour3d-dle-embed-wrap">
+    <iframe
+      class="tour3d-matterport-iframe"
+      src="<%= matterportSrc %>"
+      title="3D тур"
+      allowfullscreen
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+    ></iframe>
+  </section>
+
+  <br><br><br>
+  <%- include("partials/footer") %>
+  </div>
+
+  <% if (slideList.length >= 2) { %>
+  <script>
+    (function () {
+      var root = document.querySelector(".tour3d-dle-story .js-post-hero-slides");
+      if (!root) return;
+      var slides = root.querySelectorAll(".post-hero__slide");
+      if (slides.length < 2) return;
+      var i = 0;
+      var raw = parseInt(root.getAttribute("data-interval"), 10);
+      var ms = !isNaN(raw) && raw >= 2000 ? raw : 5200;
+      var reduced = false;
+      try {
+        reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      } catch (e) {}
+      if (reduced) return;
+      setInterval(function () {
+        var next = (i + 1) % slides.length;
+        slides[next].classList.add("is-active");
+        slides[i].classList.remove("is-active");
+        i = next;
+      }, ms);
+    })();
+  </script>
+  <% } %>
+</body>
+</html>

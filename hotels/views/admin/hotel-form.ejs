@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= hotel ? 'Редактирование' : 'Добавление' %> гостиницы</title>
+  <link rel="stylesheet" href="<%= typeof basePath !== 'undefined' ? basePath : '' %>/css/style.css">
+</head>
+<body class="admin-page admin-form-page">
+  <% var bp = (typeof basePath !== 'undefined' ? basePath : ''); var adm = typeof adminWebRoot !== 'undefined' ? adminWebRoot : (bp + '/admin'); var base = (typeof isOwner !== 'undefined' && isOwner) ? (bp + '/owner') : adm;
+     var hi18n = {}; if (hotel && hotel.i18n) { try { hi18n = typeof hotel.i18n === 'string' ? JSON.parse(hotel.i18n) : hotel.i18n; } catch(e) { hi18n = {}; } } if (!hi18n || typeof hi18n !== 'object') hi18n = {}; var hru = hi18n.ru || {}; var hen = hi18n.en || {}; var hkk = hi18n.kk || {}; %>
+  <header class="admin-header">
+    <h1><%= hotel ? 'Редактирование' : 'Добавление' %> гостиницы</h1>
+    <a href="<%= base %>">← К списку</a>
+    <% if (typeof isOwner !== 'undefined' && isOwner) { %><a href="<%= bp %>/owner/bookings">Бронирования</a><% } else { %><a href="<%= adm %>/bookings">Бронирования</a><a href="<%= adm %>/owners">Хозяева</a><% } %>
+    <a href="<%= bp %><%= (typeof isOwner !== 'undefined' && isOwner) ? '/owner/logout' : (adm + '/logout') %>">Выйти</a>
+  </header>
+  <main class="admin-main admin-form-main hotel-admin-form-dense">
+    <form id="form" class="hotel-form hotel-form-compact hotel-form-dense">
+      <input type="hidden" name="id" value="<%= hotel ? hotel.id : '' %>">
+      <div class="hotel-form-fields">
+        <label>Атауы (қазақша) * <input type="text" name="name" value="<%= hotel ? hotel.name : '' %>" required></label>
+        <label class="hotel-form-location-label">Расположение
+          <select name="location" class="hotel-form-location-select">
+            <option value="Семей" selected>Семей</option>
+          </select>
+        </label>
+        <label>Стоимость (общая, если нет номеров) <input type="text" name="price" value="<%= hotel ? hotel.price : '' %>" placeholder="от 15000 тг"></label>
+        <label>Телефон <input type="text" name="phone" value="<%= hotel ? hotel.phone : '' %>"></label>
+        <label>Мекенжай <input type="text" name="address" value="<%= hotel ? hotel.address : '' %>"></label>
+        <label>Широта (для карты) <input type="text" name="latitude" value="<%= hotel && hotel.latitude != null ? hotel.latitude : '' %>" placeholder="50.4114"></label>
+        <label>Долгота (для карты) <input type="text" name="longitude" value="<%= hotel && hotel.longitude != null ? hotel.longitude : '' %>" placeholder="80.2275"></label>
+        <label>Ссылка 2ГИС (построить маршрут) <input type="url" name="map_link" value="<%= hotel && hotel.map_link ? hotel.map_link : '' %>" placeholder="https://2gis.kz/semey/..."></label>
+        <label class="hotel-form-image-label">Изображения (до 10)
+          <div class="image-list" id="image_list"></div>
+          <div class="image-add-row" id="image_add_row">
+            <input type="file" id="image_file" accept="image/jpeg,image/png,image/gif,image/webp,.jpg,.jpeg,.png,.gif,.webp" multiple>
+            <span class="image-upload-hint">или</span>
+            <input type="text" id="image_url_input" placeholder="вставьте ссылку">
+            <button type="button" id="image_add_url_btn">Добавить</button>
+          </div>
+          <span class="image-count-hint" id="image_count_hint">0 / 10</span>
+        </label>
+      </div>
+      <fieldset class="hotel-rooms-fieldset hotel-rooms-fieldset--dense">
+        <legend>Номера и цены</legend>
+        <p class="hotel-rooms-hint">Типы номеров: атауы, баға, до 5 фото.</p>
+        <div class="hotel-rooms-list" id="hotel_rooms_list"></div>
+        <button type="button" class="btn btn-add-room" id="btn_add_room">+ Добавить номер</button>
+      </fieldset>
+      <label class="hotel-form-desc">Сипаттама (қазақша) <textarea name="description" rows="2"><%= hotel ? hotel.description : '' %></textarea></label>
+      <fieldset class="hotel-i18n-fieldset hotel-i18n-fieldset--dense">
+        <legend>RU / EN <span class="hotel-i18n-legend-hint">қосымша</span></legend>
+        <div class="hotel-i18n-cols">
+          <div class="hotel-i18n-col">
+            <span class="hotel-i18n-col-title">Русский</span>
+            <label>Название <input type="text" name="name_ru" value="<%= hru.name || '' %>"></label>
+            <label>Локация <input type="text" name="location_ru" value="<%= hru.location || '' %>"></label>
+            <label>Адрес <input type="text" name="address_ru" value="<%= hru.address || '' %>"></label>
+            <label>Описание <textarea name="description_ru" rows="2"><%= hru.description || '' %></textarea></label>
+          </div>
+          <div class="hotel-i18n-col">
+            <span class="hotel-i18n-col-title">English</span>
+            <label>Name <input type="text" name="name_en" value="<%= hen.name || '' %>"></label>
+            <label>Location <input type="text" name="location_en" value="<%= hen.location || '' %>"></label>
+            <label>Address <input type="text" name="address_en" value="<%= hen.address || '' %>"></label>
+            <label>Description <textarea name="description_en" rows="2"><%= hen.description || '' %></textarea></label>
+          </div>
+        </div>
+      </fieldset>
+      <% if (hkk && (hkk.name || hkk.location || hkk.address || hkk.description)) { %>
+      <details class="hotel-legacy-i18n-details">
+        <summary>Ескі i18n.kk (оқу)</summary>
+        <pre class="hotel-legacy-i18n-pre"><%= JSON.stringify(hkk, null, 2) %></pre>
+      </details>
+      <% } %>
+      <fieldset class="hotel-amenities-fieldset">
+        <legend class="amenities-fieldset-legend">Удобства и услуги</legend>
+        <p class="amenities-lang-hint">На сайте подписи на KZ / RU / EN берутся из настроек; в базе хранятся коды удобств.</p>
+        <% var amListRaw = typeof amenitiesList !== 'undefined' && Array.isArray(amenitiesList) ? amenitiesList : []; var seenAm = {}; var amList = amListRaw.filter(function(a) { if (!a || !a.key) return false; if (seenAm[a.key]) return false; seenAm[a.key] = true; return true; }); var amKeys = (hotel && hotel.amenities && Array.isArray(hotel.amenities)) ? hotel.amenities : []; %>
+        <% if (amList.length) { %>
+          <ul class="amenities-checkboxes">
+            <% amList.forEach(function(a) {
+                 var lk = (a && a.label_kk != null) ? String(a.label_kk).trim() : '';
+                 var lr = (a && a.label_ru != null) ? String(a.label_ru).trim() : '';
+                 var le = (a && a.label_en != null) ? String(a.label_en).trim() : '';
+                 var leg = (a && a.label != null) ? String(a.label).trim() : '';
+                 if (!lk) lk = leg || lr || le || '';
+                 if (!lr) lr = leg || lk || le || '';
+                 if (!le) le = leg || lk || lr || '';
+               %>
+              <li>
+                <label class="amenity-cb">
+                  <input type="checkbox" name="amenity" value="<%= a.key %>" <%= amKeys.indexOf(a.key) !== -1 ? 'checked' : '' %>>
+                  <span class="amenity-cb-text">
+                    <span class="amenity-cb-line amenity-cb-kk"><span class="amenity-cb-badge">KZ</span> <%= lk %></span>
+                    <span class="amenity-cb-line amenity-cb-sub"><span class="amenity-cb-tag">RU</span> <%= lr %></span>
+                    <span class="amenity-cb-line amenity-cb-sub"><span class="amenity-cb-tag">EN</span> <%= le %></span>
+                  </span>
+                </label>
+              </li>
+            <% }); %>
+          </ul>
+        <% } else { %>
+          <p style="color:#666;font-size:14px;">Список удобств не загружен. Проверьте config/amenities.js</p>
+        <% } %>
+      </fieldset>
+      <div class="form-actions">
+        <button type="submit"><%= hotel ? 'Сохранить' : 'Добавить' %></button>
+        <a href="<%= base %>" class="btn btn-secondary">Отмена</a>
+      </div>
+    </form>
+  </main>
+  <script>
+    (function() {
+      var bp = '<%= typeof basePath !== "undefined" ? basePath : "" %>';
+      var MAX_IMAGES = 10;
+      var rooms = <%- JSON.stringify((hotel && hotel.rooms) ? hotel.rooms : (typeof rooms !== 'undefined' && rooms) ? rooms : []) %>;
+      var rawImageUrls = <%- JSON.stringify(
+        (hotel && hotel.image_urls != null)
+          ? hotel.image_urls
+          : (hotel && hotel.image_url ? [hotel.image_url] : [])
+      ) %>;
+      var imageUrls;
+      if (Array.isArray(rawImageUrls)) {
+        imageUrls = rawImageUrls.slice();
+      } else if (typeof rawImageUrls === 'string' && rawImageUrls.trim()) {
+        try {
+          var parsed = JSON.parse(rawImageUrls);
+          imageUrls = Array.isArray(parsed) ? parsed : (parsed ? [parsed] : []);
+        } catch (e) {
+          imageUrls = rawImageUrls ? [rawImageUrls] : [];
+        }
+      } else {
+        imageUrls = [];
+      }
+      var form = document.getElementById('form');
+      var id = form.querySelector('[name="id"]').value;
+      var apiUrl = id ? '/api/hotels/' + id : '/api/hotels';
+      var method = id ? 'PUT' : 'POST';
+      var listEl = document.getElementById('image_list');
+      var fileInput = document.getElementById('image_file');
+      var urlInput = document.getElementById('image_url_input');
+      var addUrlBtn = document.getElementById('image_add_url_btn');
+      var countHint = document.getElementById('image_count_hint');
+      var addRow = document.getElementById('image_add_row');
+
+      function fullUrl(url) {
+        return (url && (url.indexOf('http') === 0 || url.indexOf('//') === 0)) ? url : (bp + (url || ''));
+      }
+      function renderList() {
+        countHint.textContent = imageUrls.length + ' / ' + MAX_IMAGES;
+        addRow.style.display = imageUrls.length >= MAX_IMAGES ? 'none' : '';
+        listEl.innerHTML = imageUrls.map(function(url, i) {
+          return '<span class="image-item"><img src="' + fullUrl(url) + '" alt=""><button type="button" class="image-remove" data-i="' + i + '" title="Удалить">&times;</button></span>';
+        }).join('');
+        listEl.querySelectorAll('.image-remove').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var i = parseInt(btn.getAttribute('data-i'), 10);
+            imageUrls.splice(i, 1);
+            renderList();
+          });
+        });
+      }
+      function addUrl(url) {
+        url = (url || '').trim();
+        if (!url) return;
+        if (imageUrls.length >= MAX_IMAGES) { alert('Максимум ' + MAX_IMAGES + ' изображений'); return; }
+        imageUrls.push(url);
+        renderList();
+        urlInput.value = '';
+      }
+      function uploadFile(file) {
+        if (imageUrls.length >= MAX_IMAGES) { alert('Максимум ' + MAX_IMAGES + ' изображений'); return; }
+        var fd = new FormData();
+        fd.append('image', file);
+        fetch(bp + '/api/upload', { method: 'POST', credentials: 'same-origin', headers: { 'Accept': 'application/json' }, body: fd })
+          .then(function(r) { return r.ok ? r.json() : r.json().then(function(j) { throw new Error(j.error || 'Ошибка'); }); })
+          .then(function(data) {
+            imageUrls.push(data.url);
+            renderList();
+          })
+          .catch(function(err) { alert(err.message); });
+      }
+      renderList();
+      fileInput.addEventListener('change', function() {
+        var files = this.files;
+        for (var i = 0; i < files.length && imageUrls.length < MAX_IMAGES; i++) uploadFile(files[i]);
+        this.value = '';
+      });
+      addUrlBtn.addEventListener('click', function() { addUrl(urlInput.value); });
+      urlInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); addUrl(this.value); } });
+
+      var roomsListEl = document.getElementById('hotel_rooms_list');
+      var btnAddRoom = document.getElementById('btn_add_room');
+      var MAX_ROOM_IMAGES = 5;
+      function roomFullUrl(url) {
+        return (url && (url.indexOf('http') === 0 || url.indexOf('//') === 0)) ? url : (bp + (url || ''));
+      }
+      function renderRoomImages(idx) {
+        var row = roomsListEl.querySelector('.hotel-room-card[data-i="' + idx + '"]');
+        if (!row) return;
+        var wrap = row.querySelector('.room-images-list');
+        if (!wrap) return;
+        var urls = (rooms[idx] && Array.isArray(rooms[idx].image_urls)) ? rooms[idx].image_urls : [];
+        wrap.innerHTML = urls.map(function(url, j) {
+          return '<span class="room-image-item"><img src="' + roomFullUrl(url) + '" alt=""><button type="button" class="room-image-remove" data-idx="' + idx + '" data-j="' + j + '" title="Удалить">&times;</button></span>';
+        }).join('');
+        wrap.querySelectorAll('.room-image-remove').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var ri = parseInt(btn.getAttribute('data-idx'), 10);
+            var rj = parseInt(btn.getAttribute('data-j'), 10);
+            if (rooms[ri] && rooms[ri].image_urls) {
+              rooms[ri].image_urls.splice(rj, 1);
+              renderRoomImages(ri);
+            }
+          });
+        });
+      }
+      function escAttr(s) {
+        return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+      }
+      function syncRoomsFromDOM() {
+        var cards = roomsListEl.querySelectorAll('.hotel-room-card');
+        cards.forEach(function(card) {
+          var idx = parseInt(card.getAttribute('data-i'), 10);
+          if (isNaN(idx) || !rooms[idx]) return;
+          var nameInp = card.querySelector('.room-name');
+          var priceInp = card.querySelector('.room-price');
+          var nru = card.querySelector('.room-name-ru');
+          var nen = card.querySelector('.room-name-en');
+          if (nameInp) rooms[idx].name = (nameInp.value || '').trim();
+          if (priceInp) rooms[idx].price = (priceInp.value || '').trim();
+          var ri = {};
+          if (nru && nru.value.trim()) ri.ru = { name: nru.value.trim() };
+          if (nen && nen.value.trim()) ri.en = { name: nen.value.trim() };
+          if (ri.ru || ri.en) {
+            rooms[idx].i18n = {};
+            if (ri.ru) rooms[idx].i18n.ru = ri.ru;
+            if (ri.en) rooms[idx].i18n.en = ri.en;
+          } else delete rooms[idx].i18n;
+        });
+      }
+      function renderRooms() {
+        syncRoomsFromDOM();
+        roomsListEl.innerHTML = rooms.map(function(r, i) {
+          if (!r.image_urls) r.image_urls = [];
+          var rru = (r.i18n && r.i18n.ru && r.i18n.ru.name) ? r.i18n.ru.name : '';
+          var ren = (r.i18n && r.i18n.en && r.i18n.en.name) ? r.i18n.en.name : '';
+          return '<div class="hotel-room-card" data-i="' + i + '">' +
+            '<div class="hotel-room-card-header">' +
+            '<span class="hotel-room-card-title">Номер ' + (i + 1) + '</span>' +
+            '<button type="button" class="btn-remove-room" title="Удалить номер" aria-label="Удалить номер">×</button>' +
+            '</div>' +
+            '<div class="hotel-room-card-body">' +
+            '<div class="room-field-group">' +
+            '<label class="room-label">Атауы номера (қазақша)</label>' +
+            '<input type="text" class="room-name" placeholder="Мысалы: Стандарт, Люкс" value="' + (r.name || '').replace(/"/g, '&quot;').replace(/</g, '&lt;') + '">' +
+            '</div>' +
+            '<div class="room-field-group">' +
+            '<label class="room-label">Название (RU)</label>' +
+            '<input type="text" class="room-name-ru" placeholder="Русский" value="' + escAttr(rru) + '">' +
+            '</div>' +
+            '<div class="room-field-group">' +
+            '<label class="room-label">Name (EN)</label>' +
+            '<input type="text" class="room-name-en" placeholder="English" value="' + escAttr(ren) + '">' +
+            '</div>' +
+            '<div class="room-field-group">' +
+            '<label class="room-label">Цена</label>' +
+            '<input type="text" class="room-price" placeholder="15000 тг" value="' + (r.price || '').replace(/"/g, '&quot;').replace(/</g, '&lt;') + '">' +
+            '</div>' +
+            '<div class="room-images-cell">' +
+            '<label class="room-label">Фото номера</label>' +
+            '<div class="room-images-list"></div>' +
+            '<div class="room-images-add">' +
+            '<span class="room-file-wrap">' +
+            '<input type="file" class="room-image-file" accept="image/jpeg,image/png,image/gif,image/webp" data-idx="' + i + '" id="room-file-' + i + '">' +
+            '<label for="room-file-' + i + '" class="room-file-btn">Выбрать файл</label>' +
+            '</span>' +
+            '<span class="room-url-divider">или</span>' +
+            '<input type="text" class="room-image-url" placeholder="Ссылка на фото" data-idx="' + i + '">' +
+            '<button type="button" class="room-image-add-url-btn" data-idx="' + i + '">Добавить</button>' +
+            '</div>' +
+            '</div>' +
+            '</div></div>';
+        }).join('');
+        rooms.forEach(function(_, i) { renderRoomImages(i); });
+        roomsListEl.querySelectorAll('.btn-remove-room').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var i = parseInt(btn.closest('.hotel-room-card').getAttribute('data-i'), 10);
+            rooms.splice(i, 1);
+            renderRooms();
+          });
+        });
+        roomsListEl.querySelectorAll('.room-image-add-url-btn').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var idx = parseInt(btn.getAttribute('data-idx'), 10);
+            var row = btn.closest('.hotel-room-card');
+            var urlInp = row.querySelector('.room-image-url');
+            var url = (urlInp && urlInp.value || '').trim();
+            if (!url) return;
+            if (!rooms[idx].image_urls) rooms[idx].image_urls = [];
+            if (rooms[idx].image_urls.length >= MAX_ROOM_IMAGES) { alert('Максимум ' + MAX_ROOM_IMAGES + ' фото на номер'); return; }
+            rooms[idx].image_urls.push(url);
+            renderRoomImages(idx);
+            if (urlInp) urlInp.value = '';
+          });
+        });
+        roomsListEl.querySelectorAll('.room-image-file').forEach(function(inp) {
+          inp.onchange = function() {
+            var idx = parseInt(inp.getAttribute('data-idx'), 10);
+            var file = inp.files && inp.files[0];
+            if (!file) return;
+            if (!rooms[idx].image_urls) rooms[idx].image_urls = [];
+            if (rooms[idx].image_urls.length >= MAX_ROOM_IMAGES) { alert('Максимум ' + MAX_ROOM_IMAGES + ' фото на номер'); inp.value = ''; return; }
+            var fd = new FormData();
+            fd.append('image', file);
+            fetch(bp + '/api/upload', { method: 'POST', credentials: 'same-origin', headers: { 'Accept': 'application/json' }, body: fd })
+              .then(function(r) { return r.ok ? r.json() : r.json().then(function(j) { throw new Error(j.error || 'Ошибка'); }); })
+              .then(function(data) {
+                rooms[idx].image_urls.push(data.url);
+                renderRoomImages(idx);
+              })
+              .catch(function(err) { alert(err.message); })
+              .then(function() { inp.value = ''; });
+          };
+        });
+      }
+      function addRoom() {
+        rooms.push({ name: '', price: '', image_urls: [] });
+        renderRooms();
+      }
+      if (btnAddRoom) btnAddRoom.addEventListener('click', addRoom);
+      renderRooms();
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        syncRoomsFromDOM();
+        var roomsData = [];
+        var cards = roomsListEl.querySelectorAll('.hotel-room-card');
+        cards.forEach(function(card) {
+          var idx = parseInt(card.getAttribute('data-i'), 10);
+          if (isNaN(idx) || idx < 0 || idx >= rooms.length) return;
+          var nameInp = card.querySelector('.room-name');
+          var priceInp = card.querySelector('.room-price');
+          var nru = card.querySelector('.room-name-ru');
+          var nen = card.querySelector('.room-name-en');
+          if (!nameInp || !priceInp) return;
+          var n = (nameInp.value || '').trim();
+          if (!n) return;
+          var imgs = (rooms[idx] && Array.isArray(rooms[idx].image_urls)) ? rooms[idx].image_urls.slice() : [];
+          var item = { name: n, price: (priceInp.value || '').trim(), image_urls: imgs };
+          if ((nru && nru.value.trim()) || (nen && nen.value.trim())) {
+            item.i18n = {};
+            if (nru && nru.value.trim()) item.i18n.ru = { name: nru.value.trim() };
+            if (nen && nen.value.trim()) item.i18n.en = { name: nen.value.trim() };
+          }
+          roomsData.push(item);
+        });
+        var amenityChecks = form.querySelectorAll('input[name="amenity"]:checked');
+        var amenities = [];
+        for (var i = 0; i < amenityChecks.length; i++) amenities.push(amenityChecks[i].value);
+        var latVal = form.latitude ? form.latitude.value.trim() : '';
+        var lngVal = form.longitude ? form.longitude.value.trim() : '';
+        function collectHotelI18n() {
+          var i18n = {};
+          function part(suf) {
+            var o = {};
+            var nk = 'name_' + suf, lk = 'location_' + suf, ak = 'address_' + suf, dk = 'description_' + suf;
+            if (form[nk] && form[nk].value.trim()) o.name = form[nk].value.trim();
+            if (form[lk] && form[lk].value.trim()) o.location = form[lk].value.trim();
+            if (form[ak] && form[ak].value.trim()) o.address = form[ak].value.trim();
+            if (form[dk] && form[dk].value.trim()) o.description = form[dk].value.trim();
+            return o;
+          }
+          var ru = part('ru');
+          var en = part('en');
+          if (Object.keys(ru).length) i18n.ru = ru;
+          if (Object.keys(en).length) i18n.en = en;
+          return Object.keys(i18n).length ? i18n : undefined;
+        }
+        var data = {
+          name: form.name.value.trim(),
+          location: form.location.value.trim() || null,
+          price: form.price.value.trim() || null,
+          phone: form.phone.value.trim() || null,
+          address: form.address.value.trim() || null,
+          latitude: latVal ? parseFloat(latVal) : null,
+          longitude: lngVal ? parseFloat(lngVal) : null,
+          map_link: form.map_link ? form.map_link.value.trim() || null : null,
+          description: form.description.value.trim() || null,
+          image_urls: imageUrls,
+          amenities: amenities,
+          rooms: roomsData,
+          i18n: collectHotelI18n()
+        };
+        fetch(bp + apiUrl, {
+          method: method,
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify(data)
+        })
+          .then(function(r) {
+            if (!r.ok) return r.json().then(function(j) { throw new Error(j.error || 'Ошибка'); });
+            return r.json();
+          })
+          .then(function() { window.location.href = '<%= base %>'; })
+          .catch(function(err) { alert(err.message); });
+      });
+    })();
+  </script>
+</body>
+</html>

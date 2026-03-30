@@ -1,0 +1,75 @@
+<%- include("../partials/layout-start", { title: "События в Семее", section: section }) %>
+    <div class="admin-head">
+      <h1>События в ближайшие дни в Семей</h1>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="admin-btn" href="/sobytija-semey" target="_blank" rel="noopener">Открыть на сайте</a>
+        <a class="admin-btn" href="/admin/events/new">+ Новое событие</a>
+      </div>
+    </div>
+    <% if (typeof success !== "undefined" && success === "deleted") { %>
+      <p class="node-message" style="border-color:#bfe6bf;background:#f2fff2;">Событие удалено.</p>
+    <% } %>
+    <p class="node-muted">
+      Это отдельный раздел событий. Данные не связаны с обычными постами из раздела «Посты».
+    </p>
+
+    <form method="get" action="/admin/events" class="admin-filters admin-events-filters">
+      <div class="admin-filters-row">
+        <div class="admin-filter" style="flex:1;">
+          <label>Поиск по заголовку</label>
+          <input
+            type="text"
+            name="q"
+            value="<%= (filters && filters.q) ? filters.q : "" %>"
+            placeholder="Название мероприятия"
+            class="admin-form-control"
+          />
+        </div>
+        <div class="admin-filter admin-filter-actions admin-events-actions">
+          <button type="submit" class="admin-btn admin-btn-soft">Искать</button>
+          <a class="admin-btn admin-btn-soft" href="/admin/events">Сброс</a>
+        </div>
+      </div>
+    </form>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th style="width:70px;">ID</th>
+            <th>Заголовок</th>
+            <th style="width:170px;">Дата</th>
+            <th style="width:220px;">Локация</th>
+            <th style="width:140px;">Статус</th>
+            <th style="width:260px;">Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (!posts || !posts.length) { %>
+            <tr><td colspan="6" class="admin-td-muted">Нет событий.</td></tr>
+          <% } %>
+          <% (posts || []).forEach(function(p){ %>
+            <tr>
+              <td><%= p.id %></td>
+              <td>
+                <a href="/admin/events/<%= p.id %>/edit"><%= p.title %></a>
+                <div class="admin-td-sub">slug: <span class="admin-mono"><%= p.slug %></span></div>
+              </td>
+              <td><%= p.event_date || "-" %> <%= p.event_time || "" %></td>
+              <td><%= p.location || "-" %></td>
+              <td><%= p.is_published ? "опубликован" : "черновик" %></td>
+              <td>
+                <div class="admin-actions">
+                  <a class="admin-link" href="/sobytija-semey/<%= p.slug %>" target="_blank" rel="noopener">На сайте</a>
+                  <a class="admin-link" href="/admin/events/<%= p.id %>/edit">Редактировать</a>
+                  <form method="post" action="/admin/events/<%= p.id %>/delete" onsubmit="return confirm('Удалить событие?');" style="margin:0;">
+                    <button type="submit" class="admin-link admin-link-danger">Удалить</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+<%- include("../partials/layout-end") %>

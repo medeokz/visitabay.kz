@@ -1,0 +1,30 @@
+1. Письма после бронирования
+Подключён nodemailer. После создания бронирования отправляются два письма:
+Гостю на guest_email: «Заявка принята», даты, гостиница.
+Владельцу на логин из admin_users (если у гостиницы есть owner_id): «Новое бронирование», данные гостя и даты.
+Настройка в .env (без них письма не отправляются):
+
+SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS
+по желанию: SMTP_FROM, SMTP_SECURE=true
+2. Push-уведомления владельцу
+Добавлена таблица push_subscriptions (owner_id, endpoint, p256dh, auth).
+После создания бронирования всем подпискам владельца этой гостиницы отправляется push с заголовком «Новое бронирование» и текстом «Гостиница: гость, даты».
+В кабинете владельца (/owner и /owner/bookings) подключён скрипт /js/push-owner.js:
+если разрешений ещё нет — показывается кнопка «Включить уведомления о новых бронированиях»;
+после разрешения регистрируется Service Worker, подписка отправляется на сервер и сохраняется.
+Настройка в .env:
+
+Сгенерировать ключи: npx web-push generate-vapid-keys
+Прописать VAPID_PUBLIC_KEY и VAPID_PRIVATE_KEY (и при необходимости VAPID_MAILTO).
+3. Файлы
+services/notifications.js — отправка писем и push (nodemailer + web-push).
+routes/api/push.js — GET /api/push/vapid-public-key, POST /api/push/subscribe (только для владельца).
+public/sw.js — Service Worker: показ push и переход по клику (например, в «Бронирования»).
+public/js/push-owner.js — запрос разрешения, подписка и отправка на API.
+В routes/api/bookings.js после INSERT бронирования вызываются sendBookingEmails и sendBookingPush.
+В .env.example добавлены переменные для SMTP и VAPID.
+Дальнейшие шаги для вас:
+
+Настроить SMTP в .env и при необходимости SMTP_FROM.
+Выполнить npx web-push generate-vapid-keys и добавить ключи в .env.
+Перезапустить приложение. После этого при создании бронирования будут уходить письма, а владельцу — push (если он нажал «Включить уведомления» в кабинете).

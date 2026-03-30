@@ -1,0 +1,41 @@
+<%
+  var _mf = locals.menuFooter || locals.defaultMenuFooter;
+  if (!_mf || !_mf.footer) _mf = locals.defaultMenuFooter || { header: {}, footer: {} };
+  var f = _mf.footer || { phoneLabel: "Phone", emailLabel: "E-Mail", address: "" };
+  var bp = (typeof basePath === "string" && basePath) ? basePath : "";
+%>
+<section id="footer-section">
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <a href="<%= bp %>/" class="footer-logo">VISITABAY.KZ</a>
+        <div class="footer-contact-info">
+          <div class="contact-item">
+            <span><%= f.phoneLabel %></span>
+            <a href="tel:+11234567890">+1 (123) 456-7890</a>
+          </div>
+          <div class="contact-item">
+            <span><%= f.emailLabel %></span>
+            <a href="mailto:info@visitabay.kz">info@visitabay.kz</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-right">
+        <address class="footer-address"><%- String(f.address || "").replace(/\n/g, "<br>") %></address>
+        <div class="social-icons">
+          <a href="#"><img src="<%= themeBase %>/images/551a76787d8ac405b727d28823628b307e1a28d7.png" alt="WhatsApp"></a>
+          <a href="#"><img src="<%= themeBase %>/images/1a67329c0c4e11529c60e156b41c100da977b790.png" alt="Phone"></a>
+          <a href="#"><img src="<%= themeBase %>/images/7a11e6518c1127ec17d8bf036f1dab3466f99621.png" alt="TikTok"></a>
+          <a href="#"><img src="<%= themeBase %>/images/cd51dc28b06f012a67cac778ec25d37fd7abe5ec.png" alt="Instagram"></a>
+          <a href="#"><img src="<%= themeBase %>/images/55ef621b527c4b09ca390acec98d230982586bd0.png" alt="Telegram"></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</section>
+
+<script src="<%= themeBase %>/js/swiper.min.js"></script>
+<script src="<%= themeBase %>/js/libs.js"></script>
+<script src="<%= themeBase %>/js/slider.js"></script>
+<script src="<%= themeBase %>/js/oldslider.js"></script>
+<script src="<%= themeBase %>/js/script.js"></script>

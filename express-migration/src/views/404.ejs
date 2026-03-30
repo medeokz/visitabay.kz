@@ -1,0 +1,17 @@
+<!doctype html>
+<% var pg = (typeof menuFooter !== "undefined" && menuFooter && menuFooter.pages) ? menuFooter.pages : {}; %>
+<html lang="<%= lang === 'en' ? 'en' : lang === 'kk' ? 'kk' : 'ru' %>">
+<head>
+  <%- include("partials/head") %>
+  <title>404 — <%= pg.brandSuffix || "Visit Abay" %></title>
+</head>
+<body>
+  <%- include("partials/header") %>
+  <div class="container node-content">
+  <h1>404</h1>
+  <p class="node-message"><%= pg.err404Message || "" %></p>
+  <p class="node-back"><a href="/"><%= pg.err404Home || "" %></a></p>
+  </div>
+  <%- include("partials/footer") %>
+</body>
+</html>

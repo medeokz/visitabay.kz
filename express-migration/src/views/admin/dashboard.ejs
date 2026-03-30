@@ -1,0 +1,18 @@
+<%- include("./partials/layout-start", { title: "Админ панель", section: section }) %>
+<h1>Админ панель</h1>
+<div class="admin-stats">
+  <div class="admin-stat"><b><%= stats.posts %></b><span>Последние посты (срез)</span></div>
+  <div class="admin-stat"><b><%= stats.categories %></b><span>Категории</span></div>
+</div>
+<div class="node-message">
+  Текущие настройки сайта: <b><%= settings.siteName %></b> | <%= settings.siteUrl %> | <%= settings.adminEmail %>
+</div>
+<div class="admin-stats" style="margin-top:12px;">
+  <a class="admin-stat" href="/admin/posts" style="text-decoration:none;">
+    <b>Контент</b><span>Посты, категории, события</span>
+  </a>
+  <a class="admin-stat" href="/admin/hotels" style="text-decoration:none;">
+    <b>Гостиницы</b><span>Отели, брони, хозяева</span>
+  </a>
+</div>
+<%- include("./partials/layout-end") %>

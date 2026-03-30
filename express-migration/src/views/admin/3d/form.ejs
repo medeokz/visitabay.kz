@@ -1,0 +1,92 @@
+<% var bp = (typeof basePath === "string" && basePath) ? basePath : ""; %>
+<% function absAsset(u) { if (!u) return ""; var s = String(u).trim(); if (/^https?:\/\//i.test(s)) return s; return (bp || "") + (s.charAt(0) === "/" ? s : "/" + s); } %>
+<%- include("../partials/layout-start", { title: (mode === "create" ? "Новый 3D тур" : "Редактирование 3D тура"), section: section }) %>
+    <p class="node-back"><a href="/admin/3d">← К списку 3D туров</a></p>
+    <h1><%= mode === "create" ? "Новый 3D тур" : ("Редактирование: " + (tour.title || "")) %></h1>
+    <% if (typeof error !== "undefined" && error) { %>
+      <p class="node-message" style="border-color:#ffb9b9;background:#fff1f1;"><%= error %></p>
+    <% } %>
+    <%
+      function asUploadUrl(p) {
+        var s = String(p || "").trim();
+        if (!s) return "";
+        if (/^https?:\/\//i.test(s) || s.indexOf("/uploads/") === 0) return s;
+        return "/uploads/" + s.replace(/^\/+/, "");
+      }
+      var rawPreview = (typeof posterPreviewUrl !== "undefined" && posterPreviewUrl) ? String(posterPreviewUrl).trim() : "";
+      if (!rawPreview && tour && tour.poster) rawPreview = asUploadUrl(tour.poster);
+      var previewPoster = rawPreview ? absAsset(rawPreview) : "";
+    %>
+    <p class="node-muted">
+      Ссылка на тур: <code>https://my.matterport.com/…</code> или <code>https://my.treedis.com/tour/…</code>.
+      <strong>URL файла</strong> — как на старом сайте, например <code>104-elik-kebek-giri.html</code> → страница <code>/3d/104-elik-kebek-giri.html</code> (как в шаблоне DLE).
+    </p>
+    <div class="admin-table-wrap admin-edit-wrap admin-edit-wrap--compact">
+    <form method="post" enctype="multipart/form-data" class="admin-edit-form admin-edit-form--compact" action="<%= mode === "create" ? "/admin/3d" : ("/admin/3d/" + tour.id) %>">
+      <p>
+        <label>Заголовок<br>
+          <input class="admin-form-control" type="text" name="title" required value="<%= tour && tour.title ? tour.title : "" %>">
+        </label>
+      </p>
+      <p>
+        <label>URL файла (legacy_html)<br>
+          <input class="admin-form-control" type="text" name="legacy_html" placeholder="104-elik-kebek-giri.html" value="<%= tour && tour.legacy_html ? tour.legacy_html : "" %>">
+        </label>
+      </p>
+      <p>
+        <label>Ссылка на тур (Matterport / Treedis)<br>
+          <input class="admin-form-control" type="url" name="matterport_url" required placeholder="https://my.matterport.com/show/?m=…" value="<%= tour && tour.matterport_url ? tour.matterport_url : "" %>">
+        </label>
+      </p>
+      <div style="border:1px solid #ececec;border-radius:10px;padding:10px 10px 8px;margin:8px 0 12px;background:#fff;">
+        <h3 style="margin:0 0 8px;font-size:16px;">Медиа</h3>
+        <input type="hidden" name="poster" value="<%= tour && tour.poster ? tour.poster : "" %>">
+        <div class="admin-form-grid2" style="align-items:start;">
+          <div>
+            <label>Обложка</label>
+            <div style="margin-top:4px;"><input type="file" name="poster_upload" accept="image/*"></div>
+            <% if (previewPoster) { %>
+              <div style="margin-top:8px;">
+                <span class="node-muted" style="font-size:12px;display:block;margin-bottom:4px;">Текущая обложка</span>
+                <a href="<%= previewPoster %>" target="_blank" rel="noopener">
+                  <img src="<%= previewPoster %>" alt="Обложка" style="width:88px;height:62px;object-fit:cover;border-radius:6px;border:1px solid #eee;background:#fff;">
+                </a>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <p>
+        <label>Краткий текст (анонс в списке категории)<br>
+          <textarea class="admin-form-control" name="short_story" rows="3"><%= tour && tour.short_story ? tour.short_story : "" %></textarea>
+        </label>
+      </p>
+      <p>
+        <label>Полный текст (на странице тура, над iframe, HTML)<br>
+          <textarea class="admin-form-control" name="full_story" rows="8"><%= tour && tour.full_story ? tour.full_story : "" %></textarea>
+        </label>
+      </p>
+      <p>
+        <label>Порядок (меньше — выше в списке)<br>
+          <input class="admin-form-control" type="number" name="sort_order" value="<%= tour && tour.sort_order != null ? tour.sort_order : 0 %>">
+        </label>
+      </p>
+      <p>
+        <label><input type="checkbox" name="is_published" value="1" <%= (!tour || Number(tour.is_published) === 1) ? "checked" : "" %>> Опубликован</label>
+      </p>
+      <p class="admin-edit-actions" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <button class="admin-btn admin-btn-dark" type="submit"><%= mode === "create" ? "Создать" : "Сохранить" %></button>
+        <a class="admin-btn admin-btn-ghost" href="/admin/3d">К списку</a>
+        <% if (mode === "edit" && tour && tour.id) { %>
+          <button
+            class="admin-btn admin-btn-soft"
+            type="submit"
+            formaction="/admin/3d/<%= tour.id %>/delete"
+            formmethod="post"
+            onclick="return confirm('Удалить этот тур? Действие необратимо.');"
+          >Удалить</button>
+        <% } %>
+      </p>
+    </form>
+    </div>
+<%- include("../partials/layout-end") %>

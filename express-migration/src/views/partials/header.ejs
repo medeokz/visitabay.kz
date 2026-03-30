@@ -1,0 +1,83 @@
+<%
+  var _mf = locals.menuFooter || locals.defaultMenuFooter;
+  if (!_mf || !_mf.header) _mf = locals.defaultMenuFooter || { header: {}, footer: {} };
+  var h = _mf.header || {};
+  var bp = (typeof basePath === "string" && basePath) ? basePath : "";
+%>
+<header>
+  <div class="container">
+    <a href="<%= bp %>/" class="header-logo">VISITABAY.KZ</a>
+    <div>
+      <div class="header-top">
+        <a href="#"><%= h.aboutPartners %></a>
+        <a href="#"><%= h.faq %></a>
+        <a href="#"><%= h.contacts %></a>
+        <a href="#" class="right"><%= h.writeUs %></a>
+        <div class="header-lang">
+          <span><%= h.langCurrent %> <img src="<%= themeBase %>/images/18087_113.svg" alt=""></span>
+          <div>
+            <a href="?lang=kk">Қазақша</a>
+            <a href="?lang=ru">Русский</a>
+            <a href="?lang=en">English</a>
+          </div>
+        </div>
+      </div>
+      <div class="header-bottom">
+        <div class="header-menu">
+          <span><%= h.menuAbay %></span>
+          <div>
+            <a href="<%= bp %>/oblast-abay"><%= h.subAbayOrigin %></a>
+            <a href="<%= bp %>/legend-mif"><%= h.subLegends %></a>
+            <a href="<%= bp %>/7-prichin-posetit-oblast-abaj"><%= h.sub7reasons %></a>
+          </div>
+        </div>
+        <div class="header-menu">
+          <span><%= h.menuPlan %></span>
+          <div>
+            <a href="#"><%= h.subTourCompanies %></a>
+            <a href="<%= bp %>/category/3d"><%= h.sub3d %></a>
+          </div>
+        </div>
+        <div class="header-menu">
+          <span><%= h.menuWhere %></span>
+          <div>
+            <a href="<%= bp %>/muzei"><%= h.subMuseums %></a>
+            <a href="<%= bp %>/mecheti-i-cerkvi"><%= h.subTemples %></a>
+            <a href="#"><%= h.subOldHouses %></a>
+            <a href="<%= bp %>/pamjatniki-i-obeliski-semeja"><%= h.subMonuments %></a>
+            <a href="<%= bp %>/teatr"><%= h.subTheater %></a>
+            <a href="<%= bp %>/sobytija-semey"><%= h.subEventsSemey %></a>
+            <a href="#"><%= h.subLibraries %></a>
+          </div>
+        </div>
+        <div class="header-menu"><span><a href="<%= bp %>/marshruty-po-semeju"><%= h.menuRoutesSemey %></a></span></div>
+        <div class="header-menu">
+          <span><%= h.menuDistricts %></span>
+          <div>
+            <a href="<%= bp %>/post/aksuatskij-rajon"><%= h.districtAksuat %></a>
+            <a href="<%= bp %>/post/ajagozskij-rajon"><%= h.districtAyagoz %></a>
+            <a href="<%= bp %>/post/beskaragajskij-rajon"><%= h.districtBeskaragay %></a>
+            <a href="<%= bp %>/post/borodulihinskij-rajon"><%= h.districtBorodulikha %></a>
+            <a href="<%= bp %>/post/zhanasemejskij-rajon"><%= h.districtZhanasemey %></a>
+            <a href="<%= bp %>/post/zharminskij-rajon"><%= h.districtZharma %></a>
+            <a href="<%= bp %>/post/kokpektinskij-rajon"><%= h.districtKokpekty %></a>
+            <a href="<%= bp %>/post/makanchinskij-rajon"><%= h.districtMakanshy %></a>
+            <a href="<%= bp %>/post/abajskij-rajon"><%= h.districtAbay %></a>
+            <a href="<%= bp %>/post/urdzharskij-rajon"><%= h.districtUrzhar %></a>
+          </div>
+        </div>
+        <form method="get" class="header-search" action="<%= bp %>/search">
+          <img src="<%= themeBase %>/images/I18087_115_5_129.svg" alt="<%= h.searchAlt %>">
+          <input id="story" name="q" placeholder="<%= h.searchPlaceholder %>" autocomplete="off">
+        </form>
+        <div class="header-soc">
+          <a href="#"><img src="<%= themeBase %>/images/55ef621b527c4b09ca390acec98d230982586bd0.png" alt="Telegram"></a>
+          <a href="#"><img src="<%= themeBase %>/images/cd51dc28b06f012a67cac778ec25d37fd7abe5ec.png" alt="Instagram"></a>
+          <a href="#"><img src="<%= themeBase %>/images/7a11e6518c1127ec17d8bf036f1dab3466f99621.png" alt="TikTok"></a>
+          <a href="#"><img src="<%= themeBase %>/images/1a67329c0c4e11529c60e156b41c100da977b790.png" alt="Phone"></a>
+          <a href="#"><img src="<%= themeBase %>/images/551a76787d8ac405b727d28823628b307e1a28d7.png" alt="WhatsApp"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

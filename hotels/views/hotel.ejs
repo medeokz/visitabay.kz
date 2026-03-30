@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<%
+  var _hl = typeof lang !== 'undefined' && lang ? lang : 'ru';
+  var hd = typeof hotelsDetail !== 'undefined' && hotelsDetail ? hotelsDetail : ((typeof menuFooter !== 'undefined' && menuFooter && menuFooter.hotelsDetail) ? menuFooter.hotelsDetail : {});
+  var _tb = typeof themeBase !== 'undefined' && themeBase ? themeBase : '/visitabay';
+  var _hc = (typeof menuFooter !== 'undefined' && menuFooter && menuFooter.hotelsCatalog) ? menuFooter.hotelsCatalog : {};
+  var _sem = (typeof menuFooter !== 'undefined' && menuFooter && menuFooter.home && menuFooter.home.hotelCityShort) ? menuFooter.home.hotelCityShort : 'Семей';
+%>
+<html lang="<%= _hl === 'en' ? 'en' : _hl === 'ru' ? 'ru' : 'kk' %>">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= hotel.name %> — <%= (typeof isAlakolBase !== 'undefined' && isAlakolBase) ? hd.pageTitleSuffixAlakol : hd.pageTitleSuffixHotels %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="<%= _tb %>/css/eassistant.css">
+  <link rel="stylesheet" href="<%= _tb %>/css/engine.css">
+  <link rel="stylesheet" href="<%= _tb %>/css/styles.css">
+  <link rel="stylesheet" href="<%= _tb %>/css/animation.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+</head>
+<body>
+  <div class="wrapper">
+    <%- include('partials/header') %>
+
+    <section id="story" class="container hotels-single">
+      <div class="hotel-top-split">
+        <div class="hotel-top-left">
+          <div class="story-hero">
+            <button type="button" class="hotel-hero-zoom-trigger" id="hero_zoom_btn" aria-label="<%= hd.zoomPhoto %>">
+              <div class="hotels-single-hero-img e-cover" id="hero_img_wrap">
+                <% var mainImg = (hotel.image_urls && hotel.image_urls.length) ? hotel.image_urls[0] : hotel.image_url; %>
+                <% if (mainImg) { %><img id="hero_main_img" src="<%= mainImg.indexOf('http') === 0 || mainImg.indexOf('/') === 0 ? mainImg : (typeof basePath !== 'undefined' ? basePath : '') + mainImg %>" alt="<%= hotel.name %>"><% } else { %><img id="hero_main_img" src="<%= _tb %>/images/18119_167.svg" alt="<%= hotel.name %>"><% } %>
+              </div>
+            </button>
+          </div>
+          <% if (hotel.image_urls && hotel.image_urls.length > 1) { %>
+            <div class="hotel-gallery-thumbs">
+              <% hotel.image_urls.forEach(function(src, i) { %>
+                <button type="button" class="hotel-gallery-thumb <%= i === 0 ? 'active' : '' %>" data-src="<%= src.indexOf('http') === 0 || src.indexOf('/') === 0 ? src : (typeof basePath !== 'undefined' ? basePath : '') + src %>"><img src="<%= src.indexOf('http') === 0 || src.indexOf('/') === 0 ? src : (typeof basePath !== 'undefined' ? basePath : '') + src %>" alt=""></button>
+              <% }); %>
+            </div>
+          <% } else if (hotel.image_urls && hotel.image_urls.length === 1) { %>
+            <div class="hotel-gallery-thumbs hotel-gallery-thumbs-single"></div>
+          <% } %>
+        </div>
+        <div class="hotel-top-right">
+          <div class="hotel-name-row">
+            <h1 class="hotel-name-top"><%= hotel.name %></h1>
+            <% if (hotel.avgRating != null && !isNaN(hotel.avgRating)) { var pageRating = Math.round(Number(hotel.avgRating)); %>
+            <span class="hotel-page-rating" aria-label="<%= _hc.ratingAria %> <%= hotel.avgRating %> <%= _hc.outOf5 %>" title="<%= hotel.avgRating %> <%= _hc.outOf5 %> (<%= hotel.reviewCount || 0 %> <%= _hc.reviewsWord %>)">
+              <% for (var s = 1; s <= 5; s++) { %><span class="hotel-review-star <%= s <= pageRating ? 'is-filled' : '' %>">★</span><% } %>
+            </span>
+            <% } %>
+          </div>
+          <p class="hotel-tag-top"><%= (typeof isAlakolBase !== 'undefined' && isAlakolBase) ? hd.tagAlakol : hd.tagSemey %></p>
+          <div class="hotels-single-info hotels-single-info-top">
+            <h3><%= hd.mainInfoH3 %></h3>
+            <ul>
+              <% if (hotel.location) { %><li><span><%= hd.labelLocation %></span> <%= hotel.location %></li><% } %>
+              <% if (!hotel.rooms || !hotel.rooms.length) { %><% if (hotel.price) { %><li><span><%= hd.labelPrice %></span> <%= _hc.priceFrom %> <%= hotel.price %></li><% } %><% } %>
+              <% if (hotel.phone) { %><li><span><%= hd.labelPhone %></span> <a href="tel:<%= hotel.phone %>"><%= hotel.phone %></a></li><% } %>
+              <% if (hotel.address) { %><li><span><%= hd.labelAddress %></span> <%= hotel.address %></li><% } %>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <% if (hotel.rooms && hotel.rooms.length) {
+        var base = typeof basePath !== 'undefined' ? basePath : '';
+        var fallbackRoomImg = (hotel.image_urls && hotel.image_urls[0]) ? (hotel.image_urls[0].indexOf('http') === 0 || hotel.image_urls[0].indexOf('/') === 0 ? hotel.image_urls[0] : base + hotel.image_urls[0]) : (base + (hotel.image_url || _tb + '/images/18119_167.svg'));
+      %>
+      <div class="hotel-rooms-bcom hotel-rooms-bcom--modern" id="availability">
+        <div class="hotel-rooms-bcom__intro">
+          <h2 class="hotel-rooms-bcom__h2 contacts-title"><%= hd.roomsAvailabilityH2 || hd.roomsH2 %></h2>
+          <div class="hotel-rooms-bcom__h2-accent" aria-hidden="true"></div>
+          <% if (hd.roomsSectionLead) { %><p class="hotel-rooms-bcom__sub"><%= hd.roomsSectionLead %></p><% } %>
+        </div>
+        <div class="hotel-rooms-bcom__table" role="region" aria-label="<%= hd.roomsAvailabilityH2 || hd.roomsH2 %>">
+          <div class="hotel-rooms-bcom__thead">
+            <div class="hotel-rooms-bcom__th hotel-rooms-bcom__th--wide"><%= hd.roomsColRoomType || '' %></div>
+            <div class="hotel-rooms-bcom__th hotel-rooms-bcom__th--narrow"><%= hd.roomsColPrice || '' %></div>
+          </div>
+          <div class="hotel-rooms-bcom__tbody" role="list">
+          <% hotel.rooms.forEach(function(room) {
+            var roomImgs = (room.image_urls && room.image_urls.length) ? room.image_urls : [];
+            var roomImgUrls = roomImgs.map(function(src) { return (src && (src.indexOf('http') === 0 || src.indexOf('/') === 0)) ? src : (base + (src || '')); });
+            var roomImg = roomImgs[0];
+            var roomImgSrc = roomImg ? (roomImg.indexOf('http') === 0 || roomImg.indexOf('/') === 0 ? roomImg : base + roomImg) : fallbackRoomImg;
+            var roomName = (room.name || hd.roomDefaultName).replace(/</g, '&lt;').replace(/"/g, '&quot;');
+            var roomPriceRaw = String(room.price || '').trim();
+            var roomPriceDisp = roomPriceRaw.replace(/</g, '&lt;');
+            var compactPrice = roomPriceRaw.replace(/\s/g, '');
+            if (/^\d+$/.test(compactPrice)) {
+              roomPriceDisp = compactPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
+            } else if (/^\d+₸$/.test(compactPrice)) {
+              roomPriceDisp = compactPrice.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
+            }
+          %>
+          <article class="hotel-rooms-bcom__row" role="listitem">
+            <div class="hotel-rooms-bcom__roomcell">
+              <div class="hotel-rooms-bcom__photo">
+                <button type="button" class="hotel-rooms-bcom__zoom hotel-room-card__zoom-trigger" aria-label="<%= hd.zoomPhoto %>" data-gallery-urls='<%= JSON.stringify(roomImgUrls.length ? roomImgUrls : [roomImgSrc]).replace(/'/g, "&#39;") %>'>
+                  <img src="<%= roomImgSrc %>" alt="<%= roomName %>" class="hotel-rooms-bcom__hero-img" width="200" height="130" decoding="async">
+                  <% if (roomImgs.length > 1) { %><span class="hotel-rooms-bcom__badge-pics"><%= hd.photosN.replace('{n}', String(roomImgs.length)) %></span><% } %>
+                </button>
+              </div>
+              <div class="hotel-rooms-bcom__detail">
+                <h3 class="hotel-rooms-bcom__name"><%= roomName %></h3>
+                <p class="hotel-rooms-bcom__fact"><span class="hotel-rooms-bcom__chip"><%= hd.perNight %></span></p>
+                <% if (roomImgs.length > 1) { %>
+                <div class="hotel-rooms-bcom__minis" role="group" aria-label="<%= hd.photosN.replace('{n}', String(roomImgs.length)) %>">
+                  <% roomImgs.forEach(function(src, i) {
+                    var s = (src && (src.indexOf('http') === 0 || src.indexOf('/') === 0)) ? src : (base + (src || ''));
+                  %><button type="button" class="hotel-rooms-bcom__mini <%= i === 0 ? 'is-active' : '' %>" data-src="<%= s %>" aria-label="<%= hd.zoomPhoto %> — <%= i + 1 %> / <%= roomImgs.length %>"><img src="<%= s %>" alt="" loading="lazy"></button><% }); %>
+                </div>
+                <% } %>
+              </div>
+            </div>
+            <div class="hotel-rooms-bcom__pricecell">
+              <div class="hotel-rooms-bcom__pricebox">
+                <% if (roomPriceRaw) { %>
+                <p class="hotel-rooms-bcom__p-label"><%= hd.roomsPriceForOneNight || hd.perNight %></p>
+                <p class="hotel-rooms-bcom__p-amount"><span class="hotel-rooms-bcom__p-from"><%= _hc.priceFrom %></span><strong class="hotel-rooms-bcom__p-sum"><%= roomPriceDisp %></strong></p>
+                <% } else { %>
+                <p class="hotel-rooms-bcom__p-muted"><%= hd.priceOnRequest %></p>
+                <% } %>
+              </div>
+              <a href="#booking-form" class="hotel-rooms-bcom__reserve" data-room-id="<%= room.id %>"><span class="hotel-rooms-bcom__reserve-text"><%= hd.bookBtn %></span></a>
+            </div>
+          </article>
+          <% }); %>
+          </div>
+        </div>
+      </div>
+      <% } %>
+
+      <div class="hotels-single-main">
+        <div class="hotels-single-description">
+          <% if (hotel.description) { %>
+            <h2 class="contacts-title"><%= hd.descriptionH2 %></h2>
+            <div class="story-body">
+              <% (hotel.description || '').split(/\n/).forEach(function(para) { if (para.trim()) { %><p><%= para %></p><% } }); %>
+            </div>
+          <% } %>
+        </div>
+        <aside class="hotels-single-sidebar">
+          <% if (!(typeof isAlakolBase !== 'undefined' && isAlakolBase)) { %>
+          <div class="hotels-single-info hotels-single-booking">
+            <h3><%= hd.bookH3 %></h3>
+            <form id="booking-form" class="booking-form">
+              <input type="hidden" name="hotel_id" value="<%= hotel.id %>">
+              <% if (hotel.rooms && hotel.rooms.length) { %>
+              <label><%= hd.labelRoom %>
+                <select name="room_id">
+                  <option value=""><%= hd.roomAny %></option>
+                  <% hotel.rooms.forEach(function(room) { %>
+                  <option value="<%= room.id %>"><%= room.name %><% if (room.price) { %> — <%= room.price %><% } %></option>
+                  <% }); %>
+                </select>
+              </label>
+              <% } %>
+              <div class="booking-row">
+                <label><%= hd.checkIn %> <input type="date" name="check_in" required></label>
+                <label><%= hd.checkOut %> <input type="date" name="check_out" required></label>
+              </div>
+              <div class="booking-row">
+                <label><%= hd.adults %> <input type="number" name="adults" min="1" value="1" required></label>
+                <label><%= hd.children %> <input type="number" name="children" min="0" value="0"></label>
+              </div>
+              <label><%= hd.yourName %> <input type="text" name="guest_name" required></label>
+              <label><%= hd.email %> <input type="email" name="guest_email" required></label>
+              <label><%= hd.phone %> <input type="tel" name="guest_phone" required></label>
+              <label><%= hd.wishes %> <textarea name="notes" rows="2"></textarea></label>
+              <button type="submit" class="booking-submit"><%= hd.submitBooking %></button>
+            </form>
+            <p id="booking-message" class="booking-message"></p>
+          </div>
+          <% } %>
+        </aside>
+      </div>
+
+      <% if (hotel.amenitiesLabels && hotel.amenitiesLabels.length) { %>
+        <div class="hotels-amenities">
+          <h2><%= hd.amenitiesH2 %></h2>
+          <ul class="hotels-amenities-list">
+            <% hotel.amenitiesLabels.forEach(function(label) { %><li><%= label %></li><% }); %>
+          </ul>
+        </div>
+      <% } %>
+    </section>
+
+    <% if (hotel.address || (hotel.map_link && hotel.map_link.trim()) || (hotel.latitude != null && hotel.longitude != null)) { %>
+    <div class="container">
+      <div class="contacts-info_item">
+        <div class="contacts-info_content">
+          <h2 class="contacts-title"><%= hd.howToGetH2 %></h2>
+          <% if (hotel.address) { %><address class="contacts-details"><%= hotel.address %></address><% } %>
+          <% var mapHref = (hotel.map_link && hotel.map_link.trim()) ? hotel.map_link.trim() : (hotel.address ? ('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(hotel.address)) : ''); %>
+          <% if (mapHref) { %>
+          <a href="<%= mapHref %>" target="_blank" rel="noopener" class="promo-button">
+            <span><%= hd.buildRoute %></span>
+            <img src="<%= _tb %>/images/18128_319.svg" alt="<%= hd.arrowRouteAlt %>" onerror="this.style.display='none'">
+          </a>
+          <% } %>
+        </div>
+        <div class="contacts-info_bg" id="hotel-route-map" data-address="<%= (hotel.address || '').replace(/"/g, '&quot;') %>" data-lat="<%= hotel.latitude != null ? hotel.latitude : '' %>" data-lng="<%= hotel.longitude != null ? hotel.longitude : '' %>" data-name="<%= (hotel.name || '').replace(/"/g, '&quot;') %>" style="min-height: 300px;"></div>
+      </div>
+    </div>
+    <% } %>
+
+    <% if (!(typeof isAlakolBase !== 'undefined' && isAlakolBase)) { %>
+    <div class="container hotel-reviews-section">
+      <h2 class="contacts-title"><%= hd.reviewsH2 %></h2>
+      <div class="hotel-reviews-list">
+        <% if (typeof reviews !== 'undefined' && reviews.length) { %>
+          <% reviews.forEach(function(r) { %>
+          <article class="hotel-review-card">
+            <div class="hotel-review-header">
+              <span class="hotel-review-author"><%= (r.author_name || hd.guestDefault).replace(/</g, '&lt;').replace(/>/g, '&gt;') %></span>
+              <% if (r.rating != null) { %><span class="hotel-review-rating" aria-label="<%= _hc.ratingAria %> <%= r.rating %> <%= _hc.outOf5 %>" title="<%= r.rating %> <%= _hc.outOf5 %>"><% for (var s = 1; s <= 5; s++) { %><span class="hotel-review-star <%= s <= r.rating ? 'is-filled' : '' %>" aria-hidden="true">★</span><% } %></span><% } %>
+              <time class="hotel-review-date" datetime="<%= r.created_at %>"><%= r.created_at %></time>
+            </div>
+            <p class="hotel-review-text"><%- (r.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>') %></p>
+          </article>
+          <% }); %>
+        <% } else { %>
+          <p class="hotel-reviews-empty"><%= hd.reviewsEmpty %></p>
+        <% } %>
+      </div>
+      <form class="hotel-review-form" id="hotel-review-form" data-api-base="<%= typeof basePath !== 'undefined' ? basePath : '' %>">
+        <h3 class="hotel-review-form-title"><%= hd.reviewFormTitle %></h3>
+        <input type="hidden" name="hotel_id" value="<%= hotel.id %>">
+        <label><%= hd.reviewYourName %> <input type="text" name="author_name" required maxlength="255" placeholder="<%= hd.reviewNamePlaceholder %>"></label>
+        <div class="hotel-review-form-rating">
+          <span class="hotel-review-form-rating-label"><%= hd.reviewRating %></span>
+          <div class="hotel-review-stars-select" id="hotel-review-stars" role="group" aria-label="<%= hd.reviewStarsAria %>">
+            <input type="hidden" name="rating" id="hotel-review-rating-input" value="">
+            <% for (var s = 1; s <= 5; s++) { %>
+            <button type="button" class="hotel-review-star-btn" data-value="<%= s %>" aria-label="<%= hd.reviewStarAriaN.replace('{n}', String(s)) %>">★</button>
+            <% } %>
+          </div>
+        </div>
+        <label><%= hd.reviewText %> <textarea name="text" rows="4" required placeholder="<%= hd.reviewPlaceholder %>"></textarea></label>
+        <button type="submit" class="promo-button"><%= hd.submitReview %></button>
+        <p class="hotel-review-form-message" id="hotel-review-message"></p>
+      </form>
+    </div>
+    <% } %>
+
+    <% if (typeof relatedHotels !== 'undefined' && relatedHotels.length) { %>
+    <div class="container">
+      <div class="vis-blog">
+        <h2><%= (typeof isAlakolBase !== 'undefined' && isAlakolBase) ? hd.relatedAlakol : hd.relatedHotels %></h2>
+        <div class="vis-blog_items">
+          <div class="vis-blog_grid related-hotels-one-row">
+            <% relatedHotels.forEach(function(h) {
+              var relPath = (typeof isAlakolBase !== 'undefined' && isAlakolBase) ? '/baza-alakol/' : '/hotel/';
+              var link = (typeof basePath !== 'undefined' ? basePath : '') + relPath + (h.slug || h.id);
+              var imgSrc = (h.image_url && (h.image_url.indexOf('http') === 0 || h.image_url.indexOf('/') === 0)) ? h.image_url : ((typeof basePath !== 'undefined' ? basePath : '') + (h.image_url || _tb + '/images/hotels-hero.jpg'));
+            %>
+            <a href="<%= link %>" class="vis-blog_item">
+              <div class="vis-blog_bg e-cover" style="aspect-ratio: 16/9; border-radius: 10px; overflow: hidden; background: #e0e0e0;">
+                <img src="<%= imgSrc %>" alt="<%= h.name %>" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <span><%= h.location || _sem %></span>
+              <b><%= h.name %></b>
+              <span style="display: inline-block; margin-top: 8px;"><%= hd.readMore %></span>
+            </a>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+
+    <div class="hotel-lightbox" id="hotel_lightbox" aria-hidden="true">
+      <button type="button" class="hotel-lightbox-close" id="hotel_lightbox_close" aria-label="<%= hd.lightboxClose %>">&times;</button>
+      <div class="hotel-lightbox-backdrop" id="hotel_lightbox_backdrop"></div>
+      <button type="button" class="hotel-lightbox-prev" id="hotel_lightbox_prev" aria-label="<%= hd.lightboxPrev %>">&lsaquo;</button>
+      <button type="button" class="hotel-lightbox-next" id="hotel_lightbox_next" aria-label="<%= hd.lightboxNext %>">&rsaquo;</button>
+      <div class="hotel-lightbox-content">
+        <img id="hotel_lightbox_img" src="" alt="">
+      </div>
+      <div class="hotel-lightbox-counter" id="hotel_lightbox_counter"></div>
+    </div>
+
+    <script>
+      window.__HD__ = <%- JSON.stringify(hd) %>;
+      window.__HC__ = <%- JSON.stringify(_hc) %>;
+      (function() {
+        var form = document.getElementById('booking-form');
+        var msg = document.getElementById('booking-message');
+        if (form && msg) {
+          form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            msg.textContent = '';
+            var data = {
+              hotel_id: parseInt(form.hotel_id.value, 10),
+              room_id: form.room_id && form.room_id.value ? parseInt(form.room_id.value, 10) : null,
+              check_in: form.check_in.value,
+              check_out: form.check_out.value,
+              adults: parseInt(form.adults.value, 10) || 1,
+              children: parseInt(form.children.value, 10) || 0,
+              guest_name: form.guest_name.value.trim(),
+              guest_email: form.guest_email.value.trim(),
+              guest_phone: form.guest_phone.value.trim(),
+              notes: form.notes.value.trim() || null
+            };
+            fetch((typeof basePath !== 'undefined' ? basePath : '') + '/api/bookings', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify(data)
+            })
+              .then(function(r) { return r.json().then(function(j) { return r.ok ? j : Promise.reject(j); }); })
+              .then(function() {
+                var d = window.__HD__ || {};
+                msg.textContent = d.bookingSuccess || '';
+                msg.className = 'booking-message success';
+                form.reset();
+              })
+              .catch(function(j) {
+                var d = window.__HD__ || {};
+                msg.textContent = j.error || d.bookingError || '';
+                msg.className = 'booking-message error';
+              });
+          });
+        }
+        var roomSelect = form && form.room_id ? form.room_id : null;
+        document.querySelectorAll('.hotel-rooms-bcom__reserve[data-room-id], .hotel-room-card__book-btn[data-room-id]').forEach(function(link) {
+          link.addEventListener('click', function() {
+            var roomId = this.getAttribute('data-room-id');
+            if (roomSelect && roomId) roomSelect.value = roomId;
+          });
+        });
+        document.querySelectorAll('.hotel-rooms-bcom__row').forEach(function(row) {
+          var mainImg = row.querySelector('.hotel-rooms-bcom__hero-img');
+          if (!mainImg) return;
+          row.querySelectorAll('.hotel-rooms-bcom__mini[data-src]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              var src = this.getAttribute('data-src');
+              if (src) mainImg.src = src;
+              row.querySelectorAll('.hotel-rooms-bcom__mini').forEach(function(b) { b.classList.remove('is-active'); });
+              this.classList.add('is-active');
+            });
+          });
+        });
+        var reviewForm = document.getElementById('hotel-review-form');
+        var reviewMsg = document.getElementById('hotel-review-message');
+        var starsWrap = document.getElementById('hotel-review-stars');
+        if (starsWrap) {
+          var ratingInput = document.getElementById('hotel-review-rating-input');
+          var starBtns = starsWrap.querySelectorAll('.hotel-review-star-btn');
+          function setRating(val) {
+            if (ratingInput) ratingInput.value = val ? String(val) : '';
+            starBtns.forEach(function(btn, i) {
+              btn.classList.toggle('is-selected', (i + 1) <= (val || 0));
+            });
+          }
+          starBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() { setRating(parseInt(this.getAttribute('data-value'), 10)); });
+            btn.addEventListener('mouseenter', function() {
+              var v = parseInt(this.getAttribute('data-value'), 10);
+              starBtns.forEach(function(b, i) { b.classList.toggle('is-hover', (i + 1) <= v); });
+            });
+            btn.addEventListener('mouseleave', function() {
+              starBtns.forEach(function(b) { b.classList.remove('is-hover'); });
+            });
+          });
+          reviewForm && reviewForm.addEventListener('reset', function() { setTimeout(function() { setRating(0); }, 0); });
+        }
+        if (reviewForm && reviewMsg) {
+          reviewForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            reviewMsg.textContent = '';
+            var dataBase = (reviewForm.getAttribute('data-api-base') || '').trim();
+            var pathname = window.location.pathname || '';
+            var hotelPathIndex = pathname.indexOf('/hotel/');
+            var pathBase = hotelPathIndex >= 0 ? pathname.substring(0, hotelPathIndex) : '';
+            var apiBase = dataBase || pathBase || (typeof basePath !== 'undefined' ? basePath : '');
+            var data = {
+              hotel_id: parseInt(reviewForm.hotel_id.value, 10),
+              author_name: (reviewForm.author_name && reviewForm.author_name.value || '').trim(),
+              rating: reviewForm.rating && reviewForm.rating.value ? parseInt(reviewForm.rating.value, 10) : null,
+              text: (reviewForm.text && reviewForm.text.value || '').trim()
+            };
+            if (!data.author_name || !data.text) {
+              var d0 = window.__HD__ || {};
+              reviewMsg.textContent = d0.reviewNeedNameText || '';
+              reviewMsg.className = 'hotel-review-form-message error';
+              return;
+            }
+            fetch(apiBase + '/api/reviews', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify(data)
+            })
+              .then(function(r) {
+                return r.text().then(function(t) {
+                  var j;
+                  try { j = t ? JSON.parse(t) : {}; } catch (_) { j = {}; }
+                  return r.ok ? j : Promise.reject(j);
+                });
+              })
+              .then(function() {
+                var d1 = window.__HD__ || {};
+                reviewMsg.textContent = d1.reviewThanks || '';
+                reviewMsg.className = 'hotel-review-form-message success';
+                reviewForm.reset();
+                setTimeout(function() { location.reload(); }, 1500);
+              })
+              .catch(function(j) {
+                var d2 = window.__HD__ || {};
+                var msg = (j && typeof j === 'object' && j.error) ? j.error : (d2.reviewSubmitError || '');
+                reviewMsg.textContent = msg;
+                reviewMsg.className = 'hotel-review-form-message error';
+              });
+          });
+        }
+        document.querySelectorAll('.hotel-gallery-thumb').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var src = this.getAttribute('data-src');
+            var mainImg = document.getElementById('hero_main_img');
+            if (src && mainImg) {
+              mainImg.src = src;
+              document.querySelectorAll('.hotel-gallery-thumb').forEach(function(b) { b.classList.remove('active'); });
+              this.classList.add('active');
+            }
+          });
+        });
+        var lightbox = document.getElementById('hotel_lightbox');
+        var lightboxImg = document.getElementById('hotel_lightbox_img');
+        var heroBtn = document.getElementById('hero_zoom_btn');
+        var closeBtn = document.getElementById('hotel_lightbox_close');
+        var backdrop = document.getElementById('hotel_lightbox_backdrop');
+        var prevBtn = document.getElementById('hotel_lightbox_prev');
+        var nextBtn = document.getElementById('hotel_lightbox_next');
+        var counterEl = document.getElementById('hotel_lightbox_counter');
+        var galleryUrls = [];
+        var currentIndex = 0;
+        function getGalleryUrls() {
+          var thumbs = document.querySelectorAll('.hotel-gallery-thumb[data-src]');
+          if (thumbs.length) {
+            return Array.prototype.map.call(thumbs, function(t) { return t.getAttribute('data-src'); });
+          }
+          var main = document.getElementById('hero_main_img');
+          return main && main.src ? [main.src] : [];
+        }
+        function showSlide(idx) {
+          if (!galleryUrls.length || !lightboxImg) return;
+          currentIndex = (idx + galleryUrls.length) % galleryUrls.length;
+          lightboxImg.src = galleryUrls[currentIndex];
+          if (counterEl) counterEl.textContent = (currentIndex + 1) + ' / ' + galleryUrls.length;
+          if (prevBtn) prevBtn.style.display = galleryUrls.length > 1 ? '' : 'none';
+          if (nextBtn) nextBtn.style.display = galleryUrls.length > 1 ? '' : 'none';
+        }
+        function openLightbox() {
+          galleryUrls = getGalleryUrls();
+          var main = document.getElementById('hero_main_img');
+          var src = main ? main.src : (galleryUrls[0] || '');
+          if (!src || !lightbox || !lightboxImg) return;
+          currentIndex = galleryUrls.indexOf(src);
+          if (currentIndex < 0) currentIndex = 0;
+          lightboxImg.src = galleryUrls[currentIndex];
+          if (counterEl) counterEl.textContent = galleryUrls.length ? (currentIndex + 1) + ' / ' + galleryUrls.length : '';
+          if (prevBtn) prevBtn.style.display = galleryUrls.length > 1 ? '' : 'none';
+          if (nextBtn) nextBtn.style.display = galleryUrls.length > 1 ? '' : 'none';
+          lightbox.classList.add('hotel-lightbox-open');
+          lightbox.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
+        function openLightboxWithUrls(urls) {
+          if (!urls || !urls.length || !lightbox || !lightboxImg) return;
+          galleryUrls = urls;
+          currentIndex = 0;
+          lightboxImg.src = galleryUrls[0];
+          if (counterEl) counterEl.textContent = galleryUrls.length ? '1 / ' + galleryUrls.length : '';
+          if (prevBtn) prevBtn.style.display = galleryUrls.length > 1 ? '' : 'none';
+          if (nextBtn) nextBtn.style.display = galleryUrls.length > 1 ? '' : 'none';
+          lightbox.classList.add('hotel-lightbox-open');
+          lightbox.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox() {
+          if (lightbox) {
+            lightbox.classList.remove('hotel-lightbox-open');
+            lightbox.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+          }
+        }
+        function goPrev() {
+          if (galleryUrls.length > 1) showSlide(currentIndex - 1);
+        }
+        function goNext() {
+          if (galleryUrls.length > 1) showSlide(currentIndex + 1);
+        }
+        if (heroBtn) heroBtn.addEventListener('click', openLightbox);
+        document.querySelectorAll('.hotel-room-card__zoom-trigger').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var raw = this.getAttribute('data-gallery-urls');
+            if (!raw) return;
+            try {
+              var urls = typeof raw === 'string' ? JSON.parse(raw) : raw;
+              if (Array.isArray(urls) && urls.length) openLightboxWithUrls(urls);
+            } catch (e) {}
+          });
+        });
+        if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+        if (backdrop) backdrop.addEventListener('click', closeLightbox);
+        if (prevBtn) prevBtn.addEventListener('click', function(e) { e.stopPropagation(); goPrev(); });
+        if (nextBtn) nextBtn.addEventListener('click', function(e) { e.stopPropagation(); goNext(); });
+        document.addEventListener('keydown', function(e) {
+          if (!lightbox || !lightbox.classList.contains('hotel-lightbox-open')) return;
+          if (e.key === 'Escape') closeLightbox();
+          else if (e.key === 'ArrowLeft') goPrev();
+          else if (e.key === 'ArrowRight') goNext();
+        });
+      })();
+    </script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+      (function() {
+        var mapEl = document.getElementById('hotel-route-map');
+        if (!mapEl || typeof L === 'undefined') return;
+        function esc(s) {
+          if (!s) return '';
+          return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+        var lat = parseFloat(mapEl.getAttribute('data-lat'));
+        var lng = parseFloat(mapEl.getAttribute('data-lng'));
+        var address = mapEl.getAttribute('data-address') || '';
+        var name = mapEl.getAttribute('data-name') || (window.__HD__ && window.__HD__.defaultHotelName ? window.__HD__.defaultHotelName : '');
+        var centerLat = 50.4114, centerLng = 80.2275;
+        var semey = { latMin: 50.25, latMax: 50.50, lngMin: 80.10, lngMax: 80.35 };
+        function isInSemey(la, ln) {
+          return !isNaN(la) && !isNaN(ln) && la >= semey.latMin && la <= semey.latMax && ln >= semey.lngMin && ln <= semey.lngMax;
+        }
+
+        if (!isNaN(lat) && !isNaN(lng) && isInSemey(lat, lng)) {
+          var map = L.map('hotel-route-map').setView([lat, lng], 16);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+          var popupHtml = '<strong>' + esc(name) + '</strong>' + (address ? '<br><span>' + esc(address) + '</span>' : '');
+          L.marker([lat, lng]).addTo(map).bindPopup(popupHtml, { minWidth: 220 });
+        } else if (!isNaN(lat) && !isNaN(lng)) {
+          var map = L.map('hotel-route-map').setView([centerLat, centerLng], 13);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+        } else if (address.trim()) {
+          var map = L.map('hotel-route-map').setView([centerLat, centerLng], 12);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+          var geo = (window.__HC__ && window.__HC__.mapGeocodeSemey) ? window.__HC__.mapGeocodeSemey : '';
+          var q = (geo ? geo + ', ' : '') + address.trim();
+          fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(q) + '&format=json&limit=1')
+            .then(function(r) { return r.json(); })
+            .then(function(arr) {
+              if (arr && arr[0]) {
+                var lat2 = parseFloat(arr[0].lat);
+                var lng2 = parseFloat(arr[0].lon);
+                if (!isNaN(lat2) && !isNaN(lng2) && isInSemey(lat2, lng2)) {
+                  map.setView([lat2, lng2], 16);
+                  var popupHtml = '<strong>' + esc(name) + '</strong><br><span>' + esc(address) + '</span>';
+                  L.marker([lat2, lng2]).addTo(map).bindPopup(popupHtml, { minWidth: 220 });
+                }
+              }
+            })
+            .catch(function() {});
+        } else {
+          var map = L.map('hotel-route-map').setView([centerLat, centerLng], 13);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+        }
+      })();
+    </script>
+    <%- include('partials/footer') %>
+  </div>
+</body>
+</html>
