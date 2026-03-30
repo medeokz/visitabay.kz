@@ -13,7 +13,8 @@
     "migrate:3d-tours": "node scripts/migrate-3d-tour-urls.js",
     "import:3d-from-posts": "node scripts/import-3d-tours-from-posts.js 23",
     "import:alakol": "node scripts/import-alakol-xlsx.js",
-    "symlinks:plesk": "echo Run on Linux: bash scripts/plesk-httpdocs-symlinks.sh /var/www/vhosts/YOURDOMAIN/httpdocs"
+    "symlinks:plesk": "echo Run on Linux: bash scripts/plesk-httpdocs-symlinks.sh /var/www/vhosts/YOURDOMAIN/httpdocs",
+    "deploy:plesk-help": "echo After git pull on server: HTTPDOCS=/var/www/vhosts/visitabay.kz/httpdocs bash express-migration/scripts/deploy-server.sh"
   },
   "dependencies": {
     "cookie-parser": "^1.4.7",

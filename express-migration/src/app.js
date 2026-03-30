@@ -80,8 +80,13 @@ app.use(
 app.use(cookieParser());
 // Абсолютные URL статики в шаблонах (прокси/X-Forwarded-*): избегает битых относительных href.
 app.use((req, res, next) => {
-  const xfProto = (req.get("x-forwarded-proto") || "").split(",")[0].trim();
-  const proto = xfProto || req.protocol || "https";
+  const xfProto = (req.get("x-forwarded-proto") || "").split(",")[0].trim().toLowerCase();
+  let proto = xfProto || req.protocol || "https";
+  // За Nginx/Passenger без X-Forwarded-Proto Express часто видит только http → в <link href> попадает http://
+  // при открытии сайта по https://, браузер режет стили (mixed content). В production по умолчанию считаем HTTPS.
+  if (isProd && proto === "http" && String(process.env.ALLOW_HTTP_ASSET_URLS || "").trim() !== "1") {
+    proto = "https";
+  }
   const hostRaw = req.get("x-forwarded-host") || req.get("host") || "";
   const host = hostRaw.split(",")[0].trim();
   if (host && (isProd || String(process.env.ASSET_ABSOLUTE_URLS || "").trim() === "1")) {

@@ -3,6 +3,7 @@
   if (!_mf || !_mf.header) _mf = locals.defaultMenuFooter || { header: {}, footer: {} };
   var h = _mf.header || {};
   var bp = (typeof basePath === "string" && basePath) ? basePath : "";
+  var _o = (typeof absoluteBase === "string" && absoluteBase) ? absoluteBase : "";
 %>
 <header>
   <div class="container">
@@ -14,7 +15,7 @@
         <a href="#"><%= h.contacts %></a>
         <a href="#" class="right"><%= h.writeUs %></a>
         <div class="header-lang">
-          <span><%= h.langCurrent %> <img src="<%= themeBase %>/images/18087_113.svg" alt=""></span>
+          <span><%= h.langCurrent %> <img src="<%= _o %><%= themeBase %>/images/18087_113.svg" alt=""></span>
           <div>
             <a href="?lang=kk">Қазақша</a>
             <a href="?lang=ru">Русский</a>
@@ -67,15 +68,15 @@
           </div>
         </div>
         <form method="get" class="header-search" action="<%= bp %>/search">
-          <img src="<%= themeBase %>/images/I18087_115_5_129.svg" alt="<%= h.searchAlt %>">
+          <img src="<%= _o %><%= themeBase %>/images/I18087_115_5_129.svg" alt="<%= h.searchAlt %>">
           <input id="story" name="q" placeholder="<%= h.searchPlaceholder %>" autocomplete="off">
         </form>
         <div class="header-soc">
-          <a href="#"><img src="<%= themeBase %>/images/55ef621b527c4b09ca390acec98d230982586bd0.png" alt="Telegram"></a>
-          <a href="#"><img src="<%= themeBase %>/images/cd51dc28b06f012a67cac778ec25d37fd7abe5ec.png" alt="Instagram"></a>
-          <a href="#"><img src="<%= themeBase %>/images/7a11e6518c1127ec17d8bf036f1dab3466f99621.png" alt="TikTok"></a>
-          <a href="#"><img src="<%= themeBase %>/images/1a67329c0c4e11529c60e156b41c100da977b790.png" alt="Phone"></a>
-          <a href="#"><img src="<%= themeBase %>/images/551a76787d8ac405b727d28823628b307e1a28d7.png" alt="WhatsApp"></a>
+          <a href="#"><img src="<%= _o %><%= themeBase %>/images/55ef621b527c4b09ca390acec98d230982586bd0.png" alt="Telegram"></a>
+          <a href="#"><img src="<%= _o %><%= themeBase %>/images/cd51dc28b06f012a67cac778ec25d37fd7abe5ec.png" alt="Instagram"></a>
+          <a href="#"><img src="<%= _o %><%= themeBase %>/images/7a11e6518c1127ec17d8bf036f1dab3466f99621.png" alt="TikTok"></a>
+          <a href="#"><img src="<%= _o %><%= themeBase %>/images/1a67329c0c4e11529c60e156b41c100da977b790.png" alt="Phone"></a>
+          <a href="#"><img src="<%= _o %><%= themeBase %>/images/551a76787d8ac405b727d28823628b307e1a28d7.png" alt="WhatsApp"></a>
         </div>
       </div>
     </div>
