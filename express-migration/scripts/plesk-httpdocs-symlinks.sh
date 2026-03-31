@@ -52,7 +52,8 @@ if [[ -d "$PUBLIC_DIR" ]]; then
   mklink "css" "../../hotels/public/css"
   mklink "js" "../../hotels/public/js"
   mkdir -p assets
-  mklink "assets/templates" "../../templates"
+  # Путь относительно public/assets/ (не public/): на 1 уровень глубже, чем visitabay/css.
+  mklink "assets/templates" "../../../templates"
   # Express монтирует ../public как /assets/migration → на диске нужно public/assets/migration/css/...
   ln -sfn "$(realpath .)" "assets/migration"
   echo "OK: $PUBLIC_DIR/assets/migration -> (this public dir)"
