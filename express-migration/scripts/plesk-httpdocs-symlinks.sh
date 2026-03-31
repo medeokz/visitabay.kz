@@ -42,6 +42,24 @@ mklink "js" "hotels/public/js"
 # Кастомные стили express-migration (путь /assets/migration/...)
 mklink "assets/migration" "express-migration/public"
 
+# Если в Plesk «Document root» = express-migration/public, Apache/Nginx раздаёт
+# только файлы из этой папки — симлинки в httpdocs выше не помогают.
+# Дублируем те же привязки внутри public/.
+PUBLIC_DIR="$HTTPDOCS/express-migration/public"
+if [[ -d "$PUBLIC_DIR" ]]; then
+  cd "$PUBLIC_DIR"
+  mklink "visitabay" "../../hotels/public/visitabay"
+  mklink "css" "../../hotels/public/css"
+  mklink "js" "../../hotels/public/js"
+  mkdir -p assets
+  mklink "assets/templates" "../../templates"
+  # Express монтирует ../public как /assets/migration → на диске нужно public/assets/migration/css/...
+  ln -sfn "$(realpath .)" "assets/migration"
+  echo "OK: $PUBLIC_DIR/assets/migration -> (this public dir)"
+else
+  echo "SKIP: нет каталога $PUBLIC_DIR"
+fi
+
 echo "Готово. В браузере откройте (должен быть 200, не 404):"
 echo "  https://ВАШ-ДОМЕН/visitabay/css/styles.css"
 echo "  https://ВАШ-ДОМЕН/assets/templates/visitabay/css/swiper.min.css"
